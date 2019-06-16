@@ -10,11 +10,15 @@ exports[`Card renders correctly 1`] = `
     <div
       className="sc-htpNat kzTsvD"
     >
-      <h3 />
+      <h3>
+        Example title
+      </h3>
     </div>
     <div
       className="sc-bxivhb khxFsg"
-    />
+    >
+      <div />
+    </div>
   </div>
 </div>
 `;
