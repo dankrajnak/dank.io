@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card renders correctly 1`] = `
+<div
+  className="sc-bdVaJa bViqtP"
+>
+  <div
+    className="sc-bwzfXH kcGEsV"
+  >
+    <div
+      className="sc-htpNat kzTsvD"
+    >
+      <h3 />
+    </div>
+    <div
+      className="sc-bxivhb khxFsg"
+    />
+  </div>
+</div>
+`;
