@@ -1,5 +1,5 @@
 // @flow
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const windowPlaceholder = {
   innerWidth: 300,
@@ -10,17 +10,20 @@ const windowPlaceholder = {
 
 const useSafeWindow = (): typeof window => {
   const [safeWindow, setSafeWindow] = useState(windowPlaceholder);
-  setTimeout(() => {
+  useEffect(() => {
     if (typeof window === "undefined") {
       setSafeWindow(windowPlaceholder);
     } else {
-      setSafeWindow(window);
+      setTimeout(() => {
+        console.log("SET SAFE");
+        setSafeWindow(window);
+      }, 100);
     }
-  }, 100);
+  }, []);
 
   return safeWindow;
 };
 
 const dev = () => window;
 
-export default dev;
+export default useSafeWindow;

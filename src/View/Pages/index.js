@@ -41,6 +41,7 @@ const hallwayServicePromise: Promise<HallwayServiceModuleType> = import(
 
 const IndexPage = () => {
   const [width, height] = useFullScreen();
+  console.log(width, height);
   const [currentPage, setCurrentPage] = useState(0);
   const [thirdPageReady, hallwayService] = useDynamicLoad(
     hallwayServicePromise
@@ -68,7 +69,7 @@ const IndexPage = () => {
         <TheCoolestOne width={width} height={height} />
       </Fader>
 
-      {/* {thirdPageReady && !!hallwayService && (
+      {thirdPageReady && !!hallwayService && currentPage === 2 && (
         <Fader visible={currentPage === 2}>
           <TitleHolder>
             <Title color="#EEE">I don't think about you.</Title>
@@ -79,7 +80,7 @@ const IndexPage = () => {
             style={{ width: `${width}px`, height: `${height}px` }}
           />
         </Fader>
-      )} */}
+      )}
     </Layout>
   );
 };
