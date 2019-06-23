@@ -11,12 +11,7 @@ type Props = {
 
 const Layout = (props: Props) => (
   <ThemeProvider theme={Theme}>
-    <div>
-      <Link to={"/menu"}>
-        <MenuButton />
-      </Link>
-      {props.children}
-    </div>
+    <div>{props.children}</div>
   </ThemeProvider>
 );
 

@@ -6,7 +6,7 @@ import SEO from "../Utility/seo";
 import { type Props as CardProps } from "../UI/Card/Card.jsx";
 import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
 import CardDeck from "../UI/CardDeck/CardDeck.jsx";
-import Card from "../UI/Card/Card";
+import useFullScreen from "../Hooks/useFullScreen";
 
 const Background = styled.div`
   background-color: ${props => props.color};
@@ -43,11 +43,32 @@ const cards: CardProps[] = [
   },
 ];
 
-const Menu = () => (
-  <Layout>
-    <SEO title="Menu" />
-    <CardDeck cards={cards} />
-  </Layout>
-);
+const FullScreenContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
+
+const CardDeckHolder = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Menu = () => {
+  const [width] = useFullScreen();
+
+  return (
+    <Layout>
+      <SEO title="Menu" />
+      <FullScreenContainer>
+        <CardDeckHolder>
+          <CardDeck cards={cards} width={width} />
+        </CardDeckHolder>
+      </FullScreenContainer>
+    </Layout>
+  );
+};
 
 export default Menu;

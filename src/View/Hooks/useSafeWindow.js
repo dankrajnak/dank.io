@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 
 const windowPlaceholder = {
-  innerWidth: 300,
-  innerHeight: 300,
+  innerWidth: 0,
+  innerHeight: 0,
   addEventListener: (event, callback) => null,
   removeEventListener: (event, callback) => null,
 };
@@ -15,9 +15,8 @@ const useSafeWindow = (): typeof window => {
       setSafeWindow(windowPlaceholder);
     } else {
       setTimeout(() => {
-        console.log("SET SAFE");
         setSafeWindow(window);
-      }, 100);
+      });
     }
   }, []);
 

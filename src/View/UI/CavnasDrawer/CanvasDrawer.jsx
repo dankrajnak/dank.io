@@ -1,6 +1,6 @@
 // @flow
 import React, { type ComponentType, useEffect, useRef } from "react";
-import Canvas from "./Canvas.jsx";
+import Canvas from "../Canvas.jsx";
 
 type Props = {
   width: number,

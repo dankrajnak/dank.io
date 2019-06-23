@@ -8,7 +8,6 @@ const useFullScreen = () => {
   const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    console.log("EFFECT", window);
     const resize = () => {
       setWidth(window.innerWidth);
       setHeight(window.innerHeight);

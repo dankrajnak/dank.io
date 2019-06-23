@@ -1,18 +1,17 @@
 // @flow
-import React, { type ChildrenArray, type Element } from "react";
+import React from "react";
 import styled from "styled-components";
 import useScrollAmount from "../../Hooks/useScrollAmount";
-import useFullScreen from "../../Hooks/useFullScreen";
 import Card, { type Props as CardProps } from "../Card/Card";
 
 type Props = {
   cards: CardProps[],
+  width: number,
 };
 
 const CardDeckHolder = styled.div`
   display: flex;
-  position: absolute;
-  height: 100%;
+  position: relative;
   & > div {
     margin: 0 30px;
   }
@@ -24,16 +23,15 @@ const CardHolder = styled.div`
 
 const CardDeck = (props: Props) => {
   const scroll = useScrollAmount(false);
-  const [width] = useFullScreen();
   return (
     <CardDeckHolder>
       {props.cards.map((card, i) => {
-        const dx = (i * width) / 5;
+        const dx = (i * props.width) / 5;
         return (
           <CardHolder dx={dx} key={i}>
             <Card
               {...card}
-              shadowAmount={(props.cards.length - i) * (scroll / width)}
+              shadowAmount={(props.cards.length - i) * (scroll / props.width)}
             />
           </CardHolder>
         );

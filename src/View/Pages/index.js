@@ -4,7 +4,7 @@ import styled from "styled-components";
 import SEO from "../Utility/seo";
 import useFullScreen from "../Hooks/useFullScreen";
 import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
-import Layout from "../Layout/Layout.jsx";
+import MenuLayout from "../Layout/MenuLayout.jsx";
 import Lorenz from "../Components/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
 import ThreeContainer from "../UI/ThreeContainer";
@@ -52,7 +52,7 @@ const IndexPage = () => {
       : setCurrentPage(page => Math.max(page - 1, 0))
   );
   return (
-    <Layout>
+    <MenuLayout>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
       {currentPage === 0 && (
         <Fader visible={currentPage === 0}>
@@ -81,7 +81,7 @@ const IndexPage = () => {
           />
         </Fader>
       )}
-    </Layout>
+    </MenuLayout>
   );
 };
 

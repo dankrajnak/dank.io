@@ -1,10 +1,10 @@
 // @flow
-import React, { type ComponentType, useRef } from "react";
+import React, { type ComponentType } from "react";
 import * as ColorInterpolate from "color-interpolate";
 import getNextPosition, {
   type Position,
 } from "../../Services/StrangeAttractor.service";
-import CanvasDrawer from "../UI/CanvasDrawer.jsx";
+import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer.jsx";
 import { Map } from "immutable";
 
 type Props = {

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`renders with no cards 1`] = `
 <div
-  className="sc-ifAKCX bCToCO"
+  className="sc-ifAKCX WNJYN"
 />
 `;

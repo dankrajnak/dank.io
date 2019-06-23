@@ -26,7 +26,7 @@ type RungeKuttaIngestion = Vector<"velA" | "velB" | "angA" | "angB">;
 export const makePendulum = (): PendulumVector =>
   Map({
     aMass: 100,
-    aLength: 50 + Math.random() * 20,
+    aLength: 50 + Math.random() * 80,
     aAngle: Math.PI + Math.random() * 1 - 0.5,
     aAngularVelocity: 0,
     aAngAccel: 0,
