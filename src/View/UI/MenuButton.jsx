@@ -1,7 +1,6 @@
 // @flow
 import React from "react";
 import styled from "styled-components";
-// import Hamburger from "../Images/hamburger.svg";
 
 const MenuButton = styled.div`
   position: fixed;
