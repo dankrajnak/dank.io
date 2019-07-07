@@ -1,6 +1,6 @@
 // @flow
 
-// Decided to implement this because, why not.
+// Decided to implement this because why not.
 
 /**
  * Returns a new function that can only be called once within the given time.

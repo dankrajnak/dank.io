@@ -2,13 +2,13 @@
 
 exports[`Card renders correctly 1`] = `
 <div
-  className="sc-bdVaJa czbCeA"
+  className="sc-bdVaJa bCbLgs"
 >
   <div
     className="sc-bwzfXH kcGEsV"
   >
     <div
-      className="sc-htpNat iFyQZg"
+      className="sc-htpNat mZCjS"
     >
       <h3>
         Example title
@@ -18,7 +18,7 @@ exports[`Card renders correctly 1`] = `
       </p>
     </div>
     <div
-      className="sc-bxivhb khxFsg"
+      className="sc-bxivhb kSmXHk"
     >
       <div />
     </div>

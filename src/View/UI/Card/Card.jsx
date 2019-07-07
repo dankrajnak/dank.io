@@ -2,13 +2,20 @@
 import React, { type Node } from "react";
 import styled from "styled-components";
 
+export const CARD_WIDTH = 400;
+export const CARD_HEIGHT = 500;
+
 const Wrapper = styled.div`
   position: relative
   border-radius: 10px;
   box-shadow: 0 ${props => props.shadowAmount * 8}px ${props =>
   props.shadowAmount * 10}px 0 rgba(100, 100, 100, 0.5);
-  width: 300px;
-  height: 500px;
+  transition: box-shadow .2s ease-in-out;
+  &:hover {
+    box-shadow: 0 8px 10px 0 rgba(100, 100, 100, .5);
+  }
+  width: ${CARD_WIDTH}px;
+  height: ${CARD_HEIGHT}px;
   overflow: hidden;
 `;
 
@@ -21,7 +28,7 @@ const Content = styled.div`
 
 const TitleHoder = styled.div`
   height: 90px;
-  padding: 10px;
+  padding: 10px 20px;
   background-color: rgba(255, 255, 255, 0.3);
   position: absolute;
   top: 0;
