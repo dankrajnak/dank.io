@@ -1,10 +1,9 @@
-// @flow
-import React, { useEffect, type ComponentType, useRef } from "react";
+import React, { useEffect, ComponentType, useRef } from "react";
 
 type Props = {
-  width: number,
-  height: number,
-  getContext: (context: CanvasRenderingContext2D) => any,
+  width: number;
+  height: number;
+  getContext: (context: CanvasRenderingContext2D) => any;
 };
 
 /**
@@ -23,4 +22,7 @@ const Canvas = (props: Props, ref) => {
   return <canvas ref={definedRef} width={props.width} height={props.height} />;
 };
 
-export default (React.memo(React.forwardRef(Canvas)): ComponentType<Props>);
+const _moduleExport: ComponentType<Props> = React.memo(
+  React.forwardRef(Canvas)
+);
+export default _moduleExport;

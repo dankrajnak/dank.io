@@ -1,4 +1,3 @@
-// @flow
 import { Map } from "immutable";
 
 export type Vector<K> = Map<K, number>;
@@ -16,17 +15,17 @@ export type RungeKuttaType<K> = (
   f: (x: Vector<K>) => Vector<K>
 ) => (x: Vector<K>, h: number) => Vector<K>;
 
-const multV = (vector: Vector<*>, n: number): Vector<*> =>
+const multV = (vector: Vector<any>, n: number): Vector<any> =>
   vector.map(value => value * n);
 
-const vplusV = (vector: Vector<*>, vectorb: Vector<*>): Vector<*> =>
+const vplusV = (vector: Vector<any>, vectorb: Vector<any>): Vector<any> =>
   vector.map((x, i) => x + vectorb.get(i));
 
-export const RungeKutta: RungeKuttaType<*> = f => (x, h) => {
-  const a: Vector<*> = f(x);
-  const b: Vector<*> = f(vplusV(x, multV(a, h / 2)));
-  const c: Vector<*> = f(vplusV(x, multV(b, h / 2)));
-  const d: Vector<*> = f(vplusV(x, multV(c, h)));
+export const RungeKutta: RungeKuttaType<any> = f => (x, h) => {
+  const a: Vector<any> = f(x);
+  const b: Vector<any> = f(vplusV(x, multV(a, h / 2)));
+  const c: Vector<any> = f(vplusV(x, multV(b, h / 2)));
+  const d: Vector<any> = f(vplusV(x, multV(c, h)));
   // This next line is really confusing, but it amounts to
   // x + h/6 * (a + 2b + 2c + d)
   return vplusV(

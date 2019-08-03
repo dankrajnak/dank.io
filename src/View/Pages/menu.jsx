@@ -1,4 +1,3 @@
-// @flow
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout";
@@ -6,7 +5,7 @@ import SEO from "../Utility/seo";
 import {
   CARD_HEIGHT,
   CARD_WIDTH,
-  type Props as CardProps,
+  Props as CardProps,
 } from "../UI/Card/Card.jsx";
 import Lorenz from "../Components/Lorenz";
 import CardDeck from "../UI/CardDeck/CardDeck.jsx";

@@ -1,4 +1,3 @@
-// @flow
 import * as THREE from "three";
 
 let renderer;

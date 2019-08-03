@@ -1,14 +1,15 @@
-// @flow
-import React, { useEffect, useRef, type ComponentType } from "react";
+import React, { useEffect, useRef, ComponentType } from "react";
 
 type Props = {
-  start: HTMLDivElement => any,
-  stop: HTMLDivElement => any,
-  width: number,
-  height: number,
+  start: (x0: HTMLDivElement) => any;
+  stop: (x0: HTMLDivElement) => any;
+  width: number;
+  height: number;
 };
 
-export default (React.memo(function ThreeContainer(props: Props) {
+const _moduleExport: ComponentType<Props> = React.memo(function ThreeContainer(
+  props: Props
+) {
   const container = useRef(null);
   const { start, stop, width, height, ...otherProps } = props;
   useEffect(() => {
@@ -27,4 +28,6 @@ export default (React.memo(function ThreeContainer(props: Props) {
       {...otherProps}
     />
   );
-}): ComponentType<Props>);
+});
+
+export default _moduleExport;

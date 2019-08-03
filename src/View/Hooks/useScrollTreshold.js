@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import throttle from "../../Services/Throttle.service";
 
 export const useScroll = (
-  listener: number => any,
+  listener: (x0: number) => any,
   throtleAmount: number = 300
 ) => {
   useEffect(() => {
@@ -18,7 +18,7 @@ export const useScroll = (
 };
 
 export const useScrollThreshold = (
-  listener: number => any,
+  listener: (x0: number) => any,
   threshold: number = 0.5,
   coolDown: number = 1000
 ) => {

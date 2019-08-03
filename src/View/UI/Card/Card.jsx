@@ -1,5 +1,4 @@
-// @flow
-import React, { type Node } from "react";
+import React, { Node } from "react";
 import styled from "styled-components";
 
 export const CARD_WIDTH = 300;
@@ -47,10 +46,10 @@ const BackgroundHolder = styled.div`
 `;
 
 export type Props = {
-  title: string,
-  description: string | Node,
-  background: Node,
-  shadowAmount?: ?number,
+  title: string;
+  description: string | Node;
+  background: Node;
+  shadowAmount?: number | null;
 };
 
 const Card = (props: Props) => {

@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
@@ -22,9 +21,10 @@ const HelpWrapper = styled.div`
   transition: opacity 1s ease;
   opacity: ${props => props.opacity};
 `;
+
 type Props = {
-  children: string,
-  time?: ?number,
+  children: string;
+  time?: number | null;
 };
 
 const Help = (props: Props) => {

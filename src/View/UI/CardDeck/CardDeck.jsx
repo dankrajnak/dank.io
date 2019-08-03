@@ -1,11 +1,10 @@
-// @flow
 import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import useScrollAmount from "../../Hooks/useScrollAmount";
 import Card, {
   CARD_WIDTH,
   CARD_HEIGHT,
-  type Props as CardProps,
+  Props as CardProps,
 } from "../Card/Card";
 import useFullScreen from "../../Hooks/useFullScreen";
 import stepEaser from "../../../Services/EaseStep/EaseStep.service";
@@ -13,8 +12,12 @@ import EasingFunctions from "../../../Services/Ease.service";
 import { Link } from "gatsby";
 
 type Props = {
-  cards: { ...CardProps, link: string }[],
-  width: number,
+  cards:
+    | {
+        link: string;
+      }
+    | CardProps[];
+  width: number;
 };
 
 const CardDeckHolder = styled.div`

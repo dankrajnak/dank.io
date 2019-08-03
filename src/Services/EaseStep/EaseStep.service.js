@@ -1,10 +1,8 @@
-// @flow
-
 type stepEaserType = (
   numStages: number,
-  period?: number,
-  easeFunction?: (number) => number
-) => [number, (number, number) => number];
+  period: number,
+  easeFunction: (x0: number) => number
+) => [number, (x0: number, x1: number) => number];
 
 /**
  * *Bad name, I know.*  This method makes it possible
@@ -35,7 +33,7 @@ type stepEaserType = (
 const stepEaser: stepEaserType = (
   numStages: number,
   period: number = 1,
-  easeFunction: number => number = x => x
+  easeFunction: (x0: number) => number = x => x
 ) => {
   // Figure out when the last stage will go and add one to it.
   const totalScroll = (numStages - 1) * period + 1;

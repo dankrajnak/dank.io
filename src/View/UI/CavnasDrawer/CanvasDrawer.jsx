@@ -1,16 +1,15 @@
-// @flow
-import React, { type ComponentType, useEffect, useRef } from "react";
+import React, { ComponentType, useEffect, useRef } from "react";
 import Canvas from "../Canvas.jsx";
 
 type Props = {
-  width: number,
-  height: number,
-  initializeCanvas?: (context: CanvasRenderingContext2D) => any,
-  artist: (context: CanvasRenderingContext2D) => any,
-  fps?: ?number,
+  width: number;
+  height: number;
+  initializeCanvas?: (context: CanvasRenderingContext2D) => any;
+  artist: (context: CanvasRenderingContext2D) => any;
+  fps?: number | null;
 };
 
-export default (React.memo(
+const _moduleExport: ComponentType<Props> = React.memo(
   React.forwardRef(function CanvasDrawer(props: Props, ref) {
     const context = useRef(null);
     const requestedFrame = useRef(null);
@@ -58,4 +57,6 @@ export default (React.memo(
       />
     );
   })
-): ComponentType<Props>);
+);
+
+export default _moduleExport;

@@ -1,9 +1,8 @@
-// @flow
 import React from "react";
 import { makePendulum } from "../../../Services/DoublePendulum.service";
 import DoublePendulums, {
-  type PendulumPosition,
-  type CanvasInfo,
+  PendulumPosition,
+  CanvasInfo,
 } from "./DoublePendulums.jsx";
 
 const pendulums = [];
@@ -44,7 +43,7 @@ const renderPendulums = (
   ctx.stroke();
 };
 
-const TheCoolestOne = (props: { width: number, height: number }) => (
+const TheCoolestOne = (props: { width: number; height: number }) => (
   <DoublePendulums
     width={props.width}
     height={props.height}

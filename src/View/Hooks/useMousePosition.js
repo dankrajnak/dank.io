@@ -1,4 +1,3 @@
-// @flow
 import { useEffect, useState } from "react";
 import throttle from "../../Services/Throttle.service";
 
@@ -8,7 +7,9 @@ import throttle from "../../Services/Throttle.service";
  * @param {boolean} [vertical=true]
  */
 const useMousePosition = (
-  domElement: { current: ?EventTarget },
+  domElement: {
+    current: EventTarget | undefined | null;
+  },
   absolute: boolean = false
 ): [number, number] => {
   //I'm not sure this is the right thing

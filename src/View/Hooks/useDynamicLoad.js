@@ -1,7 +1,6 @@
-// @flow
 import { useEffect, useState } from "react";
 
-const useDynamicLoad = (importPromise: Promise<*>) => {
+const useDynamicLoad = (importPromise: Promise<any>) => {
   const [loaded, setLoaded] = useState(false);
   const [module, setModule] = useState(null);
   useEffect(() => {

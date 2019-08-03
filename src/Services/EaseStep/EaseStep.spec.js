@@ -1,4 +1,3 @@
-// @flow
 import stepEaser from "./EaseStep.service";
 
 test("returns 0 for no stages", () => {

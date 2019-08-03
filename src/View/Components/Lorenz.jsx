@@ -1,17 +1,16 @@
-// @flow
-import React, { type ComponentType } from "react";
+import React, { ComponentType } from "react";
 import * as ColorInterpolate from "color-interpolate";
 import getNextPosition, {
-  type Position,
+  Position,
 } from "../../Services/StrangeAttractor.service";
 import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer.jsx";
 import { Map } from "immutable";
 
 type Props = {
-  width: number,
-  height: number,
-  getXandY: () => [number, number],
-  colorful?: ?boolean,
+  width: number;
+  height: number;
+  getXandY: () => [number, number];
+  colorful?: boolean | null;
 };
 
 const mapper = (
@@ -31,7 +30,10 @@ const colorInterpolator = ColorInterpolate([
 ]);
 
 let position: Position = Map({ x: 10, y: 10, z: 25 + Math.random() * 10 - 5 });
-export default (React.memo(function Lorenz(props: Props) {
+
+const _moduleExport: ComponentType<Props> = React.memo(function Lorenz(
+  props: Props
+) {
   const xMapper = mapper(-20, 20, 0, props.width);
   const yMapper = mapper(0, 50, 0, props.height);
   const colorMapper = mapper(0, 40, 0, 1);
@@ -75,4 +77,6 @@ export default (React.memo(function Lorenz(props: Props) {
       fps={50}
     />
   );
-}): ComponentType<Props>);
+});
+
+export default _moduleExport;

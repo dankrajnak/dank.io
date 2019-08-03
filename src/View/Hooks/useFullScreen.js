@@ -1,4 +1,3 @@
-// @flow
 import { useEffect, useState } from "react";
 import useSafeWindow from "./useSafeWindow";
 

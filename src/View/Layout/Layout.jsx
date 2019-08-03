@@ -1,11 +1,10 @@
-// @flow
-import React, { type Node } from "react";
+import React, { Node } from "react";
 import { ThemeProvider } from "styled-components";
 import Theme from "../Utility/theme";
 import "./global.scss";
 
 type Props = {
-  children: Node,
+  children: Node;
 };
 
 const Layout = (props: Props) => (

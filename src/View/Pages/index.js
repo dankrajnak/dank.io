@@ -1,4 +1,3 @@
-// @flow
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import SEO from "../Utility/seo";

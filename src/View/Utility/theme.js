@@ -1,5 +1,3 @@
-// @flow
-
 const colors = {
   dark: "#2f3030",
 };

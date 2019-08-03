@@ -5,7 +5,8 @@
  */
 
 import { Map } from "immutable";
-import RungeKutta, { type Vector } from "./RungeKutta.service.js";
+
+import RungeKutta, { Vector } from "./RungeKutta.service.js";
 
 export type PendulumVector = Map<
   | "aMass"
@@ -57,12 +58,12 @@ const getNextPendulum = (prevPendulum: PendulumVector): PendulumVector => {
   const map: RungeKuttaIngestion = RungeKutta(
     getRungeKuttaFunctionForPendulum(prevPendulum)
   )(
-    (Map({
+    Map({
       angA: prevPendulum.get("aAngle"),
       angB: prevPendulum.get("bAngle"),
       velA: prevPendulum.get("aAngularVelocity"),
       velB: prevPendulum.get("bAngularVelocity"),
-    }): RungeKuttaIngestion),
+    }) as RungeKuttaIngestion,
     SPEED
   );
 
