@@ -10,6 +10,8 @@ import { Map } from "immutable";
 type Props = {
   width: number,
   height: number,
+  getXandY: () => [number, number],
+  colorful?: ?boolean,
 };
 
 const mapper = (
@@ -37,7 +39,9 @@ export default (React.memo(function Lorenz(props: Props) {
   // Start the animation!
   const artist = (context: CanvasRenderingContext2D) => {
     // Draw the thing
-    context.fillStyle = colorInterpolator(colorMapper(position.get("z")));
+    context.fillStyle = props.colorful
+      ? colorInterpolator(colorMapper(position.get("z")))
+      : "#2f3030";
     context.fillRect(0, 0, props.width, props.height);
 
     context.fillStyle = "#EEE";
@@ -62,7 +66,6 @@ export default (React.memo(function Lorenz(props: Props) {
     context.strokeStyle = "#EEE";
     context.lineWidth = 0.5;
   };
-
   return (
     <CanvasDrawer
       artist={artist}

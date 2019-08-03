@@ -1,9 +1,8 @@
 // @flow
 import React, { type Node } from "react";
-import { Link } from "gatsby";
 import { ThemeProvider } from "styled-components";
 import Theme from "../Utility/theme";
-import MenuButton from "../UI/MenuButton";
+import "./global.scss";
 
 type Props = {
   children: Node,

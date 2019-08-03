@@ -3,6 +3,7 @@ import React, { type Node } from "react";
 import { Link } from "gatsby";
 import MenuButton from "../UI/MenuButton";
 import Layout from "./Layout";
+import "./global.scss";
 
 type Props = {
   children: Node,

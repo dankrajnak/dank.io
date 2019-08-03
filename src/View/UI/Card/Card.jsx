@@ -2,69 +2,72 @@
 import React, { type Node } from "react";
 import styled from "styled-components";
 
-export const CARD_WIDTH = 400;
+export const CARD_WIDTH = 300;
 export const CARD_HEIGHT = 500;
 
 const Wrapper = styled.div`
-  position: relative
-  border-radius: 10px;
-  box-shadow: 0 ${props => props.shadowAmount * 8}px ${props =>
-  props.shadowAmount * 10}px 0 rgba(100, 100, 100, 0.5);
-  transition: box-shadow .2s ease-in-out;
-  &:hover {
-    box-shadow: 0 8px 10px 0 rgba(100, 100, 100, .5);
-  }
   width: ${CARD_WIDTH}px;
+  div:hover {
+    cursor: pointer;
+  }
+`;
+
+const CardWrapper = styled.div.attrs(props => ({
+  style: {
+    boxShadow: `0 ${props.shadowAmount * 8}px
+  ${props.shadowAmount * 10}px 0 rgba(100, 100, 100, 0.5)`,
+  },
+}))`
+  position: relative;
+  border-radius: 0;
+
+  transition: box-shadow 0.2s ease-in-out;
+  &:hover {
+    box-shadow: 0 8px 10px 0 rgba(100, 100, 100, 0.5);
+  }
   height: ${CARD_HEIGHT}px;
   overflow: hidden;
 `;
 
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
+const TitleHolder = styled.div`
+  margin-top: 20px;
+  color: #444;
+  padding: 0px 10px;
+  height: 50px;
+  background: white;
+  text-align: right;
 `;
 
-const TitleHoder = styled.div`
-  height: 90px;
-  padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.3);
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  font-family: ${props => props.theme.text.fontFamily};
+const Description = styled.div`
+  font-size: 0.8rem;
 `;
-
 const BackgroundHolder = styled.div`
-  flex-grow: 1;
   height: 100%;
   width: 100%;
 `;
 
 export type Props = {
   title: string,
-  description: string,
+  description: string | Node,
   background: Node,
   shadowAmount?: ?number,
 };
 
 const Card = (props: Props) => {
-  //Calculate shadow amount;
+  //Calculate shadow amount
   let shadow = 1;
   if (props.shadowAmount != null) {
     shadow = Math.min(Math.max(0, props.shadowAmount), 1);
   }
   return (
-    <Wrapper shadowAmount={shadow}>
-      <Content>
-        <TitleHoder>
-          <h3>{props.title}</h3>
-          <p>{props.description}</p>
-        </TitleHoder>
+    <Wrapper title={"Go to " + props.title}>
+      <CardWrapper shadowAmount={shadow}>
         <BackgroundHolder>{props.background}</BackgroundHolder>
-      </Content>
+      </CardWrapper>
+      <TitleHolder>
+        {props.title}
+        <Description>{props.description}</Description>
+      </TitleHolder>
     </Wrapper>
   );
 };

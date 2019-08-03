@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useSafeWindow from "./useSafeWindow";
 
 const useFullScreen = () => {
-  const window = useSafeWindow();
+  const [window, flash] = useSafeWindow();
   const [width, setWidth] = useState(window.innerWidth);
   const [height, setHeight] = useState(window.innerHeight);
 
@@ -16,7 +16,7 @@ const useFullScreen = () => {
     const listener = window.addEventListener("resize", resize);
     return () => window.removeEventListener("resize", listener);
   }, [window]);
-  return [width, height, window];
+  return [width, height, flash];
 };
 
 export default useFullScreen;

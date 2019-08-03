@@ -59,7 +59,6 @@ const getPendulumCoordinates = (pendulum: PendulumVector): PendulumPosition => {
  */
 export default (React.memo(function DoublePendulums(props: Props) {
   let pendulums = props.pendulumsInitialState;
-
   const drawPendulums = (context: CanvasRenderingContext2D) => {
     props.renderPendulums(
       pendulums.map(pendulum => getPendulumCoordinates(pendulum)),

@@ -4,15 +4,17 @@ import throttle from "../../Services/Throttle.service";
 import useSafeWindow from "./useSafeWindow";
 
 /**
- * Returns how far the window is currently scrolled.
+ * Returns how far the window is currently scrolled in either the vertical
+ * or horizontal direction.
+ * @param {boolean} [vertical=true]
  */
-const useScrollAmount = (vertical: boolean = true) => {
-  const window = useSafeWindow();
-  const [scrollAmount, setScrollAmount] = useState(window.scrollY);
+const useScrollAmount = (vertical: boolean = true): number => {
+  const [window] = useSafeWindow();
+  const [scrollAmount, setScrollAmount] = useState(0);
   useEffect(() => {
     const throttledFunc = throttle(
       () => setScrollAmount(vertical ? window.scrollY : window.scrollX),
-      50
+      30
     );
     const wheelListener = window.addEventListener("scroll", throttledFunc);
 
