@@ -1,19 +1,23 @@
 import React, { ComponentType, useEffect, useRef } from "react";
-import Canvas from "../Canvas.jsx";
+import Canvas from "../Canvas";
 
-type Props = {
+interface Props {
   width: number;
   height: number;
-  initializeCanvas?: (context: CanvasRenderingContext2D) => any;
-  artist: (context: CanvasRenderingContext2D) => any;
+  initializeCanvas?: (context: CanvasRenderingContext2D) => void;
+  artist: (context: CanvasRenderingContext2D) => void;
   fps?: number | null;
-};
+}
 
-const _moduleExport: ComponentType<Props> = React.memo(
+const CanvasDrawer: ComponentType<Props> = React.memo(
   React.forwardRef(function CanvasDrawer(props: Props, ref) {
-    const context = useRef(null);
-    const requestedFrame = useRef(null);
-    const canvasRef = useRef(null);
+    const context: React.MutableRefObject<CanvasRenderingContext2D | null> = useRef(
+      null
+    );
+    const requestedFrame: React.MutableRefObject<number | null> = useRef(null);
+    const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> = useRef(
+      null
+    );
     const draw = (context: CanvasRenderingContext2D) => {
       let then = Date.now();
       const renderFrame = () => {
@@ -59,4 +63,4 @@ const _moduleExport: ComponentType<Props> = React.memo(
   })
 );
 
-export default _moduleExport;
+export default CanvasDrawer;

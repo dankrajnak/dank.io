@@ -3,7 +3,7 @@ import styled from "styled-components";
 import SEO from "../Utility/seo";
 import useFullScreen from "../Hooks/useFullScreen";
 import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
-import MenuLayout from "../Layout/MenuLayout.jsx";
+import MenuLayout from "../Layout/MenuLayout";
 import Lorenz from "../Components/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
 import Help from "../UI/Help/Help";
@@ -20,28 +20,30 @@ const TitleHolder = styled.div`
 `;
 
 const Title = styled.h1`
-  color: ${props => props.color || props.theme.text.headerColor};
+  color: ${(props): string => props.color || props.theme.text.headerColor};
   font-size: 2em;
   font-weight: 500;
   text-align: center;
 `;
 const Fader = styled.div`
   position: fixed;
-  opacity: ${props => (props.visible ? 1 : 0)};
+  opacity: ${(props): number => (props.visible ? 1 : 0)};
   transition: opacity 1s ease;
 `;
 
 const NUM_PAGES = 3;
-const IndexPage = () => {
+
+const IndexPage = (): React.ReactNode => {
   const [width, height, flash] = useFullScreen();
   const [currentPage, setCurrentPage] = useState(0);
   const lorenzFader = useRef(null);
   const [x, y] = useMousePosition(lorenzFader, false);
 
-  useScrollThreshold(val =>
-    val > 0
-      ? setCurrentPage(page => Math.min(page + 1, NUM_PAGES - 1))
-      : setCurrentPage(page => Math.max(page - 1, 0))
+  useScrollThreshold(
+    (val): void =>
+      val > 0
+        ? setCurrentPage((page): number => Math.min(page + 1, NUM_PAGES - 1))
+        : setCurrentPage((page): number => Math.max(page - 1, 0))
   );
   if (flash) {
     return flash;

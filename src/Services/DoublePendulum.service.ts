@@ -1,12 +1,6 @@
-/* 
- There are flow types in this, but flow is being really impractical
- to correct, and there's no way to supress flow types on multiple lines,
- so we'll keep the flow types for documentation but turn off flow. 
- */
-
 import { Map } from "immutable";
 
-import RungeKutta, { Vector } from "./RungeKutta.service.js";
+import RungeKutta, { Vector } from "./RungeKutta.service";
 
 export type PendulumVector = Map<
   | "aMass"
@@ -40,7 +34,6 @@ export const makePendulum = (): PendulumVector =>
 
 const GRAVITY = 9.8;
 const SPEED = 0.1;
-
 /**
  * Simulates chaotic pendulums utilizing the Runge-Katta algorithm
  */

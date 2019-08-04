@@ -3,7 +3,7 @@ import { makePendulum } from "../../../Services/DoublePendulum.service";
 import DoublePendulums, {
   PendulumPosition,
   CanvasInfo,
-} from "./DoublePendulums.jsx";
+} from "./DoublePendulums";
 
 const pendulums = [];
 for (let i = 0; i < 10; i++) {

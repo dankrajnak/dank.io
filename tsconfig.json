@@ -9,9 +9,9 @@
       "es2015",
       "es2017"
     ],
-    // "allowJS": true
     "jsx": "react",
     "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
     /* Strict Type-Checking Options */
     "strict": true,
     "noImplicitAny": true,
@@ -19,7 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./src"

@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { ThemeProvider } from "styled-components";
 import Theme from "../../Utility/theme";
 
-import Card from "./Card.jsx";
+import Card from "./Card";
 
 describe("Card", () => {
   it("renders correctly", () => {

@@ -9,7 +9,6 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-typescript`,
-    `gatsby-plugin-tslint`,
     `gatsby-plugin-sass`,
     {
       resolve: `gatsby-plugin-manifest`,

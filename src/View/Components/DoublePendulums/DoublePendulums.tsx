@@ -2,7 +2,7 @@ import React, { ComponentType } from "react";
 import getNextPendulum, {
   PendulumVector,
 } from "../../../Services/DoublePendulum.service";
-import CanvasDrawer from "../../UI/CavnasDrawer/CanvasDrawer.jsx";
+import CanvasDrawer from "../../UI/CavnasDrawer/CanvasDrawer";
 
 export type PendulumPosition = {
   x1: number;

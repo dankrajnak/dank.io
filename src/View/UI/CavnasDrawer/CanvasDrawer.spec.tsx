@@ -1,10 +1,10 @@
-import React from "react";
-import renderer from "react-test-renderer";
+import * as React from "react";
+import * as renderer from "react-test-renderer";
 import CanvasDrawer from "./CanvasDrawer";
 
 const getArtist = () => {
   let count = 0;
-  return (context?: CanvasRenderingContext2D) => count++;
+  return () => count++;
 };
 it("renders correctly", () => {
   const tree = renderer

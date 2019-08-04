@@ -6,9 +6,9 @@ import {
   CARD_HEIGHT,
   CARD_WIDTH,
   Props as CardProps,
-} from "../UI/Card/Card.jsx";
+} from "../UI/Card/Card";
 import Lorenz from "../Components/Lorenz";
-import CardDeck from "../UI/CardDeck/CardDeck.jsx";
+import CardDeck from "../UI/CardDeck/CardDeck";
 import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
 import ThreeContainer from "../UI/ThreeContainer";

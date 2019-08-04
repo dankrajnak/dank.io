@@ -3,7 +3,7 @@ import * as ColorInterpolate from "color-interpolate";
 import getNextPosition, {
   Position,
 } from "../../Services/StrangeAttractor.service";
-import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer.jsx";
+import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer";
 import { Map } from "immutable";
 
 type Props = {
@@ -19,7 +19,7 @@ const mapper = (
   toLow: number,
   toHigh: number
 ) => (mapValue: number) =>
-  ((mapValue - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow) + toLow;
+    ((mapValue - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow) + toLow;
 
 const colorInterpolator = ColorInterpolate([
   "#F58B73",

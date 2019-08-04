@@ -11,14 +11,14 @@ import stepEaser from "../../../Services/EaseStep/EaseStep.service";
 import EasingFunctions from "../../../Services/Ease.service";
 import { Link } from "gatsby";
 
-type Props = {
+interface Props {
   cards:
     | {
         link: string;
       }
     | CardProps[];
   width: number;
-};
+}
 
 const CardDeckHolder = styled.div`
   height: ${props => props.height}px;

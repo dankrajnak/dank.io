@@ -1,4 +1,4 @@
-import React, { Node } from "react";
+import React from "react";
 import styled from "styled-components";
 
 export const CARD_WIDTH = 300;
@@ -11,12 +11,14 @@ const Wrapper = styled.div`
   }
 `;
 
-const CardWrapper = styled.div.attrs(props => ({
-  style: {
-    boxShadow: `0 ${props.shadowAmount * 8}px
-  ${props.shadowAmount * 10}px 0 rgba(100, 100, 100, 0.5)`,
-  },
-}))`
+const CardWrapper = styled.div.attrs<{ shadowAmount: number }>(
+  ({ shadowAmount }) => ({
+    style: {
+      boxShadow: `0 ${shadowAmount * 8}px
+  ${shadowAmount * 10}px 0 rgba(100, 100, 100, 0.5)`,
+    },
+  })
+)`
   position: relative;
   border-radius: 0;
 
@@ -45,12 +47,12 @@ const BackgroundHolder = styled.div`
   width: 100%;
 `;
 
-export type Props = {
+export interface Props {
   title: string;
-  description: string | Node;
-  background: Node;
+  description: React.ReactNode;
+  background: React.ReactNode;
   shadowAmount?: number | null;
-};
+}
 
 const Card = (props: Props) => {
   //Calculate shadow amount
@@ -60,6 +62,8 @@ const Card = (props: Props) => {
   }
   return (
     <Wrapper title={"Go to " + props.title}>
+      {/* 
+      // @ts-ignore */}
       <CardWrapper shadowAmount={shadow}>
         <BackgroundHolder>{props.background}</BackgroundHolder>
       </CardWrapper>
