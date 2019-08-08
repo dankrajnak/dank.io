@@ -1,4 +1,4 @@
-import React, { ComponentType, useEffect, useRef } from "react";
+import * as React from "react";
 import Canvas from "../Canvas";
 
 interface Props {
@@ -9,13 +9,15 @@ interface Props {
   fps?: number | null;
 }
 
-const CanvasDrawer: ComponentType<Props> = React.memo(
+const CanvasDrawer = React.memo(
   React.forwardRef(function CanvasDrawer(props: Props, ref) {
-    const context: React.MutableRefObject<CanvasRenderingContext2D | null> = useRef(
+    const context: React.MutableRefObject<CanvasRenderingContext2D | null> = React.useRef(
       null
     );
-    const requestedFrame: React.MutableRefObject<number | null> = useRef(null);
-    const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> = useRef(
+    const requestedFrame: React.MutableRefObject<number | null> = React.useRef(
+      null
+    );
+    const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> = React.useRef(
       null
     );
     const draw = (context: CanvasRenderingContext2D) => {
@@ -40,7 +42,7 @@ const CanvasDrawer: ComponentType<Props> = React.memo(
       renderFrame();
     };
     const getContext = (c: CanvasRenderingContext2D) => (context.current = c);
-    useEffect(() => {
+    React.useEffect(() => {
       if (context.current) {
         if (props.initializeCanvas) {
           props.initializeCanvas(context.current);

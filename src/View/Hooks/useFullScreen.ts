@@ -3,17 +3,21 @@ import useSafeWindow from "./useSafeWindow";
 
 const useFullScreen = () => {
   const [window, flash] = useSafeWindow();
-  const [width, setWidth] = useState(window.innerWidth);
-  const [height, setHeight] = useState(window.innerHeight);
+  const [width, setWidth] = useState(window ? window.innerWidth : 0);
+  const [height, setHeight] = useState(window ? window.innerHeight : 0);
 
   useEffect(() => {
     const resize = () => {
-      setWidth(window.innerWidth);
-      setHeight(window.innerHeight);
+      if (window) {
+        setWidth(window.innerWidth);
+        setHeight(window.innerHeight);
+      }
     };
     resize();
-    const listener = window.addEventListener("resize", resize);
-    return () => window.removeEventListener("resize", listener);
+    const listener = window && window.addEventListener("resize", resize);
+    return () => {
+      window && listener && window.removeEventListener("resize", listener);
+    };
   }, [window]);
   return [width, height, flash];
 };

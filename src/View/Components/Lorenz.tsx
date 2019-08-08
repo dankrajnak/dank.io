@@ -1,4 +1,4 @@
-import React, { ComponentType } from "react";
+import * as React from "react";
 import * as ColorInterpolate from "color-interpolate";
 import getNextPosition, {
   Position,
@@ -6,12 +6,12 @@ import getNextPosition, {
 import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer";
 import { Map } from "immutable";
 
-type Props = {
+interface Props {
   width: number;
   height: number;
-  getXandY: () => [number, number];
+  getXandY?: () => [number, number];
   colorful?: boolean | null;
-};
+}
 
 const mapper = (
   fromLow: number,
@@ -19,7 +19,7 @@ const mapper = (
   toLow: number,
   toHigh: number
 ) => (mapValue: number) =>
-    ((mapValue - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow) + toLow;
+  ((mapValue - fromLow) / (fromHigh - fromLow)) * (toHigh - toLow) + toLow;
 
 const colorInterpolator = ColorInterpolate([
   "#F58B73",
@@ -29,11 +29,13 @@ const colorInterpolator = ColorInterpolate([
   "#554396",
 ]);
 
-let position: Position = Map({ x: 10, y: 10, z: 25 + Math.random() * 10 - 5 });
+let position = Map({
+  x: 10,
+  y: 10,
+  z: 25 + Math.random() * 10 - 5,
+}) as Position;
 
-const _moduleExport: ComponentType<Props> = React.memo(function Lorenz(
-  props: Props
-) {
+const _moduleExport = React.memo(function Lorenz(props: Props) {
   const xMapper = mapper(-20, 20, 0, props.width);
   const yMapper = mapper(0, 50, 0, props.height);
   const colorMapper = mapper(0, 40, 0, 1);

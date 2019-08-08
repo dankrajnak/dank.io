@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import * as React from "react";
 import styled from "styled-components";
 import SEO from "../Utility/seo";
 import useFullScreen from "../Hooks/useFullScreen";
@@ -35,8 +35,8 @@ const NUM_PAGES = 3;
 
 const IndexPage = (): React.ReactNode => {
   const [width, height, flash] = useFullScreen();
-  const [currentPage, setCurrentPage] = useState(0);
-  const lorenzFader = useRef(null);
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const lorenzFader = React.useRef(null);
   const [x, y] = useMousePosition(lorenzFader, false);
 
   useScrollThreshold(

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import * as React from "react";
 import styled from "styled-components";
 import useScrollAmount from "../../Hooks/useScrollAmount";
 import Card, {
@@ -12,25 +12,24 @@ import EasingFunctions from "../../../Services/Ease.service";
 import { Link } from "gatsby";
 
 interface Props {
-  cards:
-    | {
-        link: string;
-      }
-    | CardProps[];
+  cards: ({
+    link: string;
+  } & CardProps)[];
   width: number;
 }
-
-const CardDeckHolder = styled.div`
+const CardDeckHolder = styled.div<{ height: number }>`
   height: ${props => props.height}px;
   width: 100%;
 `;
 
-const CardHolder = styled.div.attrs(props => ({
-  style: {
-    transform: `translate(${props.dx}px, ${30}px)`,
-    zIndex: 2000 - props.order,
-  },
-}))`
+const CardHolder = styled.div.attrs<{ dx: number; dy: number; order: number }>(
+  props => ({
+    style: {
+      transform: `translate(${props.dx}px, ${props.dy}px)`,
+      zIndex: 2000 - props.order,
+    },
+  })
+)`
   position: fixed;
 `;
 
@@ -45,7 +44,7 @@ const CardDeck = (props: Props) => {
   const scroll = useScrollAmount(true);
   const [windowWidth, windowHeight, flash] = useFullScreen();
   // Memoize stepEaser to only generate range and getPosition when the cards length changes.
-  const getPositionEase = useCallback(
+  const getPositionEase = React.useCallback(
     () => stepEaser(props.cards.length - 1, PERIOD, EASING_FUNCTION),
     [props.cards.length]
   );
@@ -58,10 +57,10 @@ const CardDeck = (props: Props) => {
     windowHeight * (normScrollRange + EASING_FUNCTION(1 - PERIOD));
 
   // This is the position on the screen the deck sits.  It's a computed value based on the windowWidth.
-  const deckPosition = useMemo(() => (windowWidth - CARD_WIDTH) / 2, [
+  const deckPosition = React.useMemo(() => (windowWidth - CARD_WIDTH) / 2, [
     windowWidth,
   ]);
-  const getPosition = useCallback(
+  const getPosition = React.useCallback(
     (scrollAmount: number, i: number) =>
       deckPosition -
         windowWidth * normGetPosition(scrollAmount / windowHeight, i) ||
@@ -90,6 +89,8 @@ const CardDeck = (props: Props) => {
 
         return (
           <Link to={card.link} key={i}>
+            {/* 
+            // @ts-ignore */}
             <CardHolder
               dx={
                 i === props.cards.length - 1

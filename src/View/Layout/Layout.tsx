@@ -1,11 +1,11 @@
-import React, { Node } from "react";
+import * as React from "react";
 import { ThemeProvider } from "styled-components";
 import Theme from "../Utility/theme";
 import "./global.scss";
 
-type Props = {
-  children: Node;
-};
+interface Props {
+  children: React.ReactNode;
+}
 
 const Layout = (props: Props) => (
   <ThemeProvider theme={Theme}>

@@ -5,12 +5,11 @@
  * @param {Function} func - the function to throttle
  * @param {*} time - the amount of time in which this function can only be called once
  */
-export default function thottle(func: (x0: any) => any, time: number) {
+export default function thottle(func: Function, time: number) {
   let cooledDown = true;
-  return function() {
-    const funcArguments = arguments; // eslint-disable-line
+  return function(...args: []) {
     if (cooledDown) {
-      func(...funcArguments);
+      func(...args);
       cooledDown = false;
       setTimeout(() => (cooledDown = true), time);
     }

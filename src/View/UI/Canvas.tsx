@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 
 interface Props {
   width: number;
@@ -15,13 +15,13 @@ interface Props {
  */
 const Canvas = (
   props: Props,
-  ref: React.MutableRefObject<HTMLCanvasElement>
+  ref?: React.MutableRefObject<HTMLCanvasElement>
 ) => {
-  // const canvasRef = useRef(null);
-  const definedRef = ref;
+  const canvasRef = React.useRef(null);
+  const definedRef = ref || canvasRef;
 
-  useEffect(() => {
-    const context = definedRef.current.getContext("2d");
+  React.useEffect(() => {
+    const context = definedRef.current && definedRef.current.getContext("2d");
     if (context) {
       props.getContext(context);
     }

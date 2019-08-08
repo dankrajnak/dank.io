@@ -12,12 +12,18 @@ const useScrollAmount = (vertical: boolean = true): number => {
   const [scrollAmount, setScrollAmount] = useState(0);
   useEffect(() => {
     const throttledFunc = throttle(
-      () => setScrollAmount(vertical ? window.scrollY : window.scrollX),
+      () =>
+        window && setScrollAmount(vertical ? window.scrollY : window.scrollX),
       30
     );
-    const wheelListener = window.addEventListener("scroll", throttledFunc);
+    const wheelListener =
+      window && window.addEventListener("scroll", throttledFunc);
 
-    return () => window.removeEventListener("scroll", wheelListener);
+    return () => {
+      window &&
+        wheelListener &&
+        window.removeEventListener("scroll", wheelListener);
+    };
   }, [vertical, window]);
   return scrollAmount;
 };

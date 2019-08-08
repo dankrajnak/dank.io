@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
 import styled from "styled-components";
 
 const MenuButton = styled.div`
@@ -16,9 +16,9 @@ const MenuButton = styled.div`
 `;
 
 const Button = () => {
-  const [showing, setShowing] = useState(true);
+  const [showing, setShowing] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const timeout = setTimeout(() => setShowing(false), 2000);
     return () => clearTimeout(timeout);
   }, []);

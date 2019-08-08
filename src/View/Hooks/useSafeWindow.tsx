@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import FlashScreen from "../Components/FlashScreen/FlashScreen";
 
-const windowPlaceholder = {
-  innerWidth: 0,
-  innerHeight: 0,
-  addEventListener: (event, callback) => null,
-  removeEventListener: (event, callback) => null,
-};
-
-const useSafeWindow = (): typeof window => {
-  const [safeWindow, setSafeWindow] = useState(windowPlaceholder);
-  const [flash, setFlash] = useState(<FlashScreen />);
-  useEffect(() => {
+const useSafeWindow = (): [typeof window | null, React.ReactNode?] => {
+  const [safeWindow, setSafeWindow] = React.useState<typeof window | null>(
+    typeof window === undefined ? null : window
+  );
+  const [flash, setFlash] = React.useState<React.ReactNode>(<FlashScreen />);
+  React.useEffect(() => {
     if (typeof window === "undefined") {
-      setSafeWindow(windowPlaceholder);
+      setSafeWindow(null);
     } else {
       setTimeout(() => {
         setSafeWindow(window);
@@ -25,6 +20,6 @@ const useSafeWindow = (): typeof window => {
   return [safeWindow, flash];
 };
 
-const dev = () => [window, null];
+// const dev = () => [window, null];
 
 export default useSafeWindow;

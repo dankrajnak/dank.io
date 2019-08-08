@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout";
 import SEO from "../Utility/seo";
-import {
-  CARD_HEIGHT,
-  CARD_WIDTH,
-  Props as CardProps,
-} from "../UI/Card/Card";
+import { CARD_HEIGHT, CARD_WIDTH } from "../UI/Card/Card";
 import Lorenz from "../Components/Lorenz";
 import CardDeck from "../UI/CardDeck/CardDeck";
 import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
-import ThreeContainer from "../UI/ThreeContainer";
-import { start, stop } from "../../Services/Hallway.service";
 
-const Background = styled.div`
+const Background = styled.div<{ color: string }>`
   background-color: ${props => props.color};
   width: 100%;
   height: 100%;
@@ -76,7 +70,7 @@ const FullScreenContainer = styled.div`
   height: 100%;
 `;
 
-const ScrollMessage = styled.div.attrs(props => ({
+const ScrollMessage = styled.div.attrs<{ opacity: number }>(props => ({
   style: { opacity: props.opacity },
 }))`
   position: fixed;
@@ -89,7 +83,6 @@ const ScrollMessage = styled.div.attrs(props => ({
 const Menu = () => {
   const [width, height] = useFullScreen();
   const scroll = useScrollAmount();
-  console.log(scroll, "scroll");
   return (
     <Layout>
       <SEO title="Menu" />

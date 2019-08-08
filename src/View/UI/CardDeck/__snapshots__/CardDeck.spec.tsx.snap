@@ -2,7 +2,6 @@
 
 exports[`renders with no cards 1`] = `
 <div
-  className="sc-ifAKCX iQlKFl"
-  width={0}
+  className="sc-bdVaJa cHlqDA"
 />
 `;

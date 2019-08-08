@@ -1,22 +1,22 @@
-import React, { ComponentType } from "react";
+import * as React from "react";
 import getNextPendulum, {
   PendulumVector,
 } from "../../../Services/DoublePendulum.service";
 import CanvasDrawer from "../../UI/CavnasDrawer/CanvasDrawer";
 
-export type PendulumPosition = {
+export interface PendulumPosition {
   x1: number;
   y1: number;
   x2: number;
   y2: number;
-};
+}
 
-export type CanvasInfo = {
+export interface CanvasInfo {
   width: number;
   height: number;
-};
+}
 
-type Props = {
+interface Props {
   pendulumsInitialState: Array<PendulumVector>;
   /**
    * Width of the canvas
@@ -34,7 +34,7 @@ type Props = {
     ctx: CanvasRenderingContext2D,
     canvasInfo: CanvasInfo
   ) => any;
-};
+}
 
 const getPendulumCoordinates = (pendulum: PendulumVector): PendulumPosition => {
   // Get coordinates of lower mass.

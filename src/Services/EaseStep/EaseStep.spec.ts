@@ -1,7 +1,7 @@
 import stepEaser from "./EaseStep.service";
 
 test("returns 0 for no stages", () => {
-  const [range, easer] = stepEaser(0);
+  const easer = stepEaser(0)[1];
   expect(easer(0, 0)).toBe(0);
 });
 
@@ -37,7 +37,7 @@ test("1/2 period moves halfway inbetween others", () => {
   const PERIOD = 0.5;
   // Test that this works for 1, 2, 3... 9 steps.
   for (let numSteps = 2; numSteps < 10; numSteps++) {
-    const [range, easer] = stepEaser(numSteps, PERIOD);
+    const easer = stepEaser(numSteps, PERIOD)[1];
     // Iterate through all the steps
     for (let i = 0; i < numSteps; i++) {
       // Section the range off into chunks for every step

@@ -1,9 +1,3 @@
-type stepEaserType = (
-  numStages: number,
-  period: number,
-  easeFunction: (x0: number) => number
-) => [number, (x0: number, x1: number) => number];
-
 /**
  * *Bad name, I know.*  This method makes it possible
  * to 'join' together the easing of various things.  It was
@@ -30,11 +24,11 @@ type stepEaserType = (
  * @returns {[number, function]} the range and a function which inputs a progress number
  * and an index and outputs the value of the thing with that index for that progress number
  */
-const stepEaser: stepEaserType = (
+const stepEaser = (
   numStages: number,
   period: number = 1,
   easeFunction: (x0: number) => number = x => x
-) => {
+): [number, (progres: number, index: number) => number] => {
   // Figure out when the last stage will go and add one to it.
   const totalScroll = (numStages - 1) * period + 1;
   const getValue = (progress: number, index: number) => {
