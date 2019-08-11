@@ -13,7 +13,7 @@ const useMousePosition = (
   absolute: boolean = false
 ): [number, number] => {
   //I'm not sure this is the right thing
-  const [mousePosition, setMousePosition] = useState([0, 0]);
+  const [mousePosition, setMousePosition] = useState<[number, number]>([0, 0]);
   useEffect(() => {
     const element = domElement.current;
     const throttledFunc = throttle(
@@ -23,7 +23,7 @@ const useMousePosition = (
         ),
       30
     );
-    let mouseListener;
+    let mouseListener: any;
     if (element) {
       mouseListener = element.addEventListener("mousemove", throttledFunc);
     }

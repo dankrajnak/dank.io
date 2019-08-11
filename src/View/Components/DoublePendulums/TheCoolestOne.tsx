@@ -1,17 +1,20 @@
 import * as React from "react";
-import { makePendulum } from "../../../Services/DoublePendulum.service";
+import {
+  makePendulum,
+  PendulumVector,
+} from "../../../Services/DoublePendulum.service";
 import DoublePendulums, {
   PendulumPosition,
   CanvasInfo,
 } from "./DoublePendulums";
 
-const pendulums = [];
+const pendulums: PendulumVector[] = [];
 for (let i = 0; i < 10; i++) {
   pendulums.push(makePendulum());
 }
 
 const renderPendulums = (
-  pendulums: Array<PendulumPosition>,
+  pendulums: PendulumPosition[],
   ctx: CanvasRenderingContext2D,
   info: CanvasInfo
 ) => {

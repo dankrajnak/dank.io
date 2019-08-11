@@ -9,11 +9,15 @@ const beta = -8 / 3;
 
 const deltaTime = 0.005;
 
-const rungeKuttaFunction = (p: Position): Position =>
-  p
-    .set("x", sigma * (p.get("y") - p.get("x")))
-    .set("y", rho * p.get("x") - p.get("y") - p.get("x") * p.get("z"))
-    .set("z", beta * p.get("z") + p.get("x") * p.get("y"));
+const rungeKuttaFunction = (p: Position): Position => {
+  const x = p.get("x") || 0;
+  const y = p.get("y") || 0;
+  const z = p.get("z") || 0;
+  return p
+    .set("x", sigma * (y - x))
+    .set("y", rho * x - y - x * z)
+    .set("z", beta * z + x * y);
+};
 
 const rungeKuttaCalculator = RungeKutta(rungeKuttaFunction);
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useSafeWindow from "./useSafeWindow";
 
-const useFullScreen = () => {
+const useFullScreen = (): [number, number, JSX.Element | null] => {
   const [window, flash] = useSafeWindow();
   const [width, setWidth] = useState(window ? window.innerWidth : 0);
   const [height, setHeight] = useState(window ? window.innerHeight : 0);

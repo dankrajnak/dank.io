@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useEffect } from "react";
 
-const HelpWrapper = styled.div`
+const HelpWrapper = styled.div<{ opacity: number }>`
   position: fixed;
   display: flex;
   align-items: center;
@@ -22,10 +22,10 @@ const HelpWrapper = styled.div`
   opacity: ${props => props.opacity};
 `;
 
-type Props = {
+interface Props {
   children: string;
   time?: number | null;
-};
+}
 
 const Help = (props: Props) => {
   const [visible, setVisible] = useState(true);

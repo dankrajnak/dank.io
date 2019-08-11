@@ -33,7 +33,7 @@ const cards = [
       //   width={CARD_WIDTH}
       //   height={CARD_HEIGHT}
       // />
-      <Background name="Hallway" color="lightblue" />
+      <Background color="lightblue" />
     ),
     title: "Hallway",
     description: (
@@ -45,19 +45,19 @@ const cards = [
     link: "/hallway",
   },
   {
-    background: <Background name="THREE" color="lightyellow" />,
+    background: <Background color="lightyellow" />,
     title: "Card 3",
     description: "This is the description of Card 3",
     link: "/nowhere",
   },
   {
-    background: <Background name="FOUR" color="lightgreen" />,
+    background: <Background color="lightgreen" />,
     title: "Card 4",
     description: "This is the description of Card 4",
     link: "/nowhere",
   },
   {
-    background: <Background name="FIVE" color="lightblue" />,
+    background: <Background color="lightblue" />,
     title: "Card 5",
     description: "This is the description of Card 5",
     link: "/nowhere",
@@ -88,6 +88,8 @@ const Menu = () => {
       <SEO title="Menu" />
       <FullScreenContainer>
         <CardDeck cards={cards} width={width} />
+        {/* 
+        // @ts-ignore */}
         <ScrollMessage opacity={(1 - scroll / height) * 2 || 0}>
           Scroll Up
         </ScrollMessage>

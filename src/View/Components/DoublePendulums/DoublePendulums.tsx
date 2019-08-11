@@ -17,7 +17,7 @@ export interface CanvasInfo {
 }
 
 interface Props {
-  pendulumsInitialState: Array<PendulumVector>;
+  pendulumsInitialState: PendulumVector[];
   /**
    * Width of the canvas
    */
@@ -30,7 +30,7 @@ interface Props {
    * Function which draws the pendulums onto the canvas
    */
   renderPendulums: (
-    pendulums: Array<PendulumPosition>,
+    pendulums: PendulumPosition[],
     ctx: CanvasRenderingContext2D,
     canvasInfo: CanvasInfo
   ) => any;
@@ -38,24 +38,25 @@ interface Props {
 
 const getPendulumCoordinates = (pendulum: PendulumVector): PendulumPosition => {
   // Get coordinates of lower mass.
-  // This ImmutableJS typing is going to kill me.
 
-  // $FlowFixMe
-  const x1 = Math.sin(pendulum.get("aAngle")) * pendulum.get("aLength");
-  // $FlowFixMe
-  const y1 = Math.cos(pendulum.get("aAngle")) * pendulum.get("aLength");
+  const aAngle = pendulum.get("aAngle") || 0;
+  const aLength = pendulum.get("aLength") || 0;
+  const bAngle = pendulum.get("bAngle") || 0;
+  const bLength = pendulum.get("bLength") || 0;
 
-  // $FlowFixMe
-  const x2 = x1 + Math.sin(pendulum.get("bAngle")) * pendulum.get("bLength");
-  // $FlowFixMe
-  const y2 = y1 + Math.cos(pendulum.get("bAngle")) * pendulum.get("bLength");
+  const x1 = Math.sin(aAngle) * aLength;
+  const y1 = Math.cos(aAngle) * aLength;
+
+  const x2 = x1 + Math.sin(bAngle) * bLength;
+  const y2 = y1 + Math.cos(bAngle) * bLength;
 
   return { x1, y1, x2, y2 };
 };
 
-const _moduleExport: ComponentType<Props> = React.memo(function DoublePendulums(
-  props: Props
-) {
+/**
+ * Simulates chaotic pendulums utilizing the Runge-Katta algorithm
+ */
+export default React.memo(function DoublePendulums(props: Props) {
   let pendulums = props.pendulumsInitialState;
   const drawPendulums = (context: CanvasRenderingContext2D) => {
     props.renderPendulums(
@@ -73,8 +74,3 @@ const _moduleExport: ComponentType<Props> = React.memo(function DoublePendulums(
     />
   );
 });
-
-/**
- * Simulates chaotic pendulums utilizing the Runge-Katta algorithm
- */
-export default _moduleExport;

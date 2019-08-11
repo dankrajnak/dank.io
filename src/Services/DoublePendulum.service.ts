@@ -30,10 +30,83 @@ export const makePendulum = (): PendulumVector =>
     bAngle: Math.random() * 6,
     bAngularVelocity: 0,
     bAngAccel: 0,
-  });
+  }) as PendulumVector;
 
 const GRAVITY = 9.8;
 const SPEED = 0.1;
+
+/**
+ * This system of equations has 4 variables
+ * the angular velocity of a,
+ * the angular velocity of b,
+ * the angle of a,
+ * the angle of b.
+ *
+ * So, we need to create a function which takes in those four variables, and calculates everything else from that.
+ * Hopefully this won't be super confusing to future me, but this function takes in a pendulum, and returns a function
+ * that does that.
+ */
+type FunctionForPendulum = (
+  p: PendulumVector
+) => (v: RungeKuttaIngestion) => RungeKuttaIngestion;
+
+const getRungeKuttaFunctionForPendulum: FunctionForPendulum = (
+  p: PendulumVector
+) => (v: RungeKuttaIngestion) => {
+  // This is from a website. (https://www.myphysicslab.com/pendulum/double-pendulum-en.html)
+  // Also I realize that p. and v. look very similar which might make the following hard to debug / read
+  // (like it wasn't hard already)
+  // Sorry future me.
+
+  // Declare all the values I need so that I don't have to worry about whether their undefined.
+  const pAMass = p.get("aMass") || 0;
+  const pBMass = p.get("bMass") || 0;
+  const pALength = p.get("aLength") || 0;
+  const pBLength = p.get("bLength") || 0;
+  const vAngA = v.get("angA") || 0;
+  const vAngB = v.get("angB") || 0;
+  const vVelA = v.get("velA") || 0;
+  const vVelB = v.get("velB") || 0;
+
+  const angVelA = vVelA;
+  const angVelB = vVelB;
+
+  const angAccelA =
+    (-GRAVITY * (2 * pAMass + pBMass) * Math.sin(vAngA) -
+      pBMass * GRAVITY * Math.sin(vAngA - 2 * vAngB) -
+      2 *
+        Math.sin(vAngA - vAngB) *
+        pBMass *
+        (Math.pow(vVelB, 2) * pBLength +
+          Math.pow(vVelA, 2) * pALength * Math.cos(vAngA - vAngB))) /
+    (pALength *
+      (2 * pAMass + pBMass - pBMass * Math.cos(2 * vAngA - 2 * vAngB)));
+
+  const angAccelB =
+    (2 *
+      Math.sin(vAngA - vAngB) *
+      (Math.pow(vVelA, 2) * pALength * (pAMass + pBMass) +
+        GRAVITY *
+          (pAMass +
+            pBMass *
+              Math.cos(
+                vAngA +
+                  Math.pow(vVelB, 2) *
+                    pBLength *
+                    pBMass *
+                    Math.cos(vAngA - vAngB)
+              )))) /
+    (pBLength *
+      (2 * pBMass + pBMass - pBMass * Math.cos(2 * vAngA - 2 * vAngB)));
+
+  return Map({
+    velA: angAccelA,
+    velB: angAccelB,
+    angA: angVelA,
+    angB: angVelB,
+  }) as RungeKuttaIngestion;
+};
+
 /**
  * Simulates chaotic pendulums utilizing the Runge-Katta algorithm
  */
@@ -61,83 +134,10 @@ const getNextPendulum = (prevPendulum: PendulumVector): PendulumVector => {
   );
 
   return prevPendulum
-    .set("aAngle", map.get("angA"))
-    .set("bAngle", map.get("angB"))
-    .set("aAngularVelocity", map.get("velA"))
-    .set("bAngularVelocity", map.get("velB"));
-};
-
-/**
- * This system of equations has 4 variables
- * the angular velocity of a,
- * the angular velocity of b,
- * the angle of a,
- * the angle of b.
- *
- * So, we need to create a function which takes in those four variables, and calculates everything else from that.
- * Hopefully this won't be super confusing to future me, but this function takes in a pendulum, and returns a function
- * that does that.
- */
-
-type FunctionForPendulum = (
-  p: PendulumVector
-) => (v: RungeKuttaIngestion) => PendulumVector;
-
-const getRungeKuttaFunctionForPendulum: FunctionForPendulum = (
-  p: PendulumVector
-) => (v: RungeKuttaIngestion) => {
-  // This is from a website. (https://www.myphysicslab.com/pendulum/double-pendulum-en.html)
-  // Also I realize that p. and v. look very similar which might make the following hard to debug / read
-  // (like it wasn't hard already)
-  // Sorry future me.
-
-  const angVelA = v.get("velA");
-  const angVelB = v.get("velB");
-
-  const angAccelA =
-    (-GRAVITY *
-      (2 * p.get("aMass") + p.get("bMass")) *
-      Math.sin(v.get("angA")) -
-      p.get("bMass") * GRAVITY * Math.sin(v.get("angA") - 2 * v.get("angB")) -
-      2 *
-        Math.sin(v.get("angA") - v.get("angB")) *
-        p.get("bMass") *
-        (Math.pow(v.get("velB"), 2) * p.get("bLength") +
-          Math.pow(v.get("velA"), 2) *
-            p.get("aLength") *
-            Math.cos(v.get("angA") - v.get("angB")))) /
-    (p.get("aLength") *
-      (2 * p.get("aMass") +
-        p.get("bMass") -
-        p.get("bMass") * Math.cos(2 * v.get("angA") - 2 * v.get("angB"))));
-
-  const angAccelB =
-    (2 *
-      Math.sin(v.get("angA") - v.get("angB")) *
-      (Math.pow(v.get("velA"), 2) *
-        p.get("aLength") *
-        (p.get("aMass") + p.get("bMass")) +
-        GRAVITY *
-          (p.get("aMass") +
-            p.get("bMass") *
-              Math.cos(
-                v.get("angA") +
-                  Math.pow(v.get("velB"), 2) *
-                    p.get("bLength") *
-                    p.get("bMass") *
-                    Math.cos(v.get("angA") - v.get("angB"))
-              )))) /
-    (p.get("bLength") *
-      (2 * p.get("bMass") +
-        p.get("bMass") -
-        p.get("bMass") * Math.cos(2 * v.get("angA") - 2 * v.get("angB"))));
-
-  return Map({
-    velA: angAccelA,
-    velB: angAccelB,
-    angA: angVelA,
-    angB: angVelB,
-  });
+    .set("aAngle", map.get("angA") || 0)
+    .set("bAngle", map.get("angB") || 0)
+    .set("aAngularVelocity", map.get("velA") || 0)
+    .set("bAngularVelocity", map.get("velB") || 0);
 };
 
 export default getNextPendulum;

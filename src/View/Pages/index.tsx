@@ -6,7 +6,6 @@ import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
 import MenuLayout from "../Layout/MenuLayout";
 import Lorenz from "../Components/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
-import Help from "../UI/Help/Help";
 import useMousePosition from "../Hooks/useMousePosition";
 
 const TitleHolder = styled.div`
@@ -19,13 +18,13 @@ const TitleHolder = styled.div`
   align-items: center;
 `;
 
-const Title = styled.h1`
+const Title = styled.h1<{ color?: string }>`
   color: ${(props): string => props.color || props.theme.text.headerColor};
   font-size: 2em;
   font-weight: 500;
   text-align: center;
 `;
-const Fader = styled.div`
+const Fader = styled.div<{ visible: boolean }>`
   position: fixed;
   opacity: ${(props): number => (props.visible ? 1 : 0)};
   transition: opacity 1s ease;
@@ -56,12 +55,7 @@ const IndexPage = (): React.ReactNode => {
           <TitleHolder>
             <Title color="#EEE">When I think about summer,</Title>
           </TitleHolder>
-          <Lorenz
-            width={width}
-            height={height}
-            label="home"
-            getXandY={() => [x, y]}
-          />
+          <Lorenz width={width} height={height} getXandY={() => [x, y]} />
         </Fader>
       )}
       <Fader visible={currentPage === 1}>

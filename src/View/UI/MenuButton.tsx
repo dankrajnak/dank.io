@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-const MenuButton = styled.div`
+const MenuButton = styled.div<{ show: boolean }>`
   position: fixed;
   top: 20px;
   right: 20px;
@@ -23,11 +23,7 @@ const Button = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  return (
-    <MenuButton length={20} show={showing}>
-      MENU
-    </MenuButton>
-  );
+  return <MenuButton show={showing}>MENU</MenuButton>;
 };
 
 export default Button;

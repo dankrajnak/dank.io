@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as ColorInterpolate from "color-interpolate";
+import ColorInterpolate from "color-interpolate";
 import getNextPosition, {
   Position,
 } from "../../Services/StrangeAttractor.service";
@@ -44,15 +44,26 @@ const _moduleExport = React.memo(function Lorenz(props: Props) {
   const artist = (context: CanvasRenderingContext2D) => {
     // Draw the thing
     context.fillStyle = props.colorful
-      ? colorInterpolator(colorMapper(position.get("z")))
+      ? colorInterpolator(
+          colorMapper(
+            // @ts-ignore
+            position.get("z")
+          )
+        )
       : "#2f3030";
     context.fillRect(0, 0, props.width, props.height);
 
     context.fillStyle = "#EEE";
     context.beginPath();
     context.ellipse(
-      xMapper(position.get("x")),
-      yMapper(position.get("z")),
+      xMapper(
+        // @ts-ignore
+        position.get("x")
+      ),
+      yMapper(
+        // @ts-ignore
+        position.get("z")
+      ),
       5,
       5,
       0,

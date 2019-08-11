@@ -19,7 +19,7 @@ const multV = (vector: Vector<any>, n: number): Vector<any> =>
   vector.map(value => value * n);
 
 const vplusV = (vector: Vector<any>, vectorb: Vector<any>): Vector<any> =>
-  vector.map((x, i) => x + vectorb.get(i));
+  vector.map((x, i) => x + (vectorb.get(i) || 0));
 
 export const RungeKutta: RungeKuttaType<any> = f => (x, h) => {
   const a: Vector<any> = f(x);

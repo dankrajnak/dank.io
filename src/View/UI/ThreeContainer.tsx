@@ -6,11 +6,8 @@ interface Props {
   width: number;
   height: number;
 }
-
-const _moduleExport: ComponentType<Props> = React.memo(function ThreeContainer(
-  props: Props
-) {
-  const container = React.useRef(null);
+export default React.memo(function ThreeContainer(props: Props) {
+  const container = React.useRef<HTMLDivElement>(null);
   const { start, stop, width, height, ...otherProps } = props;
   React.useEffect(() => {
     if (container.current) {
@@ -29,5 +26,3 @@ const _moduleExport: ComponentType<Props> = React.memo(function ThreeContainer(
     />
   );
 });
-
-export default _moduleExport;

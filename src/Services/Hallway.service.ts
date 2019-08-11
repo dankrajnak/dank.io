@@ -1,8 +1,50 @@
 import * as THREE from "three";
 
-let renderer;
-let canvas;
-let eventListener;
+let renderer: THREE.WebGLRenderer;
+let canvas: HTMLCanvasElement;
+let eventListener: any;
+
+function render(
+  pointLights: THREE.PointLight[],
+  scene: THREE.Scene,
+  camera: THREE.Camera
+) {
+  let time = performance.now() * 0.001;
+  pointLights.forEach(light => {
+    light.position.x = Math.sin(time * 0.6) * 9;
+    light.position.y = Math.sin(time * 0.7) * 9 + 8;
+    light.position.z = light.position.z * 1.002 - 0.01;
+    light.rotation.x = time;
+    light.rotation.z = time;
+    time += 100;
+  });
+  if (pointLights[0] && pointLights[0].position.z < -1000) {
+    //@ts-ignore
+    scene.remove(pointLights.shift());
+  }
+  renderer.render(scene, camera);
+}
+
+const generateTexture = () => {
+  let c = document.createElement("canvas");
+  c.width = 2;
+  c.height = 2;
+  var context = c.getContext("2d");
+  if (context) {
+    context.fillStyle = "white";
+    context.fillRect(0, 1, 2, 1);
+  }
+  return c;
+};
+
+function animate(
+  pointLights: THREE.PointLight[],
+  scene: THREE.Scene,
+  camera: THREE.Camera
+) {
+  requestAnimationFrame(() => animate(pointLights, scene, camera));
+  render(pointLights, scene, camera);
+}
 
 /**
  * Creates a Light sphere with the given color
@@ -43,22 +85,15 @@ const createLight = (color: number): THREE.PointLight => {
   sphere.receiveShadow = true;
   pointLight.add(sphere);
   // custom distance material
+
   var distanceMaterial = new THREE.MeshDistanceMaterial({
+    // @ts-ignore
     alphaMap: wrapperMaterial.alphaMap,
     alphaTest: wrapperMaterial.alphaTest,
   });
+  // @ts-ignore
   sphere.customDistanceMaterial = distanceMaterial;
   return pointLight;
-};
-
-const generateTexture = () => {
-  let c = document.createElement("canvas");
-  c.width = 2;
-  c.height = 2;
-  var context = c.getContext("2d");
-  context.fillStyle = "white";
-  context.fillRect(0, 1, 2, 1);
-  return c;
 };
 
 export function start(container: HTMLDivElement) {
@@ -112,35 +147,6 @@ export function start(container: HTMLDivElement) {
   });
 
   animate(pointLights, scene, camera);
-}
-
-function animate(
-  pointLights: THREE.PointLight[],
-  scene: THREE.Scene,
-  camera: THREE.Camera
-) {
-  requestAnimationFrame(() => animate(pointLights, scene, camera));
-  render(pointLights, scene, camera);
-}
-
-function render(
-  pointLights: THREE.PointLight[],
-  scene: THREE.Scene,
-  camera: THREE.Camera
-) {
-  let time = performance.now() * 0.001;
-  pointLights.forEach(light => {
-    light.position.x = Math.sin(time * 0.6) * 9;
-    light.position.y = Math.sin(time * 0.7) * 9 + 8;
-    light.position.z = light.position.z * 1.002 - 0.01;
-    light.rotation.x = time;
-    light.rotation.z = time;
-    time += 100;
-  });
-  if (pointLights[0] && pointLights[0].position.z < -1000) {
-    scene.remove(pointLights.shift());
-  }
-  renderer.render(scene, camera);
 }
 
 export function stop() {

@@ -11,7 +11,7 @@ export const useScroll = (
       (event: WheelEvent) => listener(event.deltaY),
       throtleAmount
     );
-    const wheelListener = window.addEventListener("wheel", throttledFunc);
+    const wheelListener: any = window.addEventListener("wheel", throttledFunc);
 
     return () => window.removeEventListener("wheel", wheelListener);
   }, [listener, throtleAmount]);
@@ -22,7 +22,7 @@ export const useScrollThreshold = (
   threshold: number = 0.5,
   coolDown: number = 1000
 ) => {
-  const throttledListener = useRef(
+  const throttledListener = useRef<(val: number) => void>(
     throttle((val: number) => listener(val), coolDown)
   );
   const callback = useRef((val: number) => {
