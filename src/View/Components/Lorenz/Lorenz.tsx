@@ -2,8 +2,8 @@ import * as React from "react";
 import ColorInterpolate from "color-interpolate";
 import getNextPosition, {
   Position,
-} from "../../Services/StrangeAttractor.service";
-import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer";
+} from "../../../Services/StrangeAttractor/StrangeAttractor.service";
+import CanvasDrawer from "../../UI/CavnasDrawer/CanvasDrawer";
 import { Map } from "immutable";
 
 interface Props {
@@ -35,7 +35,7 @@ let position = Map({
   z: 25 + Math.random() * 10 - 5,
 }) as Position;
 
-const _moduleExport = React.memo(function Lorenz(props: Props) {
+const Lorenz = (props: Props) => {
   const xMapper = mapper(-20, 20, 0, props.width);
   const yMapper = mapper(0, 50, 0, props.height);
   const colorMapper = mapper(0, 40, 0, 1);
@@ -90,6 +90,6 @@ const _moduleExport = React.memo(function Lorenz(props: Props) {
       fps={50}
     />
   );
-});
+};
 
-export default _moduleExport;
+export default React.memo(Lorenz);

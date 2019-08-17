@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import throttle from "../../Services/Throttle.service";
+import throttle from "../../Services/Throttle/Throttle.service";
 import useSafeWindow from "./useSafeWindow";
 
 /**

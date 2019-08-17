@@ -1,7 +1,7 @@
 import * as React from "react";
 import getNextPendulum, {
   PendulumVector,
-} from "../../../Services/DoublePendulum.service";
+} from "../../../Services/DoublePendulum/DoublePendulum.service";
 import CanvasDrawer from "../../UI/CavnasDrawer/CanvasDrawer";
 
 export interface PendulumPosition {

@@ -4,7 +4,7 @@ import SEO from "../Utility/seo";
 import useFullScreen from "../Hooks/useFullScreen";
 import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
 import MenuLayout from "../Layout/MenuLayout";
-import Lorenz from "../Components/Lorenz";
+import Lorenz from "../Components/Lorenz/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
 import useMousePosition from "../Hooks/useMousePosition";
 
@@ -66,7 +66,7 @@ const IndexPage = (): React.ReactNode => {
       </Fader>
       <Fader visible={currentPage === 2}>
         <TitleHolder>
-          <Title>I'm trying not to think about you.</Title>
+          <Title>I'm still trying not to think about you.</Title>
         </TitleHolder>
       </Fader>
     </MenuLayout>

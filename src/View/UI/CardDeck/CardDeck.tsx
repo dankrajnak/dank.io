@@ -8,7 +8,7 @@ import Card, {
 } from "../Card/Card";
 import useFullScreen from "../../Hooks/useFullScreen";
 import stepEaser from "../../../Services/EaseStep/EaseStep.service";
-import EasingFunctions from "../../../Services/Ease.service";
+import EasingFunctions from "../../../Services/Ease/Ease.service";
 import { Link } from "gatsby";
 
 interface Props {

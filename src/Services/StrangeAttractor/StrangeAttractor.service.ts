@@ -1,5 +1,5 @@
 import { Map } from "immutable";
-import { RungeKutta } from "./RungeKutta.service";
+import { RungeKutta } from "../RungeKutta/RungeKutta.service";
 
 export type Position = Map<"x" | "y" | "z", number>;
 

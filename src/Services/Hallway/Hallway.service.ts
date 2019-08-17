@@ -2,7 +2,9 @@ import * as THREE from "three";
 
 let renderer: THREE.WebGLRenderer;
 let canvas: HTMLCanvasElement;
-let eventListener: any;
+
+let eventListener: any; //eslint-disable-line
+let animationFrame: number;
 
 function render(
   pointLights: THREE.PointLight[],
@@ -42,7 +44,9 @@ function animate(
   scene: THREE.Scene,
   camera: THREE.Camera
 ) {
-  requestAnimationFrame(() => animate(pointLights, scene, camera));
+  animationFrame = requestAnimationFrame(() =>
+    animate(pointLights, scene, camera)
+  );
   render(pointLights, scene, camera);
 }
 
@@ -150,6 +154,7 @@ export function start(container: HTMLDivElement) {
 }
 
 export function stop() {
+  cancelAnimationFrame(animationFrame);
   canvas.remove();
   window.removeEventListener("click", eventListener);
 }

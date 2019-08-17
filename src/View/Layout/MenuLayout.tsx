@@ -5,15 +5,16 @@ import Layout from "./Layout";
 import "./global.scss";
 
 interface Props {
+  color?: string;
   children: React.ReactNode;
 }
 
-const MenuLayout = (props: Props) => (
+const MenuLayout = ({ color = "white", children }: Props) => (
   <Layout>
     <Link to={"/menu"}>
-      <MenuButton />
+      <MenuButton color={color} />
     </Link>
-    {props.children}
+    {children}
   </Layout>
 );
 

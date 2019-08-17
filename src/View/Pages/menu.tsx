@@ -3,10 +3,12 @@ import styled from "styled-components";
 import Layout from "../Layout/Layout";
 import SEO from "../Utility/seo";
 import { CARD_HEIGHT, CARD_WIDTH } from "../UI/Card/Card";
-import Lorenz from "../Components/Lorenz";
+import Lorenz from "../Components/Lorenz/Lorenz";
 import CardDeck from "../UI/CardDeck/CardDeck";
 import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
+import HallwayPreview from "../Components/Hallway Preview/HallwayPreview";
+import { Link } from "gatsby";
 
 const Background = styled.div<{ color: string }>`
   background-color: ${props => props.color};
@@ -26,15 +28,7 @@ const cards = [
     link: "/",
   },
   {
-    background: (
-      // <ThreeContainer
-      //   start={start}
-      //   stop={stop}
-      //   width={CARD_WIDTH}
-      //   height={CARD_HEIGHT}
-      // />
-      <Background color="lightblue" />
-    ),
+    background: <HallwayPreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
     title: "Hallway",
     description: (
       <div>
@@ -80,6 +74,20 @@ const ScrollMessage = styled.div.attrs<{ opacity: number }>(props => ({
   font-size: small;
   color: #aaa;
 `;
+
+const AboutContainer = styled.div`
+  position: fixed;
+  top: 8%;
+  left: 8%;
+  width: 100%;
+  a {
+    text-decoration: none;
+    color: #222;
+    &:hover {
+      border-bottom: solid 1px #222;
+    }
+  }
+`;
 const Menu = () => {
   const [width, height] = useFullScreen();
   const scroll = useScrollAmount();
@@ -87,6 +95,9 @@ const Menu = () => {
     <Layout>
       <SEO title="Menu" />
       <FullScreenContainer>
+        <AboutContainer>
+          <Link to={"/about"}>About</Link>
+        </AboutContainer>
         <CardDeck cards={cards} width={width} />
         {/* 
         // @ts-ignore */}

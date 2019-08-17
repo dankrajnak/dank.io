@@ -1,6 +1,6 @@
 import { Map } from "immutable";
 
-import RungeKutta, { Vector } from "./RungeKutta.service";
+import RungeKutta, { Vector } from "../RungeKutta/RungeKutta.service";
 
 export type PendulumVector = Map<
   | "aMass"

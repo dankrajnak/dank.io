@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   makePendulum,
   PendulumVector,
-} from "../../../Services/DoublePendulum.service";
+} from "../../../Services/DoublePendulum/DoublePendulum.service";
 import DoublePendulums, {
   PendulumPosition,
   CanvasInfo,

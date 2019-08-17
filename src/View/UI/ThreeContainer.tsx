@@ -1,11 +1,12 @@
 import * as React from "react";
 
 interface Props {
-  start: (x0: HTMLDivElement) => any;
-  stop: (x0: HTMLDivElement) => any;
+  start: (x0: HTMLDivElement) => void;
+  stop: (x0: HTMLDivElement) => void;
   width: number;
   height: number;
 }
+
 export default React.memo(function ThreeContainer(props: Props) {
   const container = React.useRef<HTMLDivElement>(null);
   const { start, stop, width, height, ...otherProps } = props;
