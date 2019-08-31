@@ -6,7 +6,6 @@ import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
 import MenuLayout from "../Layout/MenuLayout";
 import Lorenz from "../Components/Lorenz/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
-import useMousePosition from "../Hooks/useMousePosition";
 
 const TitleHolder = styled.div`
   position: fixed;
@@ -35,8 +34,6 @@ const NUM_PAGES = 3;
 const IndexPage = (): React.ReactNode => {
   const [width, height, flash] = useFullScreen();
   const [currentPage, setCurrentPage] = React.useState(0);
-  const lorenzFader = React.useRef(null);
-  const [x, y] = useMousePosition(lorenzFader, false);
 
   useScrollThreshold(
     (val): void =>
@@ -48,25 +45,25 @@ const IndexPage = (): React.ReactNode => {
     return flash;
   }
   return (
-    <MenuLayout>
-      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+    <MenuLayout color={currentPage === 0 ? "white" : "#222"}>
+      <SEO title="Home" keywords={["daniel", "krajnak", "portfolio"]} />
       {currentPage === 0 && (
         <Fader visible={currentPage === 0}>
           <TitleHolder>
-            <Title color="#EEE">When I think about summer,</Title>
+            <Title color="#EEE">Again, again, again,</Title>
           </TitleHolder>
-          <Lorenz width={width} height={height} getXandY={() => [x, y]} />
+          <Lorenz width={width} height={height} />
         </Fader>
       )}
       <Fader visible={currentPage === 1}>
         <TitleHolder>
-          <Title>I don't think about you.</Title>
+          <Title> again, again again</Title>
         </TitleHolder>
         <TheCoolestOne width={width} height={height} />
       </Fader>
       <Fader visible={currentPage === 2}>
         <TitleHolder>
-          <Title>I'm still trying not to think about you.</Title>
+          <Title>agin again agian</Title>
         </TitleHolder>
       </Fader>
     </MenuLayout>

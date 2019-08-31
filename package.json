@@ -7,7 +7,6 @@
   "dependencies": {
     "color-interpolate": "^1.0.4",
     "gatsby": "^2.3.23",
-    "gatsby-cli": "^2.7.20",
     "gatsby-image": "^2.0.37",
     "gatsby-plugin-manifest": "^2.0.26",
     "gatsby-plugin-nprogress": "^2.1.0",
@@ -57,6 +56,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
+    "gatsby-cli": "^2.7.40",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
     "prettier": "^1.16.4",

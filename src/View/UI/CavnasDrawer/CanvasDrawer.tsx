@@ -6,6 +6,7 @@ interface Props {
   height: number;
   initializeCanvas?: (context: CanvasRenderingContext2D) => void;
   artist: (context: CanvasRenderingContext2D) => void;
+  onMouseOver?: (e: React.MouseEvent) => void;
   fps?: number | null;
 }
 
@@ -59,6 +60,7 @@ const CanvasDrawer = React.memo(
         ref={ref || canvasRef}
         width={props.width}
         height={props.height}
+        onMouseOver={props.onMouseOver}
         getContext={getContext}
       />
     );

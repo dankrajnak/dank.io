@@ -7,14 +7,9 @@ import Lorenz from "../Components/Lorenz/Lorenz";
 import CardDeck from "../UI/CardDeck/CardDeck";
 import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
-import HallwayPreview from "../Components/Hallway Preview/HallwayPreview";
+import HallwayPreview from "../Components/HallwayPreview/HallwayPreview";
 import { Link } from "gatsby";
-
-const Background = styled.div<{ color: string }>`
-  background-color: ${props => props.color};
-  width: 100%;
-  height: 100%;
-`;
+import PerspectivePreview from "../Components/PerspectivePreview/PerspectivePreview";
 
 const Mute = styled.em`
   font-weight: 200;
@@ -24,8 +19,14 @@ const cards = [
   {
     background: <Lorenz width={CARD_WIDTH} height={CARD_HEIGHT} colorful />,
     title: "Homepage",
-    description: "Honestly just to impress you",
+    description: "Just to impress you",
     link: "/",
+  },
+  {
+    background: <PerspectivePreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
+    title: "Perspective",
+    description: "I spent two fucking days making a square move",
+    link: "/perspective",
   },
   {
     background: <HallwayPreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
@@ -37,24 +38,6 @@ const cards = [
       </div>
     ),
     link: "/hallway",
-  },
-  {
-    background: <Background color="lightyellow" />,
-    title: "Card 3",
-    description: "This is the description of Card 3",
-    link: "/nowhere",
-  },
-  {
-    background: <Background color="lightgreen" />,
-    title: "Card 4",
-    description: "This is the description of Card 4",
-    link: "/nowhere",
-  },
-  {
-    background: <Background color="lightblue" />,
-    title: "Card 5",
-    description: "This is the description of Card 5",
-    link: "/nowhere",
   },
 ];
 
@@ -68,7 +51,7 @@ const ScrollMessage = styled.div.attrs<{ opacity: number }>(props => ({
   style: { opacity: props.opacity },
 }))`
   position: fixed;
-  bottom: 10%;
+  bottom: 20px;
   width: 100%;
   text-align: center;
   font-size: small;

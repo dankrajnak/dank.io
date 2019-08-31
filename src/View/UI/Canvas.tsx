@@ -1,10 +1,10 @@
 import * as React from "react";
 
-interface Props {
+type Props = {
   width: number;
   height: number;
   getContext: (context: CanvasRenderingContext2D) => void;
-}
+} & React.HTMLAttributes<HTMLCanvasElement>;
 
 /**
  * A wrapper around the canvas element which prevents the canvas from
@@ -26,7 +26,10 @@ const Canvas = (
       props.getContext(context);
     }
   });
-  return <canvas ref={definedRef} width={props.width} height={props.height} />;
+  const { width, height, getContext, ...otherProps } = props;
+  return (
+    <canvas ref={definedRef} width={width} height={height} {...otherProps} />
+  );
 };
 // @ts-ignore
 export default React.memo(React.forwardRef(Canvas));

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import throttle from "../../Services/Throttle/Throttle.service";
 
 /**
@@ -11,16 +11,15 @@ const useMousePosition = (
     current: EventTarget | undefined | null;
   },
   absolute: boolean = false
-): [number, number] => {
-  //I'm not sure this is the right thing
-  const [mousePosition, setMousePosition] = useState<[number, number]>([0, 0]);
+): (() => [number, number]) => {
+  const mousePosition = useRef<[number, number]>([0, 0]);
   useEffect(() => {
     const element = domElement.current;
     const throttledFunc = throttle(
       (e: MouseEvent) =>
-        setMousePosition(
-          absolute ? [e.clientX, e.clientY] : [e.offsetX, e.offsetY]
-        ),
+        (mousePosition.current = absolute
+          ? [e.clientX, e.clientY]
+          : [e.offsetX, e.offsetY]),
       30
     );
     let mouseListener: any;
@@ -34,7 +33,7 @@ const useMousePosition = (
       }
     };
   }, [absolute, domElement]);
-  return mousePosition;
+  return () => [mousePosition.current[0], mousePosition.current[1]];
 };
 
 export default useMousePosition;

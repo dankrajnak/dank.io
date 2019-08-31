@@ -24,9 +24,9 @@ const About = () => (
       <Content>
         <h4>This is just stuff I like making.</h4>
         <p>
-          My name's Daniel. This is a place that I put stuff that's meaningful
-          to me. If you like my work, feel free to reach out. My last name's
-          Krajnak. You can probably find me somewhere.
+          My name's Daniel. This is a place that I put stuff I make. If you like
+          my work, feel free to reach out. My last name's Krajnak. You can
+          probably find me somewhere.
         </p>
       </Content>
     </Container>

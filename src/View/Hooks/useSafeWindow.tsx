@@ -3,7 +3,7 @@ import FlashScreen from "../Components/FlashScreen/FlashScreen";
 
 const useSafeWindow = (): [typeof window | null, JSX.Element | null] => {
   const [safeWindow, setSafeWindow] = React.useState<typeof window | null>(
-    typeof window === undefined ? null : window
+    typeof window === "undefined" ? null : window
   );
   const [flash, setFlash] = React.useState<JSX.Element | null>(<FlashScreen />);
   React.useEffect(() => {
