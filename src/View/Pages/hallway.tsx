@@ -3,6 +3,7 @@ import useFullScreen from "../Hooks/useFullScreen";
 import ThreeContainer from "../UI/ThreeContainer";
 import { start, stop } from "../../Services/Hallway/Hallway.service";
 import MenuLayout from "../Layout/MenuLayout";
+import SEO from "../Utility/seo";
 
 const Hallway = () => {
   const [width, height, flash] = useFullScreen();
@@ -11,6 +12,7 @@ const Hallway = () => {
   }
   return (
     <MenuLayout>
+      <SEO title="Hallway" />
       <ThreeContainer start={start} stop={stop} width={width} height={height} />
     </MenuLayout>
   );

@@ -8,6 +8,7 @@ import OriginalPerspectiveSquareDrawer from "../../Services/PerspectiveSquare/Dr
 import styled from "styled-components";
 import Canvas from "../UI/Canvas";
 import MenuLayout from "../Layout/MenuLayout";
+import SEO from "../Utility/seo";
 
 const SQUARE_WIDTH = 300;
 
@@ -69,6 +70,7 @@ const Perspective = () => {
 
   return (
     <MenuLayout color={"white"}>
+      <SEO title="Perspective" />
       <FullScreen>
         <Canvas
           width={width}
