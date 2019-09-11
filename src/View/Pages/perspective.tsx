@@ -9,6 +9,7 @@ import styled from "styled-components";
 import Canvas from "../UI/Canvas";
 import MenuLayout from "../Layout/MenuLayout";
 import SEO from "../Utility/seo";
+import useClickHoverWander from "../Hooks/useClickHoverWander";
 
 const SQUARE_WIDTH = 300;
 
@@ -26,10 +27,7 @@ const Perspective = () => {
     canvasContext,
     setContext,
   ] = React.useState<CanvasRenderingContext2D | null>(null);
-
-  const onMouseMove = React.useRef<((event: React.MouseEvent) => void) | null>(
-    null
-  );
+  const draw = React.useRef(null);
 
   React.useEffect(() => {
     if (!canvasContext) {
@@ -50,7 +48,7 @@ const Perspective = () => {
       lineColor: "#04D9C4",
     });
 
-    const draw = (x: number, y: number) => {
+    draw.current = ({ x, y }: { x: number; y: number }) => {
       canvasContext.fillStyle = "#0D0D0D";
       canvasContext.fillRect(0, 0, width, height);
       squareDrawer.draw(
@@ -58,11 +56,11 @@ const Perspective = () => {
         new Vector2d(x, y)
       );
     };
-    onMouseMove.current = throttle((event: React.MouseEvent) => {
-      draw(event.clientX, event.clientY);
-    }, 25);
-    draw(width / 2, height / 2);
+
+    draw.current(width / 2, height / 2);
   }, [canvasContext, height, width]);
+
+  const mouseProps = useClickHoverWander(draw, width, height, false);
 
   if (flash) {
     return flash;
@@ -78,9 +76,7 @@ const Perspective = () => {
           getContext={(context: CanvasRenderingContext2D) =>
             setContext(context)
           }
-          onMouseMove={(event: React.MouseEvent) =>
-            onMouseMove.current && onMouseMove.current(event)
-          }
+          {...mouseProps}
         />
       </FullScreen>
     </MenuLayout>

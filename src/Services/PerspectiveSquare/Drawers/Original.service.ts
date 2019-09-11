@@ -5,6 +5,7 @@ import Square from "../../../Domain/Square/Square";
 interface Config {
   lineWidth?: number;
   lineColor?: string;
+  includeDashes?: boolean;
   mapper?: (v: Vector2d) => Vector2d;
 }
 export default class OriginalPerspectiveSquareDrawer
@@ -12,6 +13,7 @@ export default class OriginalPerspectiveSquareDrawer
   private _ctx: CanvasRenderingContext2D;
   private _lineWidth: number;
   private _lineColor: string;
+  private _includeDashes: boolean;
   private _mapper: (v: Vector2d) => Vector2d;
   public constructor(ctx: CanvasRenderingContext2D, config: Config = {}) {
     this._ctx = ctx;
@@ -19,6 +21,8 @@ export default class OriginalPerspectiveSquareDrawer
     this._lineColor = config.lineColor || "black";
     this._lineWidth = config.lineWidth || 3;
     this._mapper = config.mapper || ((v: Vector2d) => v);
+    this._includeDashes =
+      typeof config.includeDashes === "boolean" ? config.includeDashes : true;
   }
 
   public setup() {
@@ -33,15 +37,17 @@ export default class OriginalPerspectiveSquareDrawer
     const squareTwoPoints = squareTwo.pointsAsArray.map(this._mapper);
 
     // Draw dashed lines from vanish point to second square.
-    this._ctx.setLineDash([0, 4, this._lineWidth, 4]);
-    squareTwoPoints.forEach((point: Vector2d) => {
-      this._ctx.beginPath();
-      this._ctx.moveTo(focusPoint.x, focusPoint.y);
-      this._ctx.lineTo(point.x, point.y);
-      this._ctx.stroke();
-      this._ctx.closePath();
-    });
-    this._ctx.setLineDash([]);
+    if (this._includeDashes) {
+      this._ctx.setLineDash([0, 4, this._lineWidth, 4]);
+      squareTwoPoints.forEach((point: Vector2d) => {
+        this._ctx.beginPath();
+        this._ctx.moveTo(focusPoint.x, focusPoint.y);
+        this._ctx.lineTo(point.x, point.y);
+        this._ctx.stroke();
+        this._ctx.closePath();
+      });
+      this._ctx.setLineDash([]);
+    }
 
     // Draw second square.
     this._drawSquare(squareTwo);
