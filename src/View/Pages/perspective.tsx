@@ -1,15 +1,15 @@
 import * as React from "react";
+import styled from "styled-components";
 import useFullScreen from "../Hooks/useFullScreen";
 import PerspectiveSquare from "../../Services/PerspectiveSquare/PerspectiveSquare.service";
 import Square from "../../Domain/Square/Square";
 import Vector2d from "../../Domain/Vector/Vector2d";
-import throttle from "../../Services/Throttle/Throttle.service";
 import OriginalPerspectiveSquareDrawer from "../../Services/PerspectiveSquare/Drawers/Original.service";
-import styled from "styled-components";
-import Canvas from "../UI/Canvas";
 import MenuLayout from "../Layout/MenuLayout";
 import SEO from "../Utility/seo";
 import useClickHoverWander from "../Hooks/useClickHoverWander";
+import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer";
+import PersepctiveSquareDrawer from "../../Services/PerspectiveSquare/Drawers/Drawer.interface";
 
 const SQUARE_WIDTH = 300;
 
@@ -23,19 +23,13 @@ const FullScreen = styled.div`
 
 const Perspective = () => {
   const [width, height, flash] = useFullScreen();
-  const [
-    canvasContext,
-    setContext,
-  ] = React.useState<CanvasRenderingContext2D | null>(null);
-  const draw = React.useRef(null);
+  const [focusPoint, mouseProps] = useClickHoverWander(width, height);
+  const perspectiveSquare = React.useRef<PerspectiveSquare | null>(null);
+  const squareDrawer = React.useRef<PersepctiveSquareDrawer | null>(null);
 
-  React.useEffect(() => {
-    if (!canvasContext) {
-      return;
-    }
-
+  const initializeCanvas = (ctx: CanvasRenderingContext2D) => {
     //Create the squares.
-    const square = new PerspectiveSquare(
+    perspectiveSquare.current = new PerspectiveSquare(
       new Square(
         SQUARE_WIDTH,
         new Vector2d((width - SQUARE_WIDTH) / 2, (height + SQUARE_WIDTH) / 2)
@@ -43,24 +37,25 @@ const Perspective = () => {
       100
     );
 
-    const squareDrawer = new OriginalPerspectiveSquareDrawer(canvasContext, {
+    squareDrawer.current = new OriginalPerspectiveSquareDrawer(ctx, {
       mapper: (v: Vector2d) => new Vector2d(v.x, height - v.y),
       lineColor: "#04D9C4",
     });
+  };
 
-    draw.current = ({ x, y }: { x: number; y: number }) => {
-      canvasContext.fillStyle = "#0D0D0D";
-      canvasContext.fillRect(0, 0, width, height);
-      squareDrawer.draw(
-        square.getSquares(new Vector2d(x, height - y)),
-        new Vector2d(x, y)
-      );
-    };
-
-    draw.current(width / 2, height / 2);
-  }, [canvasContext, height, width]);
-
-  const mouseProps = useClickHoverWander(draw, width, height, false);
+  const artist = (ctx: CanvasRenderingContext2D) => {
+    if (!squareDrawer.current || !perspectiveSquare.current) {
+      return;
+    }
+    ctx.fillStyle = "#0D0D0D";
+    ctx.fillRect(0, 0, width, height);
+    squareDrawer.current.draw(
+      perspectiveSquare.current.getSquares(
+        new Vector2d(focusPoint.x, height - focusPoint.y)
+      ),
+      focusPoint.clone()
+    );
+  };
 
   if (flash) {
     return flash;
@@ -70,12 +65,11 @@ const Perspective = () => {
     <MenuLayout color={"white"}>
       <SEO title="Perspective" />
       <FullScreen>
-        <Canvas
+        <CanvasDrawer
           width={width}
           height={height}
-          getContext={(context: CanvasRenderingContext2D) =>
-            setContext(context)
-          }
+          initializeCanvas={initializeCanvas}
+          artist={artist}
           {...mouseProps}
         />
       </FullScreen>

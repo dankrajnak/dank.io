@@ -6,12 +6,14 @@ interface Props {
   height: number;
   initializeCanvas?: (context: CanvasRenderingContext2D) => void;
   artist: (context: CanvasRenderingContext2D) => void;
-  onMouseOver?: (e: React.MouseEvent) => void;
   fps?: number | null;
 }
 
 const CanvasDrawer = React.memo(
-  React.forwardRef(function CanvasDrawer(props: Props, ref) {
+  React.forwardRef(function CanvasDrawer(
+    { width, height, initializeCanvas, artist, fps, ...otherProps }: Props,
+    ref
+  ) {
     const context: React.MutableRefObject<CanvasRenderingContext2D | null> = React.useRef(
       null
     );
@@ -26,16 +28,15 @@ const CanvasDrawer = React.memo(
       const renderFrame = () => {
         requestedFrame.current = requestAnimationFrame(() => {
           renderFrame();
-          if (!props.fps) {
-            props.artist(context);
+          if (!fps) {
+            artist(context);
           } else {
-            const fps = props.fps; // don't invalidate type refinement
             const now = Date.now();
             const delta = now - then;
             const interval = 1000 / fps;
             if (delta > interval) {
               then = now - (delta % interval);
-              props.artist(context);
+              artist(context);
             }
           }
         });
@@ -45,8 +46,8 @@ const CanvasDrawer = React.memo(
     const getContext = (c: CanvasRenderingContext2D) => (context.current = c);
     React.useEffect(() => {
       if (context.current) {
-        if (props.initializeCanvas) {
-          props.initializeCanvas(context.current);
+        if (initializeCanvas) {
+          initializeCanvas(context.current);
         }
         draw(context.current);
       }
@@ -58,10 +59,10 @@ const CanvasDrawer = React.memo(
     return (
       <Canvas
         ref={ref || canvasRef}
-        width={props.width}
-        height={props.height}
-        onMouseOver={props.onMouseOver}
         getContext={getContext}
+        width={width}
+        height={height}
+        {...otherProps}
       />
     );
   })

@@ -27,6 +27,7 @@ const Canvas = (
     }
   });
   const { width, height, getContext, ...otherProps } = props;
+
   return (
     <canvas ref={definedRef} width={width} height={height} {...otherProps} />
   );

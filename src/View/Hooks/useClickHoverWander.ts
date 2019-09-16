@@ -25,12 +25,21 @@ const getNextPosition = (
 };
 
 const useClickHoverWander = (
-  draw: React.MutableRefObject<((pos: Vector2d) => void) | null>,
   width: number,
-  height: number
-) => {
+  height: number,
+  initialFocusPoint: Vector2d = new Vector2d(0, 0)
+): [
+  Vector2d,
+  {
+    onClick: (e: React.MouseEvent) => void;
+    onMouseMove: (e: React.MouseEvent) => void;
+  }
+] => {
   const xSpring = React.useRef<Spring | null>(null);
   const ySpring = React.useRef<Spring | null>(null);
+  const [focusPoint, setFocusPoint] = React.useState<Vector2d>(
+    initialFocusPoint
+  );
 
   React.useEffect(() => {
     const springSystem = new SpringSystem();
@@ -61,10 +70,10 @@ const useClickHoverWander = (
 
     xSpring.current.addListener({
       onSpringUpdate: spring => {
-        if (!ySpring.current || !draw.current) {
+        if (!ySpring.current) {
           return;
         }
-        draw.current(
+        setFocusPoint(
           new Vector2d(
             spring.getCurrentValue(),
             ySpring.current.getCurrentValue()
@@ -79,11 +88,11 @@ const useClickHoverWander = (
     });
     ySpring.current.addListener({
       onSpringUpdate: spring => {
-        if (!xSpring.current || !draw.current) {
+        if (!xSpring.current) {
           return;
         }
         if (xSpring.current.isAtRest()) {
-          draw.current(
+          setFocusPoint(
             new Vector2d(
               xSpring.current.getCurrentValue(),
               spring.getCurrentValue()
@@ -105,7 +114,7 @@ const useClickHoverWander = (
       xSpring.current && xSpring.current.destroy();
       ySpring.current && ySpring.current.destroy();
     };
-  }, [draw, height, width]);
+  }, [height, width]);
 
   const onMouseMove = throttle((event: React.MouseEvent) => {
     const position = getCoordinatesFromMouseEvent(event);
@@ -119,10 +128,13 @@ const useClickHoverWander = (
     ySpring.current && ySpring.current.setEndValue(position.y);
   };
 
-  return {
-    onClick,
-    onMouseMove,
-  };
+  return [
+    focusPoint,
+    {
+      onClick,
+      onMouseMove,
+    },
+  ];
 };
 
 export default useClickHoverWander;

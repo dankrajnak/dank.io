@@ -10,6 +10,7 @@ import useScrollAmount from "../Hooks/useScrollAmount";
 import HallwayPreview from "../Components/HallwayPreview/HallwayPreview";
 import { Link } from "gatsby";
 import PerspectivePreview from "../Components/PerspectivePreview/PerspectivePreview";
+import MetaSpherePreview from "../Components/MetaSpherePreview/MetaSpherePreview";
 
 const Mute = styled.em`
   font-weight: 200;
@@ -38,6 +39,12 @@ const cards = [
       </div>
     ),
     link: "/hallway",
+  },
+  {
+    background: <MetaSpherePreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
+    title: "Meta sphere",
+    description: "I know as much about how this works as you do",
+    link: "/metaSphere",
   },
 ];
 

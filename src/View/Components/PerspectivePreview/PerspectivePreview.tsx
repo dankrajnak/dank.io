@@ -3,8 +3,9 @@ import PerspectiveSquare from "../../../Services/PerspectiveSquare/PerspectiveSq
 import OriginalPerspectiveSquareDrawer from "../../../Services/PerspectiveSquare/Drawers/Original.service";
 import Vector2d from "../../../Domain/Vector/Vector2d";
 import Square from "../../../Domain/Square/Square";
-import Canvas from "../../UI/Canvas";
 import useClickHoverWander from "../../Hooks/useClickHoverWander";
+import CanvasDrawer from "../../UI/CavnasDrawer/CanvasDrawer";
+import PersepctiveSquareDrawer from "../../../Services/PerspectiveSquare/Drawers/Drawer.interface";
 
 interface Props {
   width: number;
@@ -12,71 +13,70 @@ interface Props {
 }
 
 const PerspectivePreview = ({ width, height }: Props) => {
-  const [
-    canvasContext,
-    setContext,
-  ] = React.useState<CanvasRenderingContext2D | null>(null);
-
-  const draw = React.useRef<((pos: { x: number; y: number }) => void) | null>(
+  const squares = React.useRef<[PerspectiveSquare, PerspectiveSquare] | null>(
     null
   );
+  const squareDrawer = React.useRef<PersepctiveSquareDrawer | null>(null);
 
-  const mouseProps = useClickHoverWander(draw, width, height);
+  const [focusPoint, mouseProps] = useClickHoverWander(width, height);
 
-  React.useEffect(() => {
+  const initializeCanvas = (ctx: CanvasRenderingContext2D) => {
     const SQUARE_WIDTH = width / 4;
-    if (!canvasContext) {
-      return;
-    }
-    // Create squares
-    const squareOne = new PerspectiveSquare(
-      new Square(
-        SQUARE_WIDTH,
-        new Vector2d((width - SQUARE_WIDTH) / 2, (height + SQUARE_WIDTH) / 4)
-      ),
-      50
-    );
 
-    const squareTwo = new PerspectiveSquare(
-      new Square(
-        SQUARE_WIDTH,
-        new Vector2d(
-          (width - SQUARE_WIDTH) / 2,
-          (3 * (height + SQUARE_WIDTH)) / 4
-        )
+    // Create squares
+    squares.current = [
+      new PerspectiveSquare(
+        new Square(
+          SQUARE_WIDTH,
+          new Vector2d((width - SQUARE_WIDTH) / 2, (height + SQUARE_WIDTH) / 4)
+        ),
+        50
       ),
-      50
-    );
+      new PerspectiveSquare(
+        new Square(
+          SQUARE_WIDTH,
+          new Vector2d(
+            (width - SQUARE_WIDTH) / 2,
+            (3 * (height + SQUARE_WIDTH)) / 4
+          )
+        ),
+        50
+      ),
+    ];
 
     // Create drawer
-    const squareDrawer = new OriginalPerspectiveSquareDrawer(canvasContext, {
+    squareDrawer.current = new OriginalPerspectiveSquareDrawer(ctx, {
       mapper: (v: Vector2d) => new Vector2d(v.x, height - v.y),
       lineColor: "#04D9C4",
       includeDashes: false,
     });
-
-    // Setup draw function
-    draw.current = ({ x, y }: { x: number; y: number }) => {
-      canvasContext.fillStyle = "#0D0D0D";
-      canvasContext.fillRect(0, 0, width, height);
-      squareDrawer.draw(
-        squareOne.getSquares(new Vector2d(x, height - y)),
-        new Vector2d(x, y)
-      );
-      squareDrawer.draw(
-        squareTwo.getSquares(new Vector2d(x, height - y)),
-        new Vector2d(x, y)
-      );
-    };
-
-    draw.current({ x: width / 2, y: height / 2 });
-  }, [canvasContext, height, width]);
+  };
+  const artist = (ctx: CanvasRenderingContext2D) => {
+    if (!squareDrawer.current || !squares.current) {
+      return null;
+    }
+    ctx.fillStyle = "#0D0D0D";
+    ctx.fillRect(0, 0, width, height);
+    squareDrawer.current.draw(
+      squares.current[0].getSquares(
+        new Vector2d(focusPoint.x, height - focusPoint.y)
+      ),
+      focusPoint
+    );
+    squareDrawer.current.draw(
+      squares.current[1].getSquares(
+        new Vector2d(focusPoint.x, height - focusPoint.y)
+      ),
+      focusPoint
+    );
+  };
 
   return (
-    <Canvas
+    <CanvasDrawer
       width={width}
       height={height}
-      getContext={(context: CanvasRenderingContext2D) => setContext(context)}
+      initializeCanvas={initializeCanvas}
+      artist={artist}
       {...mouseProps}
     />
   );
