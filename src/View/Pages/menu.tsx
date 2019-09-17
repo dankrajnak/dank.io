@@ -43,16 +43,10 @@ const cards = [
   {
     background: <MetaSpherePreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
     title: "Meta sphere",
-    description: "I know as much about how this works as you do",
+    description: "Yeah, I know it's asymmetric",
     link: "/metaSphere",
   },
 ];
-
-const FullScreenContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`;
 
 const ScrollMessage = styled.div.attrs<{ opacity: number }>(props => ({
   style: { opacity: props.opacity },
@@ -84,17 +78,15 @@ const Menu = () => {
   return (
     <Layout>
       <SEO title="Menu" />
-      <FullScreenContainer>
-        <AboutContainer>
-          <Link to={"/about"}>About</Link>
-        </AboutContainer>
-        <CardDeck cards={cards} width={width} />
-        {/* 
+      <AboutContainer>
+        <Link to={"/about"}>About</Link>
+      </AboutContainer>
+      <CardDeck cards={cards} width={width} />
+      {/* 
         // @ts-ignore */}
-        <ScrollMessage opacity={(1 - scroll / height) * 2 || 0}>
-          Scroll Up
-        </ScrollMessage>
-      </FullScreenContainer>
+      <ScrollMessage opacity={(1 - scroll / height) * 2 || 0}>
+        Scroll Up
+      </ScrollMessage>
     </Layout>
   );
 };
