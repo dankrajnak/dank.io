@@ -1,11 +1,11 @@
-import { Action } from "../../Domain/Action/Action";
+import { Action } from "../../../Domain/Action/Action";
 import * as React from "react";
-import TypeWriterService from "../../Services/TypeWriter/TypeWriter.service";
+import TypeWriterService from "../../../Services/TypeWriter/TypeWriter.service";
 
 /**
  * A representation of a delayed state of the typed text.
  */
-interface DelayNode {
+export interface DelayNode {
   /**
    * The value of the text after the delay
    */
@@ -32,7 +32,7 @@ interface DelayConfig {
 /**
  * The state maintained by the reducer.
  */
-interface State {
+export interface State {
   /**
    * Current value of the typed text
    */
@@ -80,25 +80,25 @@ export const DEFAULT_TYPE_CONFIG: TypeConfig = {
 /**
  * Type the provided text according to the type config.
  */
-type TypeTextAction = Action<
+export type TypeTextAction = Action<
   "TYPE_TEXT",
   { text: string; typeConfig: TypeConfig; listener?: () => void }
 >;
 /**
  * Delete all characters
  */
-type DeleteAllAction = Action<"DELETE_ALL", null>;
+export type DeleteAllAction = Action<"DELETE_ALL", null>;
 /**
  * Indicate that we are waiting to for the next node's delay to finish.
  * Don't pull anything off the stack.
  */
-type WaitForNextNodeAction = Action<"WAIT_FOR_NEXT_NODE", null>;
+export type WaitForNextNodeAction = Action<"WAIT_FOR_NEXT_NODE", null>;
 /**
  * Set the current value to the value of the next node.
  */
-type TypeNode = Action<"TYPE_NODE", null>;
+export type TypeNode = Action<"TYPE_NODE", null>;
 
-const reducer = (
+export const reducer = (
   state: State,
   action: TypeTextAction | DeleteAllAction | WaitForNextNodeAction | TypeNode
 ): State => {
@@ -152,10 +152,15 @@ const reducer = (
       return { ...state, sequence: state.sequence.concat(typeSequence) };
 
     case "DELETE_ALL":
+      //Don't do anything if the current value is empty
+      if (!state.currentValue.length) {
+        return state;
+      }
       //Immediately delete all characters.
       const newSequence: DelayNode[] = state.currentValue
         .split("")
-        // I.E. "123" -> ["123", "12", "1", ""]
+        .slice(0, state.currentValue.length - 1)
+        // I.E. "123" -> ["12", "1", ""]
         .reduce((sum, char) => [sum[0] + char].concat(sum), [""])
         // Deletes take 10 miliseconds (this value is not configurable yet.)
         .map(text => ({ text, delay: 10 }));

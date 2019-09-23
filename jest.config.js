@@ -15,4 +15,5 @@ module.exports = {
     __PATH_PREFIX__: ``,
   },
   setupFiles: [`<rootDir>/loadershim.js`],
+  setupFilesAfterEnv: ["<rootDir>/enzyme.config.js"],
 };

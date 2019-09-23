@@ -43,8 +43,10 @@ const useClickHoverWander = (
 
   React.useEffect(() => {
     const springSystem = new SpringSystem();
-    xSpring.current = springSystem.createSpring(2, 5);
-    ySpring.current = springSystem.createSpring(2, 5);
+    const springTension = 2;
+    const springFriction = 5;
+    xSpring.current = springSystem.createSpring(springTension, springFriction);
+    ySpring.current = springSystem.createSpring(springTension, springFriction);
 
     const goToNextPosition = () => {
       if (!xSpring.current || !ySpring.current) {

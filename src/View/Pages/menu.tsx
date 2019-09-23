@@ -11,6 +11,7 @@ import HallwayPreview from "../Components/HallwayPreview/HallwayPreview";
 import { Link } from "gatsby";
 import PerspectivePreview from "../Components/PerspectivePreview/PerspectivePreview";
 import MetaSpherePreview from "../Components/MetaSpherePreview/MetaSpherePreview";
+import JustSomeThoughtsPreview from "../Components/JustSomeThoughtsPreview/JustSomeThoughtsPreview";
 
 const Mute = styled.em`
   font-weight: 200;
@@ -43,8 +44,16 @@ const cards = [
   {
     background: <MetaSpherePreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
     title: "Meta sphere",
-    description: "Yeah, I know it's asymmetric",
+    description: "Just go have some fun, kid",
     link: "/metaSphere",
+  },
+  {
+    background: (
+      <JustSomeThoughtsPreview width={CARD_WIDTH} height={CARD_HEIGHT} />
+    ),
+    title: "Just Some Thought",
+    description: "Whatever, I don't care anymore",
+    link: "/justSomeThought",
   },
 ];
 

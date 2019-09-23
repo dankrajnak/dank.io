@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-export const CARD_WIDTH = 300;
+export const CARD_WIDTH = 500;
 export const CARD_HEIGHT = 500;
 
 const Wrapper = styled.div`
