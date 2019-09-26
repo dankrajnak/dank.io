@@ -8,11 +8,11 @@ also a bit of an experiment in itself as I try out new technologies I think are 
 Stay tuned for more.
 
 ### Running a development version of the site
-After downloading this repository, run
+After downloading this repository, cd into the repository and run 
 ```bash
 npm install
 ```
-inside the root folder and then
+then you can start a development server by running
 ```bash
 gatsby develop
 ```
