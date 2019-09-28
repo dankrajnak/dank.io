@@ -1,9 +1,11 @@
 import * as React from "react";
-import useTypeWriter from "../Hooks/useTypeWriter/useTypeWriter";
+import useTypeWriter, { SetText } from "../Hooks/useTypeWriter/useTypeWriter";
 import MenuLayout from "../Layout/MenuLayout";
 import Vector2d from "../../Domain/Vector/Vector2d";
 import styled from "styled-components";
 import useFullScreen from "../Hooks/useFullScreen";
+import Action from "../../Domain/Action/Action";
+import "../Styles/TextBox.scss";
 
 const TypeBoxContainer = styled.div<{ pos: Vector2d; width: number }>`
   font-size: 1rem;
@@ -11,39 +13,40 @@ const TypeBoxContainer = styled.div<{ pos: Vector2d; width: number }>`
   width: ${props => props.width}px;
   top: ${props => props.pos.y}px;
   left: ${props => props.pos.x}px;
-  :after {
-    content: "|";
-    font-weight: 400;
-    animation: blink 500ms ease-in-out infinite alternate;
-  }
-  @keyframes blink {
-    0% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
 `;
 
 interface TypeBoxProps {
   textToType: string;
   width: number;
   pos: Vector2d;
+  unType: boolean;
+  onFinish?: (setText: SetText) => void;
 }
 
-export const TypeBox = ({ textToType, width, pos }: TypeBoxProps) => {
+export const TypeBox = ({
+  textToType,
+  width,
+  pos,
+  unType,
+  onFinish,
+}: TypeBoxProps) => {
   const [text, setText] = useTypeWriter();
   React.useEffect(() => {
     setText(textToType, {
       listener: () => {
-        setTimeout(() => setText(""), 2000);
+        setTimeout(() => {
+          if (unType) {
+            setText("", {
+              listener: () => onFinish && onFinish(setText),
+            });
+          }
+        }, 2000);
       },
     });
-  }, [setText, textToType]);
+  }, [onFinish, setText, textToType, unType]);
 
   return text.length ? (
-    <TypeBoxContainer pos={pos} width={width}>
+    <TypeBoxContainer pos={pos} width={width} className="withTypingIndicator">
       {text}
     </TypeBoxContainer>
   ) : (
@@ -64,46 +67,170 @@ const TheThoughts: string[] = [
   "I make shit up because I'm wholly uninteresting",
   "I can't make good art",
   "I'm not an artist and calling myself that is just silly",
-  "Fuck me, make a fucking website and write some uncomfortably personal things and call it art",
   "I have nothing to say",
   "and nothing to contribute",
   "What makes me feel secure?",
   "Am I just looking to feel insecure because the only art I know how to make is a cry for help?",
   "Is this supposed to be fulfilling?",
+  "Gotta say I'm pretty proud of what you're turning into",
+  "Put colors back on the table",
 ];
 
+interface State {
+  maxElements: number;
+  elements: { key: number; component: React.ReactNode }[];
+  nextKey: number;
+  timeOut: number;
+}
+
+type AddElementAction = Action<
+  "ADD_ELEMENT",
+  { key: number; component: React.ReactNode }
+>;
+type AddElementsAction = Action<
+  "ADD_ELEMENTS",
+  { key: number; component: React.ReactNode }[]
+>;
+type RemoveElementAction = Action<"REMOVE_ELEMENT", number>;
+type SetTimeoutAction = Action<"SET_TIMEOUT", number>;
+
+const reducer = (
+  state: State,
+  action:
+    | AddElementAction
+    | RemoveElementAction
+    | SetTimeoutAction
+    | AddElementsAction
+): State => {
+  switch (action.type) {
+    case "ADD_ELEMENT":
+      // Don't add another element if we're at max, or if this element is already included
+      if (
+        state.elements.length === state.maxElements ||
+        state.elements.find(elm => elm.key === action.payload.key)
+      ) {
+        return state;
+      }
+      return {
+        ...state,
+        elements: state.elements.concat([action.payload]),
+        nextKey: state.nextKey + 1,
+      };
+    case "ADD_ELEMENTS":
+      if (
+        state.elements.length + action.payload.length > state.maxElements ||
+        action.payload.some(
+          elm => !!state.elements.find(stateElm => stateElm.key === elm.key)
+        )
+      ) {
+        return state;
+      }
+      return {
+        ...state,
+        elements: state.elements.concat(action.payload),
+        nextKey: state.nextKey + action.payload.length,
+      };
+    case "REMOVE_ELEMENT":
+      return {
+        ...state,
+        elements: state.elements.filter(elm => elm.key !== action.payload),
+      };
+    case "SET_TIMEOUT":
+      return {
+        ...state,
+        timeOut: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 const JustSomeThoughts = () => {
-  const [boxes, setBoxes] = React.useState<React.ReactNode[]>([]);
-  const [thoughtIndex, setThoughtIndex] = React.useState(0);
+  const [state, dispatch] = React.useReducer(reducer, {
+    maxElements: 20,
+    elements: [],
+    nextKey: 0,
+    timeOut: 3000,
+  });
   const [width, height, flash] = useFullScreen();
 
   React.useEffect(() => {
     setTimeout(() => {
       const textWidth = 200 + Math.random() * 500;
-      setBoxes(bs =>
-        bs.concat([
-          <TypeBox
-            key={TheThoughts[thoughtIndex]}
-            textToType={TheThoughts[thoughtIndex]}
-            width={textWidth}
-            pos={
-              new Vector2d(
-                Math.random() * (width - textWidth),
-                Math.random() * (height - 200)
-              )
-            }
-          />,
-        ])
+      const position = new Vector2d(
+        Math.random() * (width - textWidth),
+        Math.random() * height
       );
-      setThoughtIndex(s => (s + 1) % TheThoughts.length);
-    }, 2000);
-  }, [height, thoughtIndex, width]);
+      const textToType = TheThoughts[state.nextKey % TheThoughts.length];
+      if (state.elements.length > 100) {
+        const elements = [];
+        for (let i = 0; i < 10; i++) {
+          const textWidth = 200 + Math.random() * 500;
+          const position = new Vector2d(
+            Math.random() * (width - textWidth),
+            Math.random() * height
+          );
+          const key = state.nextKey + i;
+          const textToType = TheThoughts[key % TheThoughts.length];
+          elements.push({
+            key,
+            component: (
+              <TypeBoxContainer key={key} pos={position} width={textWidth}>
+                {textToType}
+              </TypeBoxContainer>
+            ),
+          });
+        }
+        dispatch({
+          type: "ADD_ELEMENTS",
+          payload: elements,
+        });
+      } else {
+        dispatch({
+          type: "ADD_ELEMENT",
+          payload: {
+            key: state.nextKey,
+            component:
+              state.elements.length > 30 ? (
+                <TypeBoxContainer
+                  className="withTypingIndicator"
+                  key={state.nextKey}
+                  pos={position}
+                  width={textWidth}
+                >
+                  {textToType}
+                </TypeBoxContainer>
+              ) : (
+                <TypeBox
+                  key={state.nextKey}
+                  textToType={textToType}
+                  width={textWidth}
+                  pos={position}
+                  unType={state.elements.length < 10}
+                  onFinish={() =>
+                    dispatch({ type: "REMOVE_ELEMENT", payload: state.nextKey })
+                  }
+                />
+              ),
+          },
+        });
+      }
+      dispatch({
+        type: "SET_TIMEOUT",
+        payload: Math.max(0, state.timeOut * 0.95),
+      });
+    }, state.timeOut);
+  }, [height, state.elements, state.nextKey, state.timeOut, width]);
 
   if (flash) {
     return flash;
   }
 
-  return <MenuLayout color="black">{boxes}</MenuLayout>;
+  return (
+    <MenuLayout color="black">
+      {state.elements.map(elm => elm.component)}
+    </MenuLayout>
+  );
 };
 
 export default JustSomeThoughts;

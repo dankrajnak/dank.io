@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Action } from "../../Domain/Action/Action";
+import Action from "../../Domain/Action/Action";
 
 // This is something I kinda wrote for Aviso (on the weekend).
 // Keeping it here in case there's some reason I need it.

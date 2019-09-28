@@ -15,6 +15,7 @@ const JustSomeThoughtsPreview = ({
       textToType="Uncomfortably personal text"
       pos={new Vector2d((width - textBoxWidth) / 2, height / 2)}
       width={textBoxWidth}
+      unType
     />
   );
 };

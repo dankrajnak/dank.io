@@ -67,6 +67,21 @@ test("Listener present on last node in type action", () => {
   );
 });
 
+test("Listener present on last node in type action when setting empty text", () => {
+  const initialState: State = createState("Test");
+  const listener = () => {};
+
+  const deleteAction: TypeTextAction = {
+    type: "TYPE_TEXT",
+    payload: { text: "", typeConfig: DEFAULT_TYPE_CONFIG, listener },
+  };
+  const sequenceAfterType = reducer(initialState, deleteAction).sequence;
+
+  expect(sequenceAfterType[sequenceAfterType.length - 1].listener).toEqual(
+    listener
+  );
+});
+
 test("Is waiting action sets isWaiting flag", () => {
   const initialState: State = createState();
 
@@ -78,6 +93,8 @@ test("Is waiting action sets isWaiting flag", () => {
   expect(reducer(initialState, deleteAction).isWaiting).toBeTruthy();
 });
 
+// **************** Hook Tests ****************
+
 const DummyHookComponent = ({ textToType }: { textToType: string }) => {
   const [typedText, setText] = React.useState("");
   React.useEffect(() => {
@@ -85,8 +102,6 @@ const DummyHookComponent = ({ textToType }: { textToType: string }) => {
   }, [setText, textToType]);
   return <div>{typedText}</div>;
 };
-
-// **************** Hook Tests ****************
 
 test("It eventually types some text", () => {
   jest.useFakeTimers();

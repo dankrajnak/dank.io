@@ -1,4 +1,4 @@
-import { Action } from "../../../Domain/Action/Action";
+import Action from "../../../Domain/Action/Action";
 import * as React from "react";
 import TypeWriterService from "../../../Services/TypeWriter/TypeWriter.service";
 
@@ -111,6 +111,17 @@ export const reducer = (
         textToType = state.sequence[state.sequence.length - 1].text;
       }
       const typeSequence: DelayNode[] = [];
+
+      // In the special case in which we're just typing an empty string, add a DelayNode
+      // to call the listener if there is one.
+      if (action.payload.text === "" && action.payload.listener) {
+        return {
+          ...state,
+          sequence: state.sequence.concat([
+            { text: textToType, delay: 0, listener: action.payload.listener },
+          ]),
+        };
+      }
       // Function for generating a the delay of typing a character.
       const getTypeDelay = () =>
         action.payload.typeConfig.typeDelay.base +
@@ -196,6 +207,8 @@ interface TypeNextTextConfig {
   typeConfig?: TypeConfig;
 }
 
+export type SetText = (newText: string, config?: TypeNextTextConfig) => void;
+
 type useTypeWriterReturn = [
   /**
    * The value of the text
@@ -204,7 +217,7 @@ type useTypeWriterReturn = [
   /**
    * A method to set the next text value, with a config.
    */
-  (newText: string, config?: TypeNextTextConfig) => void,
+  SetText,
   /**
    * Whether the typewriter is idle.
    */
