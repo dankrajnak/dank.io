@@ -48,9 +48,7 @@ const cards = [
     link: "/metaSphere",
   },
   {
-    background: (
-      <JustSomeThoughtsPreview width={CARD_WIDTH} height={CARD_HEIGHT} />
-    ),
+    background: <JustSomeThoughtsPreview />,
     title: "Just Some Thought",
     description: "Whatever, I don't care anymore",
     link: "/justSomeThought",

@@ -1,61 +1,10 @@
 import * as React from "react";
-import useTypeWriter, {
-  SetText,
-  DEFAULT_TYPE_CONFIG,
-} from "../Hooks/useTypeWriter/useTypeWriter";
 import MenuLayout from "../Layout/MenuLayout";
 import Vector2d from "../../Domain/Vector/Vector2d";
-import styled from "styled-components";
 import useFullScreen from "../Hooks/useFullScreen";
 import Action from "../../Domain/Action/Action";
-import "../Styles/TextBox.scss";
-
-const TypeBoxContainer = styled.div<{ pos: Vector2d; width: number }>`
-  font-size: 1rem;
-  position: absolute;
-  width: ${props => props.width}px;
-  top: ${props => props.pos.y}px;
-  left: ${props => props.pos.x}px;
-`;
-
-interface TypeBoxProps {
-  textToType: string;
-  width: number;
-  pos: Vector2d;
-  unType?: boolean;
-  onFinish?: (setText: SetText) => void;
-}
-
-export const TypeBox = ({
-  textToType,
-  width,
-  pos,
-  unType,
-  onFinish,
-}: TypeBoxProps) => {
-  const [text, setText] = useTypeWriter();
-  React.useEffect(() => {
-    setText(textToType, {
-      listener: () => {
-        setTimeout(() => {
-          if (unType) {
-            setText("", {
-              listener: () => onFinish && onFinish(setText),
-            });
-          }
-        }, 2000);
-      },
-    });
-  }, [onFinish, setText, textToType, unType]);
-
-  return text.length ? (
-    <TypeBoxContainer pos={pos} width={width} className="withTypingIndicator">
-      {text}
-    </TypeBoxContainer>
-  ) : (
-    <div />
-  );
-};
+import TypeBox from "../PageComponents/JustSomeThought/TypeBox";
+import LongText from "../PageComponents/JustSomeThought/LongText";
 
 const TheThoughts: string[] = [
   "I want desperately to be interesting",
@@ -77,10 +26,6 @@ const TheThoughts: string[] = [
   "Gotta say I'm pretty proud of what you're turning into",
   "Put colors back on the table",
 ];
-
-const longText: string = new Array(10000)
-  .fill("Emily can't pick anything. ")
-  .join("");
 
 interface State {
   maxElements: number;
@@ -149,31 +94,6 @@ const reducer = (
     default:
       return state;
   }
-};
-
-const LongText = (props: { width: number }) => {
-  const [text, setText] = useTypeWriter("");
-  React.useEffect(() => {
-    setText(longText, {
-      typeConfig: {
-        typeDelay: {
-          base: DEFAULT_TYPE_CONFIG.typeDelay.base / 3,
-          variance: DEFAULT_TYPE_CONFIG.typeDelay.variance,
-        },
-        mistakeRealizeDelay: DEFAULT_TYPE_CONFIG.mistakeRealizeDelay,
-        mistakeProbability: DEFAULT_TYPE_CONFIG.mistakeProbability / 2,
-      },
-    });
-  }, [setText]);
-  return (
-    <TypeBoxContainer
-      pos={new Vector2d(0, 0)}
-      width={props.width}
-      className="withTypingIndicator"
-    >
-      <div style={{ fontSize: ".8rem", lineHeight: ".8rem" }}>{text}</div>
-    </TypeBoxContainer>
-  );
 };
 
 const JustSomeThoughts = () => {
