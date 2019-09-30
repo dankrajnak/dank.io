@@ -9,9 +9,9 @@ import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
 import HallwayPreview from "../PageComponents/Hallway/HallwayPreview";
 import { Link } from "gatsby";
-import PerspectivePreview from "../PageComponents/menu/PerspectivePreview";
-import MetaSpherePreview from "../PageComponents/menu/MetaSpherePreview";
-import JustSomeThoughtsPreview from "../PageComponents/menu/JustSomeThoughtsPreview";
+import PerspectivePreview from "../PageComponents/Menu/PerspectivePreview";
+import MetaSpherePreview from "../PageComponents/Menu/MetaSpherePreview";
+import JustSomeThoughtsPreview from "../PageComponents/Menu/JustSomeThoughtsPreview";
 
 const Mute = styled.em`
   font-weight: 200;
