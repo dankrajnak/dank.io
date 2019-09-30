@@ -2,9 +2,9 @@ import * as React from "react";
 import styled from "styled-components";
 import SEO from "../Utility/seo";
 import useFullScreen from "../Hooks/useFullScreen";
-import TheCoolestOne from "../Components/DoublePendulums/TheCoolestOne";
+import TheCoolestOne from "../PageComponents/Homepage/TheCoolestOne";
 import MenuLayout from "../Layout/MenuLayout";
-import Lorenz from "../Components/Lorenz/Lorenz";
+import Lorenz from "../PageComponents/Homepage/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
 
 const TitleHolder = styled.div`

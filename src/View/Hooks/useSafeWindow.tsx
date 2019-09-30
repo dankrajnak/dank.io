@@ -1,5 +1,5 @@
 import * as React from "react";
-import FlashScreen from "../Components/FlashScreen/FlashScreen";
+import FlashScreen from "../UI/FlashScreen";
 
 const useSafeWindow = (): [typeof window | null, JSX.Element | null] => {
   const [safeWindow, setSafeWindow] = React.useState<typeof window | null>(

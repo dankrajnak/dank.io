@@ -3,15 +3,15 @@ import styled from "styled-components";
 import Layout from "../Layout/Layout";
 import SEO from "../Utility/seo";
 import { CARD_HEIGHT, CARD_WIDTH } from "../UI/Card/Card";
-import Lorenz from "../Components/Lorenz/Lorenz";
+import Lorenz from "../PageComponents/Homepage/Lorenz";
 import CardDeck from "../UI/CardDeck/CardDeck";
 import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
-import HallwayPreview from "../Components/HallwayPreview/HallwayPreview";
+import HallwayPreview from "../PageComponents/Hallway/HallwayPreview";
 import { Link } from "gatsby";
-import PerspectivePreview from "../Components/PerspectivePreview/PerspectivePreview";
-import MetaSpherePreview from "../Components/MetaSpherePreview/MetaSpherePreview";
-import JustSomeThoughtsPreview from "../Components/JustSomeThoughtsPreview/JustSomeThoughtsPreview";
+import PerspectivePreview from "../PageComponents/menu/PerspectivePreview";
+import MetaSpherePreview from "../PageComponents/menu/MetaSpherePreview";
+import JustSomeThoughtsPreview from "../PageComponents/menu/JustSomeThoughtsPreview";
 
 const Mute = styled.em`
   font-weight: 200;

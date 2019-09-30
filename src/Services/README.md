@@ -1,0 +1,2 @@
+# Services
+Another way (besides hooks) to break out and share component logic.  Services are used when encapsulating logic into a hook would just complicate things, or when logic could be used outside of React.
