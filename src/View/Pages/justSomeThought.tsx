@@ -1,5 +1,8 @@
 import * as React from "react";
-import useTypeWriter, { SetText } from "../Hooks/useTypeWriter/useTypeWriter";
+import useTypeWriter, {
+  SetText,
+  DEFAULT_TYPE_CONFIG,
+} from "../Hooks/useTypeWriter/useTypeWriter";
 import MenuLayout from "../Layout/MenuLayout";
 import Vector2d from "../../Domain/Vector/Vector2d";
 import styled from "styled-components";
@@ -19,7 +22,7 @@ interface TypeBoxProps {
   textToType: string;
   width: number;
   pos: Vector2d;
-  unType: boolean;
+  unType?: boolean;
   onFinish?: (setText: SetText) => void;
 }
 
@@ -60,11 +63,10 @@ const TheThoughts: string[] = [
   "and honestly, maybe making this whole site is my attempt to prove to myself that I can make something nice",
   "because it's difficult to make something nice",
   "and doing difficult things is interesting",
-  "Again and again, though, I end up searching for soething to say",
-  "I'm not interesting to me anymore",
-  "I have nothing to say",
+  "Again and again, though, I end up searching for something to say",
+  "The truth is I'm not interesting to me anymore and I have nothing to say",
   "Maybe I favor self-deprication because it indicates that I've struggled with something and therefore have something to express",
-  "I make shit up because I'm wholly uninteresting",
+  "I make things up because I'm wholly uninteresting",
   "I can't make good art",
   "I'm not an artist and calling myself that is just silly",
   "I have nothing to say",
@@ -75,6 +77,10 @@ const TheThoughts: string[] = [
   "Gotta say I'm pretty proud of what you're turning into",
   "Put colors back on the table",
 ];
+
+const longText: string = new Array(10000)
+  .fill("Emily can't pick anything. ")
+  .join("");
 
 interface State {
   maxElements: number;
@@ -145,6 +151,31 @@ const reducer = (
   }
 };
 
+const LongText = (props: { width: number }) => {
+  const [text, setText] = useTypeWriter("");
+  React.useEffect(() => {
+    setText(longText, {
+      typeConfig: {
+        typeDelay: {
+          base: DEFAULT_TYPE_CONFIG.typeDelay.base / 3,
+          variance: DEFAULT_TYPE_CONFIG.typeDelay.variance,
+        },
+        mistakeRealizeDelay: DEFAULT_TYPE_CONFIG.mistakeRealizeDelay,
+        mistakeProbability: DEFAULT_TYPE_CONFIG.mistakeProbability / 2,
+      },
+    });
+  }, [setText]);
+  return (
+    <TypeBoxContainer
+      pos={new Vector2d(0, 0)}
+      width={props.width}
+      className="withTypingIndicator"
+    >
+      <div style={{ fontSize: ".8rem", lineHeight: ".8rem" }}>{text}</div>
+    </TypeBoxContainer>
+  );
+};
+
 const JustSomeThoughts = () => {
   const [state, dispatch] = React.useReducer(reducer, {
     maxElements: 20,
@@ -152,75 +183,55 @@ const JustSomeThoughts = () => {
     nextKey: 0,
     timeOut: 3000,
   });
+  const [showLongText, setShowLongText] = React.useState(false);
   const [width, height, flash] = useFullScreen();
 
   React.useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       const textWidth = 200 + Math.random() * 500;
       const position = new Vector2d(
         Math.random() * (width - textWidth),
         Math.random() * height
       );
       const textToType = TheThoughts[state.nextKey % TheThoughts.length];
-      if (state.elements.length > 100) {
-        const elements = [];
-        for (let i = 0; i < 10; i++) {
-          const textWidth = 200 + Math.random() * 500;
-          const position = new Vector2d(
-            Math.random() * (width - textWidth),
-            Math.random() * height
-          );
-          const key = state.nextKey + i;
-          const textToType = TheThoughts[key % TheThoughts.length];
-          elements.push({
-            key,
-            component: (
-              <TypeBoxContainer key={key} pos={position} width={textWidth}>
-                {textToType}
-              </TypeBoxContainer>
-            ),
-          });
-        }
-        dispatch({
-          type: "ADD_ELEMENTS",
-          payload: elements,
-        });
-      } else {
-        dispatch({
-          type: "ADD_ELEMENT",
-          payload: {
-            key: state.nextKey,
-            component:
-              state.elements.length > 30 ? (
-                <TypeBoxContainer
-                  className="withTypingIndicator"
-                  key={state.nextKey}
-                  pos={position}
-                  width={textWidth}
-                >
-                  {textToType}
-                </TypeBoxContainer>
-              ) : (
-                <TypeBox
-                  key={state.nextKey}
-                  textToType={textToType}
-                  width={textWidth}
-                  pos={position}
-                  unType={state.elements.length < 10}
-                  onFinish={() =>
-                    dispatch({ type: "REMOVE_ELEMENT", payload: state.nextKey })
-                  }
-                />
-              ),
-          },
-        });
-      }
+
+      dispatch({
+        type: "ADD_ELEMENT",
+        payload: {
+          key: state.nextKey,
+          component: (
+            <TypeBox
+              key={state.nextKey}
+              textToType={textToType}
+              width={textWidth}
+              pos={position}
+              unType
+              onFinish={() =>
+                dispatch({ type: "REMOVE_ELEMENT", payload: state.nextKey })
+              }
+            />
+          ),
+        },
+      });
+
       dispatch({
         type: "SET_TIMEOUT",
         payload: Math.max(0, state.timeOut * 0.95),
       });
     }, state.timeOut);
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [height, state.elements, state.nextKey, state.timeOut, width]);
+
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowLongText(true);
+    }, 25000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
   if (flash) {
     return flash;
@@ -228,6 +239,7 @@ const JustSomeThoughts = () => {
 
   return (
     <MenuLayout color="black">
+      {showLongText && <LongText width={width} />}
       {state.elements.map(elm => elm.component)}
     </MenuLayout>
   );

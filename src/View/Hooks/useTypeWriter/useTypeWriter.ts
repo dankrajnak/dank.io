@@ -124,13 +124,23 @@ export const reducer = (
       }
       // Function for generating a the delay of typing a character.
       const getTypeDelay = () =>
-        action.payload.typeConfig.typeDelay.base +
-        Math.random() * action.payload.typeConfig.typeDelay.variance;
+        Math.max(
+          0,
+          action.payload.typeConfig.typeDelay.base +
+            Math.random() * action.payload.typeConfig.typeDelay.variance * 2 -
+            action.payload.typeConfig.typeDelay.variance
+        );
 
       // Function for generating the delay of realizing a mistake.
       const getMistakeDelay = () =>
-        action.payload.typeConfig.mistakeRealizeDelay.base +
-        Math.random() * action.payload.typeConfig.mistakeRealizeDelay.variance;
+        Math.max(
+          0,
+          action.payload.typeConfig.mistakeRealizeDelay.base +
+            Math.random() *
+              action.payload.typeConfig.mistakeRealizeDelay.variance *
+              2 -
+            action.payload.typeConfig.typeDelay.variance
+        );
 
       // For each character...
       action.payload.text.split("").forEach((char, i) => {
