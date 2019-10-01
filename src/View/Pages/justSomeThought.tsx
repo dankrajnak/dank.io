@@ -159,7 +159,7 @@ const JustSomeThoughts = () => {
 
   return (
     <MenuLayout color="black">
-      {showLongText && <LongText width={width} />}
+      {showLongText && <LongText />}
       {state.elements.map(elm => elm.component)}
     </MenuLayout>
   );
