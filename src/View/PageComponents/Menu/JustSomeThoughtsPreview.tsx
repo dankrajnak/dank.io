@@ -5,8 +5,6 @@ import "../../Styles/TextBox.scss";
 
 const Container = styled.div`
   color: black;
-  font-size: 2rem;
-  font-weight: 200;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,12 +14,26 @@ const title = "Uncomfortably personal.";
 const JustSomeThoughtsPreview = () => {
   const [text, setText] = useTypeWriter("");
   React.useEffect(() => {
+    const timeouts: number[] = [];
     const repeatTyping = () => {
-      setTimeout(() => {
-        setText(title, { listener: repeatTyping });
-      }, 5000);
+      timeouts.push(
+        setTimeout(() => {
+          setText("", {
+            listener: () => {
+              timeouts.push(
+                setTimeout(() => {
+                  setText(title, { listener: repeatTyping });
+                }, 2000)
+              );
+            },
+          });
+        }, 5000)
+      );
     };
     setText(title, { listener: repeatTyping });
+    return () => {
+      timeouts.forEach(clearTimeout);
+    };
   }, [setText]);
   return <Container className="withTypingIndicator">{text}</Container>;
 };

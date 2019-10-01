@@ -18,17 +18,23 @@ const TheThoughts: string[] = [
   "I make things up because I'm wholly uninteresting",
   "I can't make good art",
   "I'm not an artist and calling myself that is just silly",
-  "I have nothing to say",
-  "and nothing to contribute",
+  "Some days I'm not sure if I'm pathetic or just cowardly",
+  "Some days I really like myself",
   "What makes me feel secure?",
+  "I don't want to be alone",
+  "I can't make things when I'm alone.",
   "Am I just looking to feel insecure because the only art I know how to make is a cry for help?",
   "Is this supposed to be fulfilling?",
   "Gotta say I'm pretty proud of what you're turning into",
   "Put colors back on the table",
+  "I think you're going to be ok, kid",
+  "Look at the stuff you're making.  It's really cool.",
+  "You're just really authentically you",
 ];
 
 interface State {
   maxElements: number;
+  numElementsBeforeWhite: number;
   elements: { key: number; component: React.ReactNode }[];
   nextKey: number;
   timeOut: number;
@@ -58,9 +64,12 @@ const reducer = (
       // Don't add another element if we're at max, or if this element is already included
       if (
         state.elements.length === state.maxElements ||
-        state.elements.find(elm => elm.key === action.payload.key)
+        state.nextKey > state.numElementsBeforeWhite
       ) {
         return state;
+      }
+      if (state.elements.find(elm => elm.key === action.payload.key)) {
+        throw new Error(`Element with key ${action.payload.key} already added`);
       }
       return {
         ...state,
@@ -68,13 +77,19 @@ const reducer = (
         nextKey: state.nextKey + 1,
       };
     case "ADD_ELEMENTS":
+      if (state.elements.length + action.payload.length > state.maxElements) {
+        return state;
+      }
       if (
-        state.elements.length + action.payload.length > state.maxElements ||
         action.payload.some(
           elm => !!state.elements.find(stateElm => stateElm.key === elm.key)
         )
       ) {
-        return state;
+        throw new Error(
+          `Element with key in list ${action.payload
+            .map(elm => elm.key)
+            .join(", ")} already added`
+        );
       }
       return {
         ...state,
@@ -87,6 +102,11 @@ const reducer = (
         elements: state.elements.filter(elm => elm.key !== action.payload),
       };
     case "SET_TIMEOUT":
+      if (action.payload < 0) {
+        throw new Error(
+          `Tried to set timeout to value less than 0 -- ${action.payload}`
+        );
+      }
       return {
         ...state,
         timeOut: action.payload,
@@ -99,6 +119,7 @@ const reducer = (
 const JustSomeThoughts = () => {
   const [state, dispatch] = React.useReducer(reducer, {
     maxElements: 20,
+    numElementsBeforeWhite: 100,
     elements: [],
     nextKey: 0,
     timeOut: 3000,
@@ -111,7 +132,7 @@ const JustSomeThoughts = () => {
       const textWidth = 200 + Math.random() * 500;
       const position = new Vector2d(
         Math.random() * (width - textWidth),
-        Math.random() * height
+        Math.random() * height - 20
       );
       const textToType = TheThoughts[state.nextKey % TheThoughts.length];
 
@@ -124,6 +145,10 @@ const JustSomeThoughts = () => {
               key={state.nextKey}
               textToType={textToType}
               width={textWidth}
+              color={`rgba(0,0,0, ${Math.max(
+                0,
+                1 - state.nextKey / state.numElementsBeforeWhite
+              )})`}
               pos={position}
               unType
               onFinish={() =>
@@ -142,7 +167,14 @@ const JustSomeThoughts = () => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [height, state.elements, state.nextKey, state.timeOut, width]);
+  }, [
+    height,
+    state.elements,
+    state.nextKey,
+    state.numElementsBeforeWhite,
+    state.timeOut,
+    width,
+  ]);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {

@@ -25,8 +25,9 @@ const About = () => (
         <h4>This is just stuff I like making.</h4>
         <p>
           My name's Daniel. This is a place that I put stuff I make. If you like
-          my work, feel free to reach out. My last name's Krajnak. You can
-          probably find me somewhere.
+          my work, feel free to reach out. My email is the first three letters
+          of my first name plus a '.' plus my last name (krajnak). It's the
+          google kind. Suck on that, email-harvesting bots.
         </p>
       </Content>
     </Container>
