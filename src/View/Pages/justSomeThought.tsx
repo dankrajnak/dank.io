@@ -128,8 +128,13 @@ const JustSomeThoughts = () => {
   const [width, height, flash] = useFullScreen();
 
   React.useEffect(() => {
+    if (state.nextKey > state.numElementsBeforeWhite) {
+      return;
+    }
     const timeout = setTimeout(() => {
-      const textWidth = 200 + Math.random() * 500;
+      const minTextWidth = 200;
+      const textWidth =
+        minTextWidth + Math.random() * Math.min(500, width - minTextWidth);
       const position = new Vector2d(
         Math.random() * (width - textWidth),
         Math.random() * height - 20
@@ -170,6 +175,7 @@ const JustSomeThoughts = () => {
   }, [
     height,
     state.elements,
+    state.maxElements,
     state.nextKey,
     state.numElementsBeforeWhite,
     state.timeOut,

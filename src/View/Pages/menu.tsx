@@ -50,7 +50,7 @@ const cards = [
   {
     background: <JustSomeThoughtsPreview />,
     title: "Just Some Thought",
-    description: "Whatever, I don't care anymore",
+    description: "I just, well, here you go",
     link: "/justSomeThought",
   },
 ];
