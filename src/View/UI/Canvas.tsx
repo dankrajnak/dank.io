@@ -13,24 +13,19 @@ type Props = {
  * @param {*} props
  * @param {*} ref
  */
-const Canvas = (
-  props: Props,
-  ref?: React.MutableRefObject<HTMLCanvasElement>
-) => {
-  const canvasRef = React.useRef(null);
-  const definedRef = ref || canvasRef;
+const Canvas = (props: Props) => {
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
 
   React.useEffect(() => {
-    const context = definedRef.current && definedRef.current.getContext("2d");
+    const context = canvasRef.current && canvasRef.current.getContext("2d");
     if (context) {
       props.getContext(context);
     }
   });
   const { width, height, getContext, ...otherProps } = props;
-
   return (
-    <canvas ref={definedRef} width={width} height={height} {...otherProps} />
+    <canvas ref={canvasRef} width={width} height={height} {...otherProps} />
   );
 };
 // @ts-ignore
-export default React.memo(React.forwardRef(Canvas));
+export default React.memo(Canvas);

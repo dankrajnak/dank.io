@@ -2,9 +2,8 @@ import * as React from "react";
 import styled from "styled-components";
 import Layout from "../Layout/Layout";
 import SEO from "../Utility/seo";
-import { CARD_HEIGHT, CARD_WIDTH } from "../UI/Card/Card";
 import Lorenz from "../PageComponents/Homepage/Lorenz";
-import CardDeck from "../UI/CardDeck/CardDeck";
+import CardDeck from "../PageComponents/Menu/CardDeck/CardDeck";
 import useFullScreen from "../Hooks/useFullScreen";
 import useScrollAmount from "../Hooks/useScrollAmount";
 import HallwayPreview from "../PageComponents/Hallway/HallwayPreview";
@@ -16,44 +15,6 @@ import JustSomeThoughtsPreview from "../PageComponents/Menu/JustSomeThoughtsPrev
 const Mute = styled.em`
   font-weight: 200;
 `;
-
-const cards = [
-  {
-    background: <Lorenz width={CARD_WIDTH} height={CARD_HEIGHT} colorful />,
-    title: "Homepage",
-    description: "Just to impress you",
-    link: "/",
-  },
-  {
-    background: <PerspectivePreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
-    title: "Perspective",
-    description: "I spent two fucking days making a square move",
-    link: "/perspective",
-  },
-  {
-    background: <HallwayPreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
-    title: "Hallway",
-    description: (
-      <div>
-        <Mute>(Almost)</Mute> Shamelessly <Mute>(basically)</Mute> stolen{" "}
-        <Mute>(from a tutorial)</Mute>
-      </div>
-    ),
-    link: "/hallway",
-  },
-  {
-    background: <MetaSpherePreview width={CARD_WIDTH} height={CARD_HEIGHT} />,
-    title: "Meta sphere",
-    description: "Just go have some fun, kid",
-    link: "/metaSphere",
-  },
-  {
-    background: <JustSomeThoughtsPreview />,
-    title: "Just Some Thought",
-    description: "I just, well, here you go",
-    link: "/justSomeThought",
-  },
-];
 
 const ScrollMessage = styled.div.attrs<{ opacity: number }>(props => ({
   style: { opacity: props.opacity },
@@ -80,15 +41,67 @@ const AboutContainer = styled.div`
   }
 `;
 const Menu = () => {
-  const [width, height] = useFullScreen();
+  const [width, height, flash] = useFullScreen();
+  const cardWidth = React.useMemo(() => Math.min(500, width * 0.9), [width]);
+  const cardHeight = React.useMemo(() => Math.min(500, height * 0.7), [height]);
+  const cards = React.useMemo(
+    () => [
+      {
+        background: <Lorenz width={cardWidth} height={cardHeight} colorful />,
+        title: "Homepage",
+        description: "Just to impress you",
+        link: "/",
+      },
+      {
+        background: (
+          <PerspectivePreview width={cardWidth} height={cardHeight} />
+        ),
+        title: "Perspective",
+        description: "I spent two fucking days making a square move",
+        link: "/perspective",
+      },
+      {
+        background: <HallwayPreview width={cardWidth} height={cardHeight} />,
+        title: "Hallway",
+        description: (
+          <div>
+            <Mute>(Almost)</Mute> Shamelessly <Mute>(basically)</Mute> stolen{" "}
+            <Mute>(from a tutorial)</Mute>
+          </div>
+        ),
+        link: "/hallway",
+      },
+      {
+        background: <MetaSpherePreview width={cardWidth} height={cardHeight} />,
+        title: "Meta sphere",
+        description: "Just go have some fun, kid",
+        link: "/metaSphere",
+      },
+      {
+        background: <JustSomeThoughtsPreview />,
+        title: "Just Some Thought",
+        description: "I just, well, here you go",
+        link: "/justSomeThought",
+      },
+    ],
+    [cardHeight, cardWidth]
+  );
   const scroll = useScrollAmount();
+  if (flash) {
+    return flash;
+  }
   return (
     <Layout>
       <SEO title="Menu" />
       <AboutContainer>
         <Link to={"/about"}>About</Link>
       </AboutContainer>
-      <CardDeck cards={cards} width={width} />
+      <CardDeck
+        cards={cards}
+        width={width}
+        cardsWidth={cardWidth}
+        cardsHeight={cardHeight}
+      />
       {/* 
         // @ts-ignore */}
       <ScrollMessage opacity={(1 - scroll / height) * 2 || 0}>

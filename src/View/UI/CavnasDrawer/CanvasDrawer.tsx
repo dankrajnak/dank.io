@@ -10,19 +10,14 @@ interface Props {
 }
 
 const CanvasDrawer = React.memo(
-  React.forwardRef(function CanvasDrawer(
-    { width, height, initializeCanvas, artist, fps, ...otherProps }: Props,
-    ref
-  ) {
+  ({ width, height, initializeCanvas, artist, fps, ...otherProps }: Props) => {
     const context: React.MutableRefObject<CanvasRenderingContext2D | null> = React.useRef(
       null
     );
     const requestedFrame: React.MutableRefObject<number | null> = React.useRef(
       null
     );
-    const canvasRef: React.MutableRefObject<HTMLCanvasElement | null> = React.useRef(
-      null
-    );
+
     const draw = (context: CanvasRenderingContext2D) => {
       let then = Date.now();
       const renderFrame = () => {
@@ -58,14 +53,13 @@ const CanvasDrawer = React.memo(
 
     return (
       <Canvas
-        ref={ref || canvasRef}
         getContext={getContext}
         width={width}
         height={height}
         {...otherProps}
       />
     );
-  })
+  }
 );
 
 export default CanvasDrawer;

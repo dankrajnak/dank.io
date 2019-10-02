@@ -1,11 +1,8 @@
 import * as React from "react";
 import styled from "styled-components";
 
-export const CARD_WIDTH = 500;
-export const CARD_HEIGHT = 500;
-
-const Wrapper = styled.div`
-  width: ${CARD_WIDTH}px;
+const Wrapper = styled.div<{ width: number }>`
+  width: ${props => props.width}px;
   div:hover {
     cursor: pointer;
   }
@@ -18,7 +15,7 @@ const CardWrapper = styled.div.attrs<{ shadowAmount: number }>(
   ${shadowAmount * 10}px 0 rgba(100, 100, 100, 0.5)`,
     },
   })
-)`
+)<{ height: number }>`
   position: relative;
   border-radius: 0;
 
@@ -26,7 +23,7 @@ const CardWrapper = styled.div.attrs<{ shadowAmount: number }>(
   &:hover {
     box-shadow: 0 8px 10px 0 rgba(100, 100, 100, 0.5);
   }
-  height: ${CARD_HEIGHT}px;
+  height: ${props => props.height}px;
   overflow: hidden;
 `;
 
@@ -51,6 +48,8 @@ export interface Props {
   title: string;
   description: React.ReactNode;
   background: React.ReactNode;
+  width: number;
+  height: number;
   shadowAmount?: number | null;
 }
 
@@ -61,10 +60,10 @@ const Card = (props: Props) => {
     shadow = Math.min(Math.max(0, props.shadowAmount), 1);
   }
   return (
-    <Wrapper title={"Go to " + props.title}>
+    <Wrapper width={props.width}>
       {/* 
       // @ts-ignore */}
-      <CardWrapper shadowAmount={shadow}>
+      <CardWrapper shadowAmount={shadow} height={props.height}>
         <BackgroundHolder>{props.background}</BackgroundHolder>
       </CardWrapper>
       <TitleHolder>

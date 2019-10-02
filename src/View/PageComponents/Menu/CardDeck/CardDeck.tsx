@@ -1,21 +1,22 @@
 import * as React from "react";
 import styled from "styled-components";
-import useScrollAmount from "../../Hooks/useScrollAmount";
-import Card, {
-  CARD_WIDTH,
-  CARD_HEIGHT,
-  Props as CardProps,
-} from "../Card/Card";
-import useFullScreen from "../../Hooks/useFullScreen";
-import stepEaser from "../../../Services/EaseStep/EaseStep.service";
-import EasingFunctions from "../../../Services/Ease/Ease.service";
+import useScrollAmount from "../../../Hooks/useScrollAmount";
+import Card, { Props as CardProps } from "../Card/Card";
+import useFullScreen from "../../../Hooks/useFullScreen";
+import stepEaser from "../../../../Services/EaseStep/EaseStep.service";
+import EasingFunctions from "../../../../Services/Ease/Ease.service";
 import { Link } from "gatsby";
 
+// TODO find a better way to do this.
+// @ts-ignore
+const { width, height, ...CardPropsSubset }: CardProps = {};
 interface Props {
   cards: ({
     link: string;
-  } & CardProps)[];
+  } & typeof CardPropsSubset)[];
   width: number;
+  cardsWidth: number;
+  cardsHeight: number;
 }
 const CardDeckHolder = styled.div<{ height: number }>`
   height: ${props => props.height}px;
@@ -52,14 +53,15 @@ const CardDeck = (props: Props) => {
 
   // Get the deckWidth, add EASING_FUNCTION(1-PERIOD) to make sure the
   // second-to-last card clears the screen.
-  // TODO this isn't exact.  Need to take into account deckPosition, CARD_WIDTH, etc.
+  // TODO this isn't exact.  Need to take into account deckPosition, props.cardsWidth, etc.
   const deckWidth =
     windowHeight * (normScrollRange + EASING_FUNCTION(1 - PERIOD));
 
   // This is the position on the screen the deck sits.  It's a computed value based on the windowWidth.
-  const deckPosition = React.useMemo(() => (windowWidth - CARD_WIDTH) / 2, [
-    windowWidth,
-  ]);
+  const deckPosition = React.useMemo(
+    () => (windowWidth - props.cardsWidth) / 2,
+    [props.cardsWidth, windowWidth]
+  );
   const getPosition = React.useCallback(
     (scrollAmount: number, i: number) =>
       deckPosition -
@@ -97,12 +99,14 @@ const CardDeck = (props: Props) => {
                   ? deckPosition
                   : currentCardPosition
               }
-              dy={(windowHeight - CARD_HEIGHT) / 2}
+              dy={(windowHeight - props.cardsHeight) / 2}
               order={i}
             >
               {!shouldNotDrawCard && (
                 <Card
                   {...card}
+                  width={props.cardsWidth}
+                  height={props.cardsHeight}
                   shadowAmount={
                     i === props.cards.length - 1
                       ? 0
