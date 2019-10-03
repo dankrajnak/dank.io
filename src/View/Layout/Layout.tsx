@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ThemeProvider } from "styled-components";
 import Theme from "../Utility/theme";
-import "./global.scss";
+import "../Styles/global.scss";
 
 interface Props {
   children: React.ReactNode;

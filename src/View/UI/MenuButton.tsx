@@ -1,21 +1,28 @@
 import * as React from "react";
 import styled from "styled-components";
+import { Link } from "gatsby";
+import "../Styles/MenuButton.scss";
 
-const MenuButton = styled.div<{ show: boolean; color: string }>`
+const MenuContainer = styled.div<{ show: boolean; color: string }>`
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 500;
   opacity: ${props => (props.show ? 1 : 0.05)};
   transition: opacity 0.75s ease-in-out;
-  color: ${props => props.color};
-  font-weight: 600;
   &:hover {
     opacity: 1 !important;
   }
 `;
 
-const Button = ({ color = "white", fade = false }) => {
+export type PossibleMenuColors = "white" | "black";
+
+interface ButtonProps {
+  color?: PossibleMenuColors;
+  fade?: boolean;
+}
+
+const Button = ({ color = "white", fade = false }: ButtonProps) => {
   const [showing, setShowing] = React.useState(true);
 
   React.useEffect(() => {
@@ -26,9 +33,11 @@ const Button = ({ color = "white", fade = false }) => {
   }, [fade]);
 
   return (
-    <MenuButton color={color} show={showing}>
-      MENU
-    </MenuButton>
+    <MenuContainer color={color} show={showing}>
+      <Link to="/menu" className={`menu-button menu-button-${color}`}>
+        MENU
+      </Link>
+    </MenuContainer>
   );
 };
 

@@ -18,7 +18,7 @@ const Content = styled.div`
 `;
 
 const About = () => (
-  <MenuLayout color={"#222"}>
+  <MenuLayout color="black">
     <SEO title="About" />
     <Container>
       <Content>

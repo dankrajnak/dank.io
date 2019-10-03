@@ -1,19 +1,16 @@
 import * as React from "react";
-import { Link } from "gatsby";
-import MenuButton from "../UI/MenuButton";
+import MenuButton, { PossibleMenuColors } from "../UI/MenuButton";
 import Layout from "./Layout";
-import "./global.scss";
+import "../Styles/global.scss";
 
 interface Props {
-  color?: string;
+  color?: PossibleMenuColors;
   children: React.ReactNode;
 }
 
 const MenuLayout = ({ color = "white", children }: Props) => (
   <Layout>
-    <Link to={"/menu"}>
-      <MenuButton color={color} />
-    </Link>
+    <MenuButton color={color} />
     {children}
   </Layout>
 );

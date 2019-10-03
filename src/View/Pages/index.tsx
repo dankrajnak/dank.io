@@ -35,17 +35,16 @@ const IndexPage = (): React.ReactNode => {
   const [width, height, flash] = useFullScreen();
   const [currentPage, setCurrentPage] = React.useState(0);
 
-  useScrollThreshold(
-    (val): void =>
-      val > 0
-        ? setCurrentPage((page): number => Math.min(page + 1, NUM_PAGES - 1))
-        : setCurrentPage((page): number => Math.max(page - 1, 0))
+  useScrollThreshold((val): void =>
+    val > 0
+      ? setCurrentPage((page): number => Math.min(page + 1, NUM_PAGES - 1))
+      : setCurrentPage((page): number => Math.max(page - 1, 0))
   );
   if (flash) {
     return flash;
   }
   return (
-    <MenuLayout color={currentPage === 0 ? "white" : "#222"}>
+    <MenuLayout color={currentPage === 0 ? "white" : "black"}>
       <SEO title="Home" keywords={["daniel", "krajnak", "portfolio"]} />
       {currentPage === 0 && (
         <Fader visible={currentPage === 0}>
