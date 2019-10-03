@@ -6,6 +6,7 @@ import useFullScreen from "../../../Hooks/useFullScreen";
 import stepEaser from "../../../../Services/EaseStep/EaseStep.service";
 import EasingFunctions from "../../../../Services/Ease/Ease.service";
 import { Link } from "gatsby";
+import useSafeWindow from "../../../Hooks/useSafeWindow";
 
 // TODO find a better way to do this.
 // @ts-ignore
@@ -43,6 +44,32 @@ const EASING_FUNCTION = EasingFunctions.easeInOutQuart;
  */
 const CardDeck = (props: Props) => {
   const scroll = useScrollAmount(true);
+  const [window] = useSafeWindow();
+  React.useEffect(() => {
+    // Store scroll position.
+    if (window && scroll !== 0) {
+      const localStorage = window.localStorage;
+      localStorage.setItem("danKMenuScroll", scroll.toString());
+    }
+  }, [scroll, window]);
+  React.useLayoutEffect(() => {
+    let timeout: number;
+    if (window) {
+      const localStorage = window.localStorage;
+      const scrollAmount = localStorage.getItem("danKMenuScroll");
+      if (scrollAmount) {
+        //Ok, this is hacky, but unless we wait a few milliseconds,
+        // the screen doesn't have time to render and we don't scroll anywhere.
+        // As far as I can tell for now, there's no way to listen for when all the cards have been rendered
+        setTimeout(() => {
+          window.scrollTo(0, parseInt(scrollAmount));
+        }, 15);
+      }
+    }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [window]);
   const [windowWidth, windowHeight, flash] = useFullScreen();
   // Memoize stepEaser to only generate range and getPosition when the cards length changes.
   const getPositionEase = React.useCallback(
