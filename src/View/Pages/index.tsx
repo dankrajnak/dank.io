@@ -6,6 +6,8 @@ import TheCoolestOne from "../PageComponents/Homepage/TheCoolestOne";
 import MenuLayout from "../Layout/MenuLayout";
 import Lorenz from "../PageComponents/Homepage/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
+import useSafeWindow from "../Hooks/useSafeWindow";
+import throttle from "../../Services/Throttle/Throttle.service";
 
 const TitleHolder = styled.div`
   position: fixed;
@@ -34,12 +36,38 @@ const NUM_PAGES = 3;
 const IndexPage = (): React.ReactNode => {
   const [width, height, flash] = useFullScreen();
   const [currentPage, setCurrentPage] = React.useState(0);
+  const incrementPage = () =>
+    setCurrentPage(page => Math.min(page + 1, NUM_PAGES - 1));
+  const decrementPage = () => setCurrentPage(page => Math.max(page - 1, 0));
 
-  useScrollThreshold((val): void =>
-    val > 0
-      ? setCurrentPage((page): number => Math.min(page + 1, NUM_PAGES - 1))
-      : setCurrentPage((page): number => Math.max(page - 1, 0))
-  );
+  useScrollThreshold(val => {
+    if (val > 0) {
+      incrementPage();
+    } else {
+      decrementPage();
+    }
+  });
+  const [window] = useSafeWindow();
+  React.useEffect(() => {
+    const eventListener = throttle((e: KeyboardEvent) => {
+      // Up arrow
+      if (e.keyCode === 38) {
+        decrementPage();
+      }
+      // Down arrow
+      else if (e.keyCode === 40) {
+        incrementPage();
+      }
+    }, 100);
+    if (window) {
+      window.addEventListener("keydown", eventListener);
+    }
+    return () => {
+      window &&
+        eventListener &&
+        window.removeEventListener("keydown", eventListener);
+    };
+  }, [window]);
   if (flash) {
     return flash;
   }
