@@ -63,6 +63,7 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
     "gatsby-cli": "^2.7.49",
+    "husky": "^3.0.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
     "prettier": "^1.16.4",
@@ -86,6 +87,11 @@
     "build-storybook": "build-storybook",
     "type-check": "tsc --noEmit --skipLibCheck",
     "lint": "tslint --project ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run type-check && npm test"
+    }
   },
   "repository": {
     "type": "git",
