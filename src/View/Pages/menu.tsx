@@ -25,6 +25,7 @@ const ScrollMessage = styled.div.attrs<{ opacity: number }>(props => ({
   text-align: center;
   font-size: small;
   color: #aaa;
+  z-index: 5000;
 `;
 
 const AboutContainer = styled.div`

@@ -6,8 +6,8 @@ import TheCoolestOne from "../PageComponents/Homepage/TheCoolestOne";
 import MenuLayout from "../Layout/MenuLayout";
 import Lorenz from "../PageComponents/Homepage/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
-import useSafeWindow from "../Hooks/useSafeWindow";
 import throttle from "../../Services/Throttle/Throttle.service";
+import useWindowEvent from "../Hooks/useWindowEvent";
 
 const TitleHolder = styled.div`
   position: fixed;
@@ -34,7 +34,7 @@ const Fader = styled.div<{ visible: boolean }>`
 const NUM_PAGES = 3;
 
 const IndexPage = (): React.ReactNode => {
-  const [width, height, flash] = useFullScreen();
+  const [width, height] = useFullScreen();
   const [currentPage, setCurrentPage] = React.useState(0);
   const incrementPage = () =>
     setCurrentPage(page => Math.min(page + 1, NUM_PAGES - 1));
@@ -47,9 +47,9 @@ const IndexPage = (): React.ReactNode => {
       decrementPage();
     }
   });
-  const [window] = useSafeWindow();
-  React.useEffect(() => {
-    const eventListener = throttle((e: KeyboardEvent) => {
+  useWindowEvent(
+    "keydown",
+    throttle((e: KeyboardEvent) => {
       // Up arrow
       if (e.keyCode === 38) {
         decrementPage();
@@ -58,19 +58,8 @@ const IndexPage = (): React.ReactNode => {
       else if (e.keyCode === 40) {
         incrementPage();
       }
-    }, 100);
-    if (window) {
-      window.addEventListener("keydown", eventListener);
-    }
-    return () => {
-      window &&
-        eventListener &&
-        window.removeEventListener("keydown", eventListener);
-    };
-  }, [window]);
-  if (flash) {
-    return flash;
-  }
+    }, 100)
+  );
   return (
     <MenuLayout color={currentPage === 0 ? "white" : "black"}>
       <SEO title="Home" keywords={["daniel", "krajnak", "portfolio"]} />

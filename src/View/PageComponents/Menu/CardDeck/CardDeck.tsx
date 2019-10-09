@@ -7,6 +7,7 @@ import stepEaser from "../../../../Services/EaseStep/EaseStep.service";
 import EasingFunctions from "../../../../Services/Ease/Ease.service";
 import { Link } from "gatsby";
 import useSafeWindow from "../../../Hooks/useSafeWindow";
+import "../../../Styles/CardDeck.scss";
 
 // TODO find a better way to do this.
 // @ts-ignore
@@ -45,13 +46,16 @@ const EASING_FUNCTION = EasingFunctions.easeInOutQuart;
 const CardDeck = (props: Props) => {
   const scroll = useScrollAmount(true);
   const [window] = useSafeWindow();
+
+  // Store scroll position.
   React.useEffect(() => {
-    // Store scroll position.
     if (window && scroll !== 0) {
       const localStorage = window.localStorage;
       localStorage.setItem("danKMenuScroll", scroll.toString());
     }
   }, [scroll, window]);
+
+  // Move to the saved scroll position when this component renders
   React.useLayoutEffect(() => {
     let timeout: number;
     if (window) {
@@ -70,13 +74,13 @@ const CardDeck = (props: Props) => {
       clearTimeout(timeout);
     };
   }, [window]);
+
   const [windowWidth, windowHeight, flash] = useFullScreen();
   // Memoize stepEaser to only generate range and getPosition when the cards length changes.
-  const getPositionEase = React.useCallback(
+  const [normScrollRange, normGetPosition] = React.useMemo(
     () => stepEaser(props.cards.length - 1, PERIOD, EASING_FUNCTION),
     [props.cards.length]
   );
-  const [normScrollRange, normGetPosition] = getPositionEase();
 
   // Get the deckWidth, add EASING_FUNCTION(1-PERIOD) to make sure the
   // second-to-last card clears the screen.
@@ -96,6 +100,7 @@ const CardDeck = (props: Props) => {
       deckPosition,
     [deckPosition, normGetPosition, windowHeight, windowWidth]
   );
+
   if (flash) {
     return flash;
   }
@@ -117,7 +122,7 @@ const CardDeck = (props: Props) => {
           prevCardPosition === deckPosition;
 
         return (
-          <Link to={card.link} key={i}>
+          <Link to={card.link} key={i} className="card-deck-card-link">
             {/* 
             // @ts-ignore */}
             <CardHolder
