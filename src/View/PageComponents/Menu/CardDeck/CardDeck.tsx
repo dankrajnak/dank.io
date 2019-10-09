@@ -7,7 +7,6 @@ import stepEaser from "../../../../Services/EaseStep/EaseStep.service";
 import EasingFunctions from "../../../../Services/Ease/Ease.service";
 import { Link } from "gatsby";
 import useSafeWindow from "../../../Hooks/useSafeWindow";
-import "../../../Styles/CardDeck.scss";
 
 // TODO find a better way to do this.
 // @ts-ignore
