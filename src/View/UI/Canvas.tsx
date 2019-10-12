@@ -14,16 +14,16 @@ type Props = {
  * @param {*} props
  * @param {*} ref
  */
-const Canvas = (props: Props) => {
+const Canvas = ({ width, height, getContext, ...otherProps }: Props) => {
   const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
   const [window] = useSafeWindow();
   React.useEffect(() => {
     const context = canvasRef.current && canvasRef.current.getContext("2d");
+    console.log("CONTEXT!", context);
     if (context) {
-      props.getContext(context);
+      getContext(context);
     }
-  }, [props, window]);
-  const { width, height, getContext, ...otherProps } = props;
+  }, [getContext, window]);
   return (
     <canvas ref={canvasRef} width={width} height={height} {...otherProps} />
   );

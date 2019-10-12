@@ -1,8 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders correctly 1`] = `
-<canvas
-  height={200}
-  width={200}
+<div
+  className="sc-bdVaJa cHlqDA"
 />
 `;
