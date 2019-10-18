@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 import { Link } from "gatsby";
+import useSafeLocation from "../Hooks/useSafeLocation";
 import "../Styles/MenuButton.scss";
 
 const MenuContainer = styled.div<{ show: boolean; color: string }>`
@@ -24,7 +25,11 @@ interface ButtonProps {
 
 const Button = ({ color = "white", fade = false }: ButtonProps) => {
   const [showing, setShowing] = React.useState(true);
-
+  const [safeLocation] = useSafeLocation();
+  let prevPath = null;
+  if (safeLocation) {
+    prevPath = safeLocation.pathname;
+  }
   React.useEffect(() => {
     if (fade) {
       const timeout = setTimeout(() => setShowing(false), 2000);
@@ -34,7 +39,11 @@ const Button = ({ color = "white", fade = false }: ButtonProps) => {
 
   return (
     <MenuContainer color={color} show={showing}>
-      <Link to="/menu" className={`menu-button menu-button-${color}`}>
+      <Link
+        to="/menu"
+        className={`menu-button menu-button-${color}`}
+        state={{ prevPath }}
+      >
         MENU
       </Link>
     </MenuContainer>

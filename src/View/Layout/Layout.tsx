@@ -1,16 +1,10 @@
 import * as React from "react";
-import { ThemeProvider } from "styled-components";
-import Theme from "../Utility/theme";
 import "../Styles/global.scss";
 
 interface Props {
   children: React.ReactNode;
 }
 
-const Layout = (props: Props) => (
-  <ThemeProvider theme={Theme}>
-    <div>{props.children}</div>
-  </ThemeProvider>
-);
+const Layout = (props: Props) => <div>{props.children}</div>;
 
 export default Layout;

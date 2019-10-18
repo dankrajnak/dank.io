@@ -41,7 +41,8 @@ const AboutContainer = styled.div`
     }
   }
 `;
-const Menu = () => {
+// I can't find the typescript type for props passed into pages to save my life.
+const Menu = (props: any) => {
   const [width, height, flash] = useFullScreen();
   const cardWidth = React.useMemo(() => Math.min(500, width * 0.9), [width]);
   const cardHeight = React.useMemo(() => Math.min(500, height * 0.7), [height]);
@@ -87,6 +88,17 @@ const Menu = () => {
     ],
     [cardHeight, cardWidth]
   );
+
+  const scrollToCard = React.useMemo(() => {
+    if (props.location.state && props.location.state.prevPath) {
+      const index = cards.findIndex(
+        card => card.link === props.location.state.prevPath
+      );
+      return index === -1 ? null : index;
+    }
+    return null;
+  }, [cards, props.location.state]);
+
   const scroll = useScrollAmount();
   if (flash) {
     return flash;
@@ -102,6 +114,7 @@ const Menu = () => {
         width={width}
         cardsWidth={cardWidth}
         cardsHeight={cardHeight}
+        scrollToCard={scrollToCard}
       />
       {/* 
         // @ts-ignore */}

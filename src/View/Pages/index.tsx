@@ -20,7 +20,7 @@ const TitleHolder = styled.div`
 `;
 
 const Title = styled.h1<{ color?: string }>`
-  color: ${(props): string => props.color || props.theme.text.headerColor};
+  color: ${(props): string => props.color || "#2f3030"};
   font-size: 2em;
   font-weight: 500;
   text-align: center;

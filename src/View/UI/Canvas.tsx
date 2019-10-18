@@ -19,7 +19,6 @@ const Canvas = ({ width, height, getContext, ...otherProps }: Props) => {
   const [window] = useSafeWindow();
   React.useEffect(() => {
     const context = canvasRef.current && canvasRef.current.getContext("2d");
-    console.log("CONTEXT!", context);
     if (context) {
       getContext(context);
     }

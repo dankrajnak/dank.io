@@ -19,6 +19,5 @@ module.exports = {
     "arrow-body-style": ["error", "as-needed"],
     "@typescript-eslint/explicit-function-return-type": 0,
     "typescript/no-unused-expression": false
-
   }
 }
