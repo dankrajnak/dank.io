@@ -5,3 +5,6 @@ script:
   - "yarn run type-check"
   - "yarn test"
   - "yarn run build"
+after_success:
+  - chmod +x ./publish.sh
+  - ./publish.sh
