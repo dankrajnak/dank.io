@@ -1,10 +1,14 @@
 language: node_js
 node_js:
-  - 11
+- 11
 script:
-  - "yarn run type-check"
-  - "yarn test"
-  - "yarn run build"
-after_success:
-  - chmod +x ./publish.sh
-  - ./publish.sh
+- yarn run type-check
+- yarn test
+- yarn run build
+deploy:
+  provider: netlify
+  site: 9286f29d-e7c7-4766-873e-b1cf468f8b2b
+  local_dir: "public"
+  auth:
+    secure: aEOx9G6fvUOB+9QUw2KNiyY80KwgiZQT/7lumBBzxl2o2VMF96sjAtlaMvlEs6VE8J0YuPW9VI4eZuSnQUZ7/unFOyYSGEg4epIp+V5h78hwLPzOQ/UIGPdbyFKGPj2o57PyiYssus9acfMbf7ZgApc+PheCJVKeTcPOZHtt9PqPMhQWxSVT3nToNUM++8xTxZCWzOcLO4kVATuw/9xys9mVNCJspOqQzD8r6Xw6O0Vfa+1WyqpP/cn6BUA9oUSqh7S+rRVDiS738nCfY3+2TI3lPaSETb5Xa1T/Sgy4e4pFynsQaL/lENBQPAesCYGwS1FI1aqQpmVKpiKHNEJLLwvbHKRyYEfevFDVNuBguoJ1sd+auZ+mvpfCx47E3GplK09JgHntdLu8bDGS0ntshKpEADu3ZzO+orJXRcugXTyp5Md+S5ka6nJ77MqyYHiDNzve40bY3ZiVAwOtPD3RzzrgjorcCKZiv6FZWX9BpmRDmCG7zOL9kQ3baEv60/sIcEBDu1WI+oxXjQKyLIE8VLBeXX+xWvQ2XqHlY8oYG8mhf05eZ6gfRmIsT54zN44dTcKJdKoBOA9TDmWa9LYT/l9DDjSsbtIAUG1uI6+KoaAb4mFF+M+8Ksyj+zVzEcT9wy/cy78Qwrl0xmTldxy8KRyWENWNIy6Ru2tytQEKC68=
+  edge: true
