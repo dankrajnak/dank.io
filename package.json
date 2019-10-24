@@ -64,6 +64,7 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
     "gatsby-cli": "^2.8.3",
+    "git-branch-is": "^3.0.0",
     "husky": "^3.0.8",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.8.0",
@@ -91,7 +92,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "yarn run type-check && yarn test"
+      "pre-push": "(git-branch-is master && yarn run type-check && yarn test) || true"
     }
   },
   "repository": {
