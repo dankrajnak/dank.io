@@ -5,6 +5,7 @@ import useFullScreen from "../Hooks/useFullScreen";
 import Action from "../../Domain/Action/Action";
 import TypeBox from "../PageComponents/JustSomeThought/TypeBox";
 import LongText from "../PageComponents/JustSomeThought/LongText";
+import SEO from "../Utility/seo";
 
 const TheThoughts: string[] = [
   "It still comes back to you",
@@ -187,6 +188,10 @@ const JustSomeThoughts = () => {
 
   return (
     <MenuLayout color="black">
+      <SEO
+        title="Just Some Thought"
+        keywords={["poetry", "new media", "thought"]}
+      />
       {showLongText && <LongText />}
       {state.elements.map(elm => elm.component)}
     </MenuLayout>
