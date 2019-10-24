@@ -3249,7 +3249,6 @@ babel-plugin-emotion@^10.0.14, babel-plugin-emotion@^10.0.17:
     source-map "^0.5.7"
 
 "babel-plugin-flow-to-typescript@git+https://github.com/rgoldfinger-quizlet/babel-plugin-flow-to-typescript.git#facfeb4f65e270d3635891b870886b971946ebb8":
-  name "@steelbrain/babel-plugin-flow-to-typescript"
   version "0.3.0"
   resolved "git+https://github.com/rgoldfinger-quizlet/babel-plugin-flow-to-typescript.git#facfeb4f65e270d3635891b870886b971946ebb8"
   dependencies:
@@ -4678,6 +4677,11 @@ commander@^2.11.0, commander@^2.19.0, commander@^2.20.0:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
+commander@^3.0.0:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-3.0.2.tgz#6837c3fb677ad9933d1cfba42dd14d5117d6b39e"
+  integrity sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==
 
 commander@~2.8.1:
   version "2.8.1"
@@ -7952,6 +7956,13 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+git-branch-is@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/git-branch-is/-/git-branch-is-3.0.0.tgz#bbc5b8495fcce77da60e0eb589e41af70fcd06f7"
+  integrity sha512-HvOU7/TBj25NeXVzmzEMVmsLFYQD8wP/orGkGaHl1unWDx7ZZAiaulPAydUCGd+DPO3IpUjyC4zBAn2oCgaZ7Q==
+  dependencies:
+    commander "^3.0.0"
+
 git-up@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/git-up/-/git-up-4.0.1.tgz#cb2ef086653640e721d2042fe3104857d89007c0"
@@ -11089,7 +11100,7 @@ minipass@^2.2.1, minipass@^2.3.4:
     safe-buffer "^5.1.2"
     yallist "^3.0.0"
 
-minipass@^2.6.0, minipass@^2.8.6, minipass@^2.9.0:
+minipass@^2.8.6, minipass@^2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.9.0.tgz#e713762e7d3e32fed803115cf93e04bca9fcc9a6"
   integrity sha512-wxfUjg9WebH+CUDX/CdbRlh5SmfZiy/hpkxaRI16Y9W56Pa75sWgd/rvFilSgrauD9NyFymP/+JFV3KwzIsJeg==

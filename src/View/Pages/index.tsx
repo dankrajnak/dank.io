@@ -66,7 +66,7 @@ const IndexPage = (): React.ReactNode => {
       {currentPage === 0 && (
         <Fader visible={currentPage === 0}>
           <TitleHolder>
-            <Title color="#EEE">Test in production, whoops</Title>
+            <Title color="#EEE">Again, again, again</Title>
           </TitleHolder>
           <Lorenz width={width} height={height} />
         </Fader>
