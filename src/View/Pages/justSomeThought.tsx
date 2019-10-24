@@ -43,12 +43,9 @@ type AddElementAction = Action<
   "ADD_ELEMENT",
   { key: number; component: React.ReactNode }
 >;
-type AddElementsAction = Action<
-  "ADD_ELEMENTS",
-  { key: number; component: React.ReactNode }[]
->;
 type RemoveElementAction = Action<"REMOVE_ELEMENT", number>;
 type SetTimeoutAction = Action<"SET_TIMEOUT", number>;
+type NudgeMaxElements = Action<"NUDGE_MAX_ELEMENTS", number>;
 
 const reducer = (
   state: State,
@@ -56,13 +53,13 @@ const reducer = (
     | AddElementAction
     | RemoveElementAction
     | SetTimeoutAction
-    | AddElementsAction
+    | NudgeMaxElements
 ): State => {
   switch (action.type) {
     case "ADD_ELEMENT":
       // Don't add another element if we're at max, or if this element is already included
       if (
-        state.elements.length === state.maxElements ||
+        state.elements.length >= state.maxElements ||
         state.nextKey > state.numElementsBeforeWhite
       ) {
         return state;
@@ -74,26 +71,6 @@ const reducer = (
         ...state,
         elements: state.elements.concat([action.payload]),
         nextKey: state.nextKey + 1,
-      };
-    case "ADD_ELEMENTS":
-      if (state.elements.length + action.payload.length > state.maxElements) {
-        return state;
-      }
-      if (
-        action.payload.some(
-          elm => !!state.elements.find(stateElm => stateElm.key === elm.key)
-        )
-      ) {
-        throw new Error(
-          `Element with key in list ${action.payload
-            .map(elm => elm.key)
-            .join(", ")} already added`
-        );
-      }
-      return {
-        ...state,
-        elements: state.elements.concat(action.payload),
-        nextKey: state.nextKey + action.payload.length,
       };
     case "REMOVE_ELEMENT":
       return {
@@ -110,6 +87,12 @@ const reducer = (
         ...state,
         timeOut: action.payload,
       };
+    case "NUDGE_MAX_ELEMENTS":
+      console.log("New max elements", state.maxElements + action.payload);
+      return {
+        ...state,
+        maxElements: Math.max(0, state.maxElements + action.payload),
+      };
     default:
       return state;
   }
@@ -117,14 +100,27 @@ const reducer = (
 
 const JustSomeThoughts = () => {
   const [state, dispatch] = React.useReducer(reducer, {
-    maxElements: 20,
+    maxElements: 1,
     numElementsBeforeWhite: 100,
     elements: [],
     nextKey: 0,
-    timeOut: 3000,
+    timeOut: 2000,
   });
   const [showLongText, setShowLongText] = React.useState(false);
   const [width, height, flash] = useFullScreen();
+  const maxElementsTimeout = React.useRef(20);
+
+  React.useEffect(() => {
+    //Periodically increase max elements.
+    const interval = setInterval(() => {
+      dispatch({
+        type: "NUDGE_MAX_ELEMENTS",
+        payload: 1,
+      });
+      maxElementsTimeout.current = Math.max(10, maxElementsTimeout.current - 2);
+    }, maxElementsTimeout.current * 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   React.useEffect(() => {
     if (state.nextKey > state.numElementsBeforeWhite) {
@@ -161,11 +157,6 @@ const JustSomeThoughts = () => {
             />
           ),
         },
-      });
-
-      dispatch({
-        type: "SET_TIMEOUT",
-        payload: Math.max(0, state.timeOut * 0.95),
       });
     }, state.timeOut);
     return () => {

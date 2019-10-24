@@ -10,7 +10,7 @@ golden fire, why it appears to me no other than a foul and pestilent congregatio
 What a piece of work is a man?  How noble in reason? How infinite in faculty?  In form
 and moving, how express and admirable?  In action, how like an angel, in apprehension,
 how like a god?  The beauty of the world, the paragon of animals, and yet, to me, what is this
-quintessence of dust?  I know man still means something to me.`;
+quintessence of dust?  I know man still means something to me. `;
 const longTextText: string = new Array(100).fill(SPEECH).join("");
 
 const Container = styled.div`
