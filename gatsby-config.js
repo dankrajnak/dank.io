@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 module.exports = {
   siteMetadata: {
     title: `Dank.io`,
@@ -20,7 +21,7 @@ module.exports = {
         background_color: `#2f3030`,
         theme_color: `#eee`,
         display: `minimal-ui`,
-        // icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+        icon: `src/Images/favicon-32x32.png`, // This path is relative to the root of the site.
       },
     },
     {
