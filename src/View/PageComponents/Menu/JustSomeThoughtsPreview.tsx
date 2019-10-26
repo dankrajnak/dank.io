@@ -10,7 +10,7 @@ const Container = styled.div`
   justify-content: center;
   height: 100%;
 `;
-const title = "Uncomfortably personal.";
+const title = "It's a caipirinhas and sad boy music night";
 const JustSomeThoughtsPreview = () => {
   const [text, setText] = useTypeWriter("");
   React.useEffect(() => {
