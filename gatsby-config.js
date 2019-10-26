@@ -15,7 +15,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
+        name: `dank.io`,
         short_name: `dank`,
         start_url: `/`,
         background_color: `#2f3030`,
