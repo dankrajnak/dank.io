@@ -51,25 +51,28 @@ const PerspectivePreview = ({ width, height }: Props) => {
       includeDashes: false,
     });
   };
-  const artist = (ctx: CanvasRenderingContext2D) => {
-    if (!squareDrawer.current || !squares.current) {
-      return null;
-    }
-    ctx.fillStyle = "#0D0D0D";
-    ctx.fillRect(0, 0, width, height);
-    squareDrawer.current.draw(
-      squares.current[0].getSquares(
-        new Vector2d(focusPoint.x, height - focusPoint.y)
-      ),
-      focusPoint
-    );
-    squareDrawer.current.draw(
-      squares.current[1].getSquares(
-        new Vector2d(focusPoint.x, height - focusPoint.y)
-      ),
-      focusPoint
-    );
-  };
+  const artist = React.useMemo(
+    () => (ctx: CanvasRenderingContext2D) => {
+      if (!squareDrawer.current || !squares.current) {
+        return null;
+      }
+      ctx.fillStyle = "#0D0D0D";
+      ctx.fillRect(0, 0, width, height);
+      squareDrawer.current.draw(
+        squares.current[0].getSquares(
+          new Vector2d(focusPoint.x, height - focusPoint.y)
+        ),
+        focusPoint
+      );
+      squareDrawer.current.draw(
+        squares.current[1].getSquares(
+          new Vector2d(focusPoint.x, height - focusPoint.y)
+        ),
+        focusPoint
+      );
+    },
+    [focusPoint, height, width]
+  );
 
   return (
     <CanvasDrawer

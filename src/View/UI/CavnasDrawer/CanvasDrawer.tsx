@@ -10,66 +10,71 @@ interface Props {
   fps?: number | null;
 }
 
-const CanvasDrawer = React.memo(
-  ({ width, height, initializeCanvas, artist, fps, ...otherProps }: Props) => {
-    const context: React.MutableRefObject<CanvasRenderingContext2D | null> = React.useRef(
-      null
-    );
-    const requestedFrame: React.MutableRefObject<number | null> = React.useRef(
-      null
-    );
+const CanvasDrawer = ({
+  width,
+  height,
+  initializeCanvas,
+  artist,
+  fps,
+  ...otherProps
+}: Props) => {
+  const context: React.MutableRefObject<CanvasRenderingContext2D | null> = React.useRef(
+    null
+  );
+  const requestedFrame: React.MutableRefObject<number | null> = React.useRef(
+    null
+  );
 
-    const getContext = React.useRef(
-      (c: CanvasRenderingContext2D) => (context.current = c)
-    );
-    React.useEffect(() => {
-      const draw = (context: CanvasRenderingContext2D) => {
-        let then = Date.now();
-        const renderFrame = () => {
-          requestedFrame.current = requestAnimationFrame(() => {
-            renderFrame();
-            if (!fps) {
+  const getContext = React.useRef(
+    (c: CanvasRenderingContext2D) => (context.current = c)
+  );
+  React.useEffect(() => {
+    const draw = (context: CanvasRenderingContext2D) => {
+      let then = Date.now();
+      const renderFrame = () => {
+        requestedFrame.current = requestAnimationFrame(() => {
+          renderFrame();
+          if (!fps) {
+            artist(context);
+          } else {
+            const now = Date.now();
+            const delta = now - then;
+            const interval = 1000 / fps;
+            if (delta > interval) {
+              then = now - (delta % interval);
               artist(context);
-            } else {
-              const now = Date.now();
-              const delta = now - then;
-              const interval = 1000 / fps;
-              if (delta > interval) {
-                then = now - (delta % interval);
-                artist(context);
-              }
             }
-          });
-        };
-        renderFrame();
+          }
+        });
       };
+      renderFrame();
+    };
 
-      if (context.current) {
-        if (initializeCanvas) {
-          initializeCanvas(context.current);
-        }
-        draw(context.current);
+    if (context.current) {
+      if (initializeCanvas) {
+        initializeCanvas(context.current);
       }
-      return () => {
-        requestedFrame.current && cancelAnimationFrame(requestedFrame.current);
-      };
-    });
-
-    const flash = useSafeWindow()[1];
-
-    if (flash) {
-      return flash;
+      draw(context.current);
     }
+    return () => {
+      requestedFrame.current && cancelAnimationFrame(requestedFrame.current);
+    };
+  });
 
-    return (
-      <Canvas
-        getContext={getContext.current}
-        width={width}
-        height={height}
-        {...otherProps}
-      />
-    );
+  const flash = useSafeWindow()[1];
+
+  if (flash) {
+    return flash;
   }
-);
 
-export default CanvasDrawer;
+  return (
+    <Canvas
+      getContext={getContext.current}
+      width={width}
+      height={height}
+      {...otherProps}
+    />
+  );
+};
+
+export default React.memo(CanvasDrawer);

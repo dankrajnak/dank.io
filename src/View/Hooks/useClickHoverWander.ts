@@ -118,17 +118,24 @@ const useClickHoverWander = (
     };
   }, [height, width]);
 
-  const onMouseMove = throttle((event: React.MouseEvent) => {
-    const position = getCoordinatesFromMouseEvent(event);
-    xSpring.current && xSpring.current.setEndValue(position.x);
-    ySpring.current && ySpring.current.setEndValue(position.y);
-  }, 100);
+  const onMouseMove = React.useMemo(
+    () =>
+      throttle((event: React.MouseEvent) => {
+        const position = getCoordinatesFromMouseEvent(event);
+        xSpring.current && xSpring.current.setEndValue(position.x);
+        ySpring.current && ySpring.current.setEndValue(position.y);
+      }, 100),
+    []
+  );
 
-  const onClick = (event: React.MouseEvent) => {
-    const position = getCoordinatesFromMouseEvent(event);
-    xSpring.current && xSpring.current.setEndValue(position.x);
-    ySpring.current && ySpring.current.setEndValue(position.y);
-  };
+  const onClick = React.useMemo(
+    () => (event: React.MouseEvent) => {
+      const position = getCoordinatesFromMouseEvent(event);
+      xSpring.current && xSpring.current.setEndValue(position.x);
+      ySpring.current && ySpring.current.setEndValue(position.y);
+    },
+    []
+  );
 
   return [
     focusPoint,

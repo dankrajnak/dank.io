@@ -19,10 +19,12 @@ const MetaSpherePreview = (props: { width: number; height: number }) => {
     });
   }, [props.height, props.width]);
 
-  const artist = (ctx: CanvasRenderingContext2D) => {
-    metaDrawer.current && metaDrawer.current.draw(ctx, focusPoint);
-  };
-
+  const artist = React.useMemo(
+    () => (ctx: CanvasRenderingContext2D) => {
+      metaDrawer.current && metaDrawer.current.draw(ctx, focusPoint);
+    },
+    [focusPoint]
+  );
   return (
     <CanvasDrawer
       width={props.width}
