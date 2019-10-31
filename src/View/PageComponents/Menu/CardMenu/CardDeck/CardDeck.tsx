@@ -1,12 +1,12 @@
 import * as React from "react";
 import styled from "styled-components";
-import useScrollAmount from "../../../Hooks/useScrollAmount";
+import useScrollAmount from "../../../../Hooks/useScrollAmount";
 import Card, { Props as CardProps } from "../Card/Card";
-import useFullScreen from "../../../Hooks/useFullScreen";
-import { mappedStepEaser } from "../../../../Services/EaseStep/EaseStep.service";
-import EasingFunctions from "../../../../Services/Ease/Ease.service";
+import useFullScreen from "../../../../Hooks/useFullScreen";
+import { mappedStepEaser } from "../../../../../Services/EaseStep/EaseStep.service";
+import EasingFunctions from "../../../../../Services/Ease/Ease.service";
 import { Link } from "gatsby";
-import useSafeWindow from "../../../Hooks/useSafeWindow";
+import useSafeWindow from "../../../../Hooks/useSafeWindow";
 
 // TODO find a better way to do this.
 // @ts-ignore
