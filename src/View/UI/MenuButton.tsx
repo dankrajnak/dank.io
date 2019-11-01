@@ -40,7 +40,7 @@ const Button = ({ color = "white", fade = false }: ButtonProps) => {
   return (
     <MenuContainer color={color} show={showing}>
       <Link
-        to="/menu"
+        to="/"
         className={`menu-button menu-button-${color}`}
         state={{ prevPath }}
       >
