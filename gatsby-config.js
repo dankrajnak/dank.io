@@ -47,6 +47,12 @@ module.exports = {
         showSpinner: false,
       },
     },
+    {
+      resolve: "gatsby-plugin-remove-console",
+      options: {
+        exclude: ["error", "warn"],
+      },
+    },
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     `gatsby-plugin-offline`,
