@@ -1,5 +1,5 @@
 import * as React from "react";
-import styled from "styled-components";
+import styled, { StyledComponent } from "styled-components";
 import useScrollAmount from "../../../../Hooks/useScrollAmount";
 import Card, { Props as CardProps } from "../Card/Card";
 import useFullScreen from "../../../../Hooks/useFullScreen";
@@ -34,7 +34,12 @@ const CardHolder = styled.div.attrs<{ dx: number; dy: number; order: number }>(
   })
 )`
   position: fixed;
-`;
+` as StyledComponent<
+  "div",
+  any,
+  { dx: number; dy: number; order: number },
+  never
+>;
 
 const PERIOD = 0.4;
 const EASING_FUNCTION = EasingFunctions.easeInOutQuart;
@@ -66,11 +71,12 @@ const CardDeck = (props: Props) => {
   // Memoize stepEaser to only generate range and getPosition when the cards length changes.
   const [getPosition, getEaseStart] = React.useMemo(
     () =>
-      mappedStepEaser(0, scrollLength, cardPositionStart, cardPositionEnd)(
-        props.cards.length - 1,
-        PERIOD,
-        EASING_FUNCTION
-      ),
+      mappedStepEaser(
+        0,
+        scrollLength,
+        cardPositionStart,
+        cardPositionEnd
+      )(props.cards.length - 1, PERIOD, EASING_FUNCTION),
     [cardPositionEnd, cardPositionStart, props.cards.length, scrollLength]
   );
 
@@ -121,8 +127,6 @@ const CardDeck = (props: Props) => {
 
         return (
           <Link to={card.link} key={i} className="card-deck-card-link">
-            {/* 
-            // @ts-ignore */}
             <CardHolder
               dx={
                 i === props.cards.length - 1
