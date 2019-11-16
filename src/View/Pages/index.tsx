@@ -5,7 +5,7 @@ import styled from "styled-components";
 import Layout from "../Layout/Layout";
 import SEO from "../Utility/seo";
 import Lorenz from "../PageComponents/Homepage/Lorenz";
-import HallwayPreview from "../PageComponents/Hallway/HallwayPreview";
+import HallwayPreview from "../PageComponents/Menu/HallwayPreview";
 import PerspectivePreview from "../PageComponents/Menu/PerspectivePreview";
 import MetaSpherePreview from "../PageComponents/Menu/MetaSpherePreview";
 import JustSomeThoughtsPreview from "../PageComponents/Menu/JustSomeThoughtsPreview";
