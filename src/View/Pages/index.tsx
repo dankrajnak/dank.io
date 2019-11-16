@@ -10,7 +10,10 @@ import PerspectivePreview from "../PageComponents/Menu/PerspectivePreview";
 import MetaSpherePreview from "../PageComponents/Menu/MetaSpherePreview";
 import JustSomeThoughtsPreview from "../PageComponents/Menu/JustSomeThoughtsPreview";
 import Card from "../../Domain/Card/Card";
-import CardMenu from "../PageComponents/Menu/CardMenu";
+import FullScreenMenu from "../PageComponents/Menu/FullScreenMenu/index";
+import SimpleMenu from "../PageComponents/Menu/SimpleMenu/index";
+import CardMenu from "../PageComponents/Menu/CardMenu/index";
+import ModernMinimalistMenu from "../PageComponents/Menu/ModernMinimalMenu/index";
 
 const Mute = styled.em`
   font-weight: 200;
@@ -21,7 +24,7 @@ const cards: Card[] = [
     background: ({ width, height }) => (
       <Lorenz width={width} height={height} colorful />
     ),
-    title: "Again",
+    title: "HEY",
     description: "Just to impress you",
     link: "/again",
   },
@@ -55,11 +58,10 @@ const cards: Card[] = [
     link: "/justSomeThought",
   },
 ];
-// I can't find the typescript type for props passed into pages to save my life.
 const Menu = (props: RouteComponentProps) => (
   <Layout>
     <SEO title="Menu" />
-    <CardMenu routeProps={props} cards={cards} />
+    <ModernMinimalistMenu routeProps={props} cards={cards} />
   </Layout>
 );
 

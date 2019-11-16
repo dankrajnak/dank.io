@@ -3,15 +3,22 @@ import useTypeWriter from "../../Hooks/useTypeWriter/useTypeWriter";
 import styled from "styled-components";
 import "../../Styles/TextBox.scss";
 
-const Container = styled.div`
+const Container = styled.div<{ width: number; height: number }>`
   color: black;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  text-decoration: none;
+  height: ${props => props.height}px;
+  width: ${props => props.width}px;
 `;
 const title = "It's a caipirinhas and sad boy music night";
-const JustSomeThoughtsPreview = () => {
+
+interface Props {
+  width: number;
+  height: number;
+}
+const JustSomeThoughtsPreview = ({ width, height }: Props) => {
   const [text, setText] = useTypeWriter("");
   React.useEffect(() => {
     const timeouts: number[] = [];
@@ -35,7 +42,11 @@ const JustSomeThoughtsPreview = () => {
       timeouts.forEach(clearTimeout);
     };
   }, [setText]);
-  return <Container className="withTypingIndicator">{text}</Container>;
+  return (
+    <Container width={width} height={height} className="withTypingIndicator">
+      {text}
+    </Container>
+  );
 };
 
 export default JustSomeThoughtsPreview;

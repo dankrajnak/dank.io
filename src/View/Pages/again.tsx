@@ -8,6 +8,7 @@ import Lorenz from "../PageComponents/Homepage/Lorenz";
 import useScrollThreshold from "../Hooks/useScrollTreshold";
 import throttle from "../../Services/Throttle/Throttle.service";
 import useWindowEvent from "../Hooks/useWindowEvent";
+import Fader from "../UI/Fader";
 
 const TitleHolder = styled.div`
   position: fixed;
@@ -24,11 +25,6 @@ const Title = styled.h1<{ color?: string }>`
   font-size: 2em;
   font-weight: 500;
   text-align: center;
-`;
-const Fader = styled.div<{ visible: boolean }>`
-  position: fixed;
-  opacity: ${(props): number => (props.visible ? 1 : 0)};
-  transition: opacity 1s ease;
 `;
 
 const NUM_PAGES = 3;
