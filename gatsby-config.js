@@ -53,8 +53,16 @@ module.exports = {
         exclude: ["error", "warn"],
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
+    {
+      resolve: "gatsby-plugin-google-analytics",
+      options: {
+        trackingId: "UA-108070651-2",
+        head: true,
+        anonymize: true,
+        respectDNT: true,
+      },
+    },
+    // To learn more, visit: https://gatsby.dev/offline // this (optional) plugin enables Progressive Web App + Offline functionality
     `gatsby-plugin-offline`,
   ],
 };
