@@ -18,6 +18,6 @@ module.exports = {
     ['react-hooks/exhaustive-deps']: 'warn',
     "arrow-body-style": ["error", "as-needed"],
     "@typescript-eslint/explicit-function-return-type": 0,
-    "typescript/no-unused-expression": false
+    "typescript/no-unused-expression": 0
   }
 }
