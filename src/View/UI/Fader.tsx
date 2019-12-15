@@ -7,4 +7,5 @@ const Fader = styled.div<{ visible: boolean }>`
   transition: opacity 1s ease;
 `;
 
+
 export default Fader;

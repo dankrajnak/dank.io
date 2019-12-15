@@ -14,6 +14,7 @@ import FullScreenMenu from "../PageComponents/Menu/FullScreenMenu/index";
 import SimpleMenu from "../PageComponents/Menu/SimpleMenu/index";
 import CardMenu from "../PageComponents/Menu/CardMenu/index";
 import ModernMinimalistMenu from "../PageComponents/Menu/ModernMinimalMenu/index";
+import BlobMenu from "../PageComponents/Menu/BlobMenu/index";
 
 const Mute = styled.em`
   font-weight: 200;
@@ -61,7 +62,7 @@ const cards: Card[] = [
 const Menu = (props: RouteComponentProps) => (
   <Layout>
     <SEO title="Menu" />
-    <ModernMinimalistMenu routeProps={props} cards={cards} />
+    <BlobMenu routeProps={props} cards={cards} />
   </Layout>
 );
 

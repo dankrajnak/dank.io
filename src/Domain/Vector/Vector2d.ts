@@ -46,6 +46,10 @@ export default class Vector2d {
     );
   }
 
+  public abs(): Vector2d {
+    return new Vector2d(Math.abs(this.x), Math.abs(this.y));
+  }
+
   public clone(): Vector2d {
     return new Vector2d(this.x, this.y);
   }
