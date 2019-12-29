@@ -1,5 +1,4 @@
 import * as React from "react";
-import useFullScreen from "../Hooks/useFullScreen";
 import styled from "styled-components";
 
 const SVGHolder = styled.div`
