@@ -1,7 +1,5 @@
 import * as React from "react";
-import { RouteComponentProps } from "@reach/router";
 import styled from "styled-components";
-
 import Layout from "../Layout/Layout";
 import SEO from "../Utility/seo";
 import Lorenz from "../PageComponents/Homepage/Lorenz";
@@ -11,6 +9,7 @@ import MetaSpherePreview from "../PageComponents/Menu/MetaSpherePreview";
 import JustSomeThoughtsPreview from "../PageComponents/Menu/JustSomeThoughtsPreview";
 import Card from "../../Domain/Card/Card";
 import CardMenu from "../PageComponents/Menu/CardMenu";
+import { MenuRouteProps } from "../../Domain/Menu/Menu";
 
 const Mute = styled.em`
   font-weight: 200;
@@ -56,7 +55,7 @@ const cards: Card[] = [
   },
 ];
 // I can't find the typescript type for props passed into pages to save my life.
-const Menu = (props: RouteComponentProps) => (
+const Menu = (props: MenuRouteProps) => (
   <Layout>
     <SEO title="Menu" />
     <CardMenu routeProps={props} cards={cards} />
