@@ -65,8 +65,6 @@ const CardMenu: Menu = ({ routeProps, cards }) => {
   if (flash) {
     return flash;
   }
-  // Introduce intentional type error to check husky.
-  const thing: string = 3;
   return (
     <>
       <AboutContainer>
