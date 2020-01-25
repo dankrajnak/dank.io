@@ -85,7 +85,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{ts,tsx}",
-    "start": "npm run develop",
+    "start": "gatsby develop",
     "serve": "gatsby serve",
     "test": "jest",
     "storybook": "NODE_ENV=production start-storybook -s static",
