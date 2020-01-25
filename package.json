@@ -88,7 +88,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "if[git-branch-is master]; then yarn run type-check && yarn test"
+      "pre-push": "if yarn git-branch-is master; then yarn run type-check && yarn test; fi"
     }
   },
   "repository": {
