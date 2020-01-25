@@ -35,7 +35,6 @@ const AboutContainer = styled.div`
 /**
  * Pages are represented as cards on a deck. As the user scrolls the cards roll off the deck
  * offscreen.  Known to be a little buggy on iphones.
- *
  */
 const CardMenu: Menu = ({ routeProps, cards }) => {
   const [width, height, flash] = useFullScreen();
