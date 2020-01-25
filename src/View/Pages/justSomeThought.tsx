@@ -13,14 +13,11 @@ const TheThoughts: string[] = [
   "Still want runaway rules and nothing to pursue",
   "Still want that all talk and just do",
   "I wanna be like shoes, slip me on and just groove",
-  "Be the one, like cool, growing up in pews",
-  "Tuseday night, found something to do, not you",
+  "Forget those nights that include you",
+  "Jump in, swirl around, just move",
   "I keep trying to improve",
   "Can't do anything, just lose",
-  "Can't be someone, he proved",
-  "Jump in, swirl around, just move",
-  "Remember those nights not blue",
-  "Remember those nights that include you",
+  "Can't listen to that song we used to",
   "I'm just trying to conclude something I can pack up and move to",
   "Get out of that place you just blew through",
   "Prove to myself I can move too",
@@ -29,7 +26,7 @@ const TheThoughts: string[] = [
   "Find some friends, just a few",
   "Find a guy almost like you",
   "Watch me get up and make something new",
-  "Watch me never worry about being you",
+  "Watch me never worry about seeing you",
 ];
 
 interface State {

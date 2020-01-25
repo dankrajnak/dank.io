@@ -42,12 +42,12 @@ class State {
 }
 
 const GRAVITY = new Vector2d(0, 9.8);
-const INTERACTION_RADIUS = 10;
-const INTERACTION_RADIUS_SQ = INTERACTION_RADIUS * INTERACTION_RADIUS;
+const INTERACTION_RADIUS = 105;
+const INTERACTION_RADIUS_SQ = INTERACTION_RADIUS ** 2;
 
-const STIFFNESS = 1; // NO idea what these should be.
-const STIFFNESS_NEAR = 1;
-const REST_DENSITY = 1;
+const STIFFNESS = 35; // NO idea what these should be.
+const STIFFNESS_NEAR = 100;
+const REST_DENSITY = 5;
 
 export default class FluidService {
   public readonly state: State;
@@ -87,8 +87,8 @@ export default class FluidService {
     this.hashMap = new SpatialHashMap(this.width, this.height);
 
     // Calculate number of grid cells
-    this.X_GRID_CELLS = width / 10;
-    this.Y_GRID_CELLS = height / 10;
+    this.X_GRID_CELLS = 54;
+    this.Y_GRID_CELLS = 54;
   }
 
   /**
@@ -272,6 +272,7 @@ export default class FluidService {
       // perform double density relaxation
       this.relax(i, neighbours, this.dt);
     }
+    this.hashMap.clear();
   }
 
   /**

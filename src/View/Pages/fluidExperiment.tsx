@@ -1,11 +1,11 @@
 import * as React from "react";
 import CanvasDrawer from "../UI/CavnasDrawer/CanvasDrawer";
-import FluidService from "../../Services/Fluid/Fluid.service";
 import styled from "styled-components";
+import FluidService from "../../Services/Fluid/Fluid.service";
 
 const WIDTH = 600;
 const HEIGHT = 600;
-const NUM_PARTICLES = 100;
+const NUM_PARTICLES = 1000;
 const FPS = 60;
 const fluidService = new FluidService(
   NUM_PARTICLES,
