@@ -80,7 +80,7 @@ const CardMenu: Menu = ({ routeProps, cards }) => {
       {/* 
         // @ts-ignore */}
       <ScrollMessage opacity={(1 - scroll / height) * 2 || 0}>
-        Scroll Up
+        Scroll Down
       </ScrollMessage>
     </>
   );
