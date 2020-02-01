@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 module.exports = {
   siteMetadata: {
-    title: `Dank.io`,
+    title: `Dank Land`,
     description: `A Portfolio Website`,
     author: `Daniel Krajnak`,
   },
